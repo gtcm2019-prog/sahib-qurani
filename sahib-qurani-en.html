@@ -233,10 +233,10 @@
 .sq-loc-btn{background:#1B4D4A;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:.75rem;cursor:pointer;margin-top:5px;display:inline-flex;align-items:center;gap:5px}
 .sq-loc-label{font-size:.72rem;color:#1B4D4A;margin-top:4px;min-height:18px}
 
-#sq-app { direction: rtl; }
+#sq-app { direction: ltr; }
 </style>
 
-<div style="background:#0F2E2C;padding:7px;text-align:center;display:flex;justify-content:center;gap:6px;flex-wrap:wrap"><a href="sahib-qurani-ar.html" style="background:#C49A28;color:#0F2E2C;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:700;border:1px solid #C49A28">🇸🇦 العربية</a><a href="sahib-qurani-en.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇬🇧 English</a><a href="sahib-qurani-fr.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇫🇷 Français</a><a href="sahib-qurani-es.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇪🇸 Español</a></div>
+<div style="background:#0F2E2C;padding:7px;text-align:center;display:flex;justify-content:center;gap:6px;flex-wrap:wrap"><a href="sahib-qurani-ar.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇸🇦 العربية</a><a href="sahib-qurani-en.html" style="background:#C49A28;color:#0F2E2C;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:700;border:1px solid #C49A28">🇬🇧 English</a><a href="sahib-qurani-fr.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇫🇷 Français</a><a href="sahib-qurani-es.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇪🇸 Español</a></div>
 
 <div id="sq-app">
   <div class="sq-header">
@@ -250,8 +250,8 @@
     <div class="sq-header-inner">
       <div id="sq-orn-top"></div>
       <div class="sq-bismillah">&#xFDFD;</div>
-      <h2 class="sq-title">الصاحب القرآني</h2>
-      <p class="sq-sub">ابحث عن رفيق الطريق في حفظ كلام الله</p>
+      <h2 class="sq-title">The Quranic Companion</h2>
+      <p class="sq-sub">Find a partner for Quran memorization</p>
       <div id="sq-orn-mid"></div>
       <div class="sq-tabs">
         <button class="sq-tab active" onclick="sqTab('search')" id="sq-tab-search">&#x1F50D;</button>
@@ -384,7 +384,7 @@ var LANGS = {
     guide_title:'Cómo funciona', badges_title:'Significado de insignias'
   }
 };
-var CUR_LANG = 'ar';
+var CUR_LANG = 'en';
 function T(k){ return (LANGS[CUR_LANG]||LANGS.ar)[k] || (LANGS.ar)[k] || k; }
 function isRTL(){ return (LANGS[CUR_LANG]||LANGS.ar).dir === 'rtl'; }
 
@@ -920,7 +920,7 @@ window.sqSetLang=function(lang){
 // Fix tab labels and init
 (function(){
   function init(){
-    var t = LANGS['ar'] || LANGS.ar;
+    var t = LANGS['en'] || LANGS.ar;
     var ts = document.getElementById('sq-tab-search');
     var tr = document.getElementById('sq-tab-register');
     var tg = document.getElementById('sq-tab-guide');
