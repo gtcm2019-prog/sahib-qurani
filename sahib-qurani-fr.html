@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Compagnon Coranique</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#FAF6EF}/* ═══════════════════ SAHIB QURANI v2 ═══════════════════ */
+#sq-app *{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Georgia,sans-serif}
+#sq-app{direction:rtl;background:#FAF6EF;min-height:500px;position:relative;color:#2C1F0E;overflow:hidden}
+#sq-app button{cursor:pointer;transition:opacity .2s}
+#sq-app button:hover{opacity:.88}
+#sq-app select,#sq-app input,#sq-app textarea{font-family:inherit;outline:none;color:#2C1F0E}
+
+/* HEADER */
+.sq-header{background:linear-gradient(160deg,#0F2E2C 0%,#1B4D4A 55%,#256460 100%);padding:18px 14px 14px;text-align:center;position:relative;overflow:hidden}
+.sq-geo{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.sq-header-inner{position:relative;z-index:1}
+.sq-bismillah{font-size:1.8rem;letter-spacing:4px;color:#C49A28;text-shadow:0 2px 10px rgba(0,0,0,.4);margin:6px 0 2px}
+.sq-title{margin:4px 0 2px;font-size:1.4rem;font-weight:700;color:#fff;font-family:Georgia,serif;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.sq-sub{margin:0 0 8px;font-size:.68rem;color:rgba(255,255,255,.6);letter-spacing:1.2px}
+.sq-orn{display:flex;align-items:center;gap:5px;margin:5px 0}
+.sq-orn-line{flex:1;height:1px}
+.sq-tabs{display:flex;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap}
+.sq-tab{border-radius:22px;padding:5px 14px;font-size:.71rem;font-weight:500;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:rgba(255,255,255,.85)}
+.sq-tab.active{background:#C49A28;color:#0F2E2C;font-weight:700;border-color:#C49A28}
+
+/* BODY */
+.sq-body{max-width:700px;margin:0 auto;padding:16px 12px 48px;position:relative;z-index:1}
+
+/* PANELS */
+.sq-panel{background:#fff;border-radius:14px;border:1.5px solid #C9A96E;padding:15px;margin-bottom:12px;box-shadow:0 2px 10px rgba(44,32,21,.08);position:relative;overflow:hidden}
+.sq-sec-head{display:flex;align-items:center;gap:7px;margin-bottom:14px}
+.sq-sec-line{flex:1;height:1px}
+.sq-sec-head span{font-size:.74rem;font-weight:700;color:#1B4D4A;letter-spacing:.7px}
+.sq-corner{position:absolute;top:0;right:0;opacity:.18;pointer-events:none}
+.sq-corner-l{position:absolute;top:0;left:0;opacity:.18;pointer-events:none;transform:scaleX(-1)}
+
+/* FILTER GRID */
+.sq-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sq-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sq-full{grid-column:1/-1}
+.sq-lbl{font-size:.62rem;color:#9A7A55;margin-bottom:3px;font-weight:600}
+.sq-sel{width:100%;background:#fff;border:1.5px solid #C9A96E;border-radius:8px;padding:7px 10px;font-size:.8rem;font-weight:600;appearance:none;cursor:pointer}
+.sq-inp{width:100%;background:#fff;border:1.5px solid #C9A96E;border-radius:8px;padding:7px 10px;font-size:.8rem}
+
+/* RIWAYA TOGGLE */
+.sq-riw-btns{display:flex;gap:7px}
+.sq-riw-btn{flex:1;padding:7px 4px;border-radius:8px;font-weight:700;font-size:.7rem;text-align:center;border:1.5px solid #C9A96E;background:#F4EDD8;color:#1B4D4A}
+.sq-riw-btn.hafs{background:#EEF7EE;color:#1A4A1A}.sq-riw-btn.warsh{background:#EEF0F7;color:#1A2A5C}
+.sq-riw-btn.hafs.on{background:#D5EDD5;border-color:#5A9A5A}.sq-riw-btn.warsh.on{background:#D5D8ED;border-color:#5A70AA}
+.sq-riw-btn.all.on{background:#EBE0C8;border-color:#A0720A}
+
+/* SAHIB STATUS TOGGLE */
+.sq-sahib-btns{display:flex;gap:7px}
+.sq-sahib-btn{flex:1;padding:7px 4px;border-radius:8px;font-weight:700;font-size:.7rem;text-align:center;border:1.5px solid #C9A96E;background:#F4EDD8;color:#1B4D4A}
+.sq-sahib-btn.on{background:#D5EDD5;border-color:#5A9A5A;color:#1A4A1A}
+.sq-sahib-btn.off{background:#EEF0F7;border-color:#5A70AA;color:#1A2A5C}
+.sq-sahib-btn.all.active{background:#EBE0C8;border-color:#A0720A}
+.sq-sahib-btn.off.active{background:#D5D8ED;border-color:#5A70AA}
+.sq-sahib-btn.on.active{background:#D5EDD5;border-color:#5A9A5A}
+
+/* SEARCH BUTTON */
+.sq-btn-search{width:100%;background:linear-gradient(135deg,#1B4D4A,#256460);color:#fff;border:none;border-radius:9px;padding:10px;font-size:.82rem;font-weight:700;letter-spacing:.4px;box-shadow:0 3px 12px rgba(27,77,74,.28);margin-top:11px}
+
+/* RESULTS */
+.sq-results-bar{display:flex;justify-content:space-between;margin-bottom:9px;padding:0 2px;font-size:.68rem;color:#9A7A55}
+
+/* CARD */
+.sq-card{background:#fff;border-radius:13px;border:1.5px solid #C9A96E;padding:13px 14px;cursor:pointer;margin-bottom:9px;box-shadow:0 2px 7px rgba(44,32,21,.07);transition:all .2s;position:relative;overflow:hidden}
+.sq-card:hover{border-color:#C49A28;box-shadow:0 5px 20px rgba(160,114,10,.16)}
+.sq-card.flagged{border-color:#C8A858}.sq-card.banned{border-color:#C08888}
+.sq-card.has-sahib{border-color:#9A9A9A;opacity:.75}
+.sq-card-row{display:flex;gap:11px;align-items:flex-start}
+
+/* AVATAR — Rose femme, Rouge homme */
+.sq-av{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;border:2.5px solid}
+.sq-av.f{background:linear-gradient(135deg,#FDEEF6,#F8D0E8);border-color:#D4569A}
+.sq-av.m{background:linear-gradient(135deg,#FDEAEA,#F8C8C8);border-color:#C0392B}
+
+/* GENDER BADGE */
+.sq-gender-f{color:#D4569A;font-size:.62rem;font-weight:700}
+.sq-gender-m{color:#C0392B;font-size:.62rem;font-weight:700}
+
+.sq-card-info{flex:1;min-width:0}
+.sq-card-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:3px}
+.sq-card-name{font-weight:700;font-size:.92rem;color:#2C1F0E}
+.sq-card-name.red{color:#8B2020}.sq-card-name.orange{color:#7A4800}
+.sq-card-meta{font-size:.66rem;color:#9A7A55;margin-top:1px}
+.sq-chips{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px}
+.sq-card-bio{margin-top:6px;font-size:.7rem;color:#6B5030;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* SAHIB FOUND BADGE */
+.sq-sahib-badge{background:#F0F0F0;color:#888;font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:10px;border:1px solid #ccc}
+.sq-sahib-badge.found{background:#E8F8EE;color:#1A5C30;border-color:#70B888}
+
+/* CHIPS */
+.sq-chip{display:inline-flex;align-items:center;border-radius:18px;font-size:.62rem;font-weight:700;padding:2px 8px;border:1px solid;line-height:1.4;white-space:nowrap}
+.sq-chip.trusted{background:#E8F8EE;color:#1A5C30;border-color:#70B888}
+.sq-chip.flagged-c{background:#FFF8E8;color:#7A4800;border-color:#C8A050}
+.sq-chip.banned-c{background:#FDECEC;color:#8B2020;border-color:#D09090}
+.sq-chip.hafs{background:#EAF5EA;color:#1A4A1A;border-color:#5A9A5A}
+.sq-chip.warsh{background:#EAF0F8;color:#1A2A5C;border-color:#5A70AA}
+.sq-chip.beginner{background:#EAF5EE;color:#1A5C30;border-color:#70B888}
+.sq-chip.mid{background:#FFF9E8;color:#7A5A00;border-color:#C0A030}
+.sq-chip.adv{background:#F2EAF8;color:#4A2080;border-color:#9060C0}
+.sq-chip.hafiz{background:#E8F2F8;color:#1A3A6C;border-color:#5080B0}
+.sq-chip.muted{background:#F4EDD8;color:#1B4D4A;border-color:#C9A96E}
+.sq-chip.age{background:#FFF0F8;color:#8B2060;border-color:#D490B0}
+.sq-chip.female{background:#FDE8F4;color:#C0356A;border-color:#D4569A}
+.sq-chip.male{background:#FDE8E8;color:#A02828;border-color:#C0392B}
+
+/* STARS */
+.sq-stars{color:#C49A28;font-size:.73rem}
+.sq-stars span{color:#6B5030;font-size:.67rem;margin-right:2px}
+.sq-stars.lg{font-size:.95rem}
+.sq-no-rating{color:#9A7A55;font-size:.68rem}
+
+/* PROFILE HERO */
+.sq-hero{padding:20px 16px 16px;text-align:center;position:relative;overflow:hidden}
+.sq-hero.f{background:linear-gradient(160deg,#3A1030,#6A2050,#8A3068)}
+.sq-hero.m{background:linear-gradient(160deg,#200A0A,#4A1010,#701818)}
+.sq-hero-inner{position:relative;z-index:1}
+.sq-hero-av{width:68px;height:68px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 10px;box-shadow:0 4px 14px rgba(0,0,0,.3);border:3px solid}
+.sq-hero-av.f{background:linear-gradient(135deg,#FDEEF6,#F0C0E0);border-color:#FFB8DE}
+.sq-hero-av.m{background:linear-gradient(135deg,#FDEAEA,#F0C0C0);border-color:#FFB8B8}
+.sq-hero-name{font-weight:700;color:#fff;font-size:1.08rem;font-family:Georgia,serif;margin-top:4px}
+.sq-hero-sub{font-size:.68rem;color:rgba(255,255,255,.65);margin:3px 0 7px}
+.sq-hero-since{font-size:.58rem;color:rgba(255,255,255,.4);margin-top:2px}
+.sq-hero-chips{margin-top:9px;display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.sq-hero-stats{display:flex;justify-content:center;gap:22px;margin-top:12px}
+.sq-stat-n{font-weight:700;font-size:1.05rem}
+.sq-hero.f .sq-stat-n{color:#FFB8DE}
+.sq-hero.m .sq-stat-n{color:#FFB8B8}
+.sq-stat-l{font-size:.58rem;color:rgba(255,255,255,.5)}
+
+/* SAHIB STATUS SECTION IN PROFILE */
+.sq-sahib-section{border-radius:10px;padding:12px 14px;margin-bottom:13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sq-sahib-section.free{background:#EEF8EE;border:1.5px solid #7ABE7A}
+.sq-sahib-section.found{background:#F0F0F0;border:1.5px solid #BBBBBB}
+.sq-sahib-section-text{font-size:.8rem;font-weight:700}
+.sq-sahib-section.free .sq-sahib-section-text{color:#1A5C30}
+.sq-sahib-section.found .sq-sahib-section-text{color:#666}
+.sq-btn-sahib{border:none;border-radius:8px;padding:7px 14px;font-size:.75rem;font-weight:700;cursor:pointer}
+.sq-btn-sahib.mark{background:linear-gradient(135deg,#1A5C30,#2A8040);color:#fff}
+.sq-btn-sahib.unmark{background:#ddd;color:#666}
+
+/* SUBTABS */
+.sq-subtabs{display:flex;border-bottom:1.5px solid #EBE0C8}
+.sq-subtab{flex:1;background:#fff;color:#9A7A55;border:none;border-bottom:2.5px solid transparent;padding:10px 4px;font-size:.7rem;cursor:pointer;font-weight:500;transition:all .2s}
+.sq-subtab.active{background:#F4EDD8;color:#1B4D4A;font-weight:700;border-bottom-color:#C49A28}
+.sq-tab-body{padding:16px}
+
+/* INFO BLOCKS */
+.sq-info-block{background:#F4EDD8;border-radius:10px;padding:12px 13px;border-right:3px solid #C49A28;margin-bottom:12px}
+.sq-info-lbl{font-size:.65rem;color:#A0720A;font-weight:700;margin-bottom:4px}
+.sq-info-text{font-size:.8rem;color:#2C1F0E;line-height:1.8}
+.sq-riw-block{border-radius:10px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.sq-riw-block.hafs{background:#EEF8EE;border:1.5px solid #7ABE7A}
+.sq-riw-block.warsh{background:#EEF0F8;border:1.5px solid #7090C8}
+.sq-riw-icon{font-size:1.7rem}
+.sq-riw-name{font-weight:700;font-size:.86rem}
+.sq-riw-zone{font-size:.68rem;color:#9A7A55;margin-top:2px}
+.sq-range-block{background:#F4EDD8;border-radius:10px;padding:12px 13px;margin-bottom:12px}
+.sq-range-flex{display:flex;align-items:center;justify-content:space-between;gap:7px}
+.sq-range-item{text-align:center;flex:1}
+.sq-range-lbl{font-size:.58rem;color:#9A7A55;margin-bottom:3px}
+.sq-range-val{background:#fff;border:1.5px solid #C9A96E;border-radius:7px;padding:6px 9px;font-weight:700;color:#1B4D4A;font-size:.78rem}
+.sq-range-count{background:#1B4D4A;border-radius:7px;padding:6px 13px;font-weight:700;color:#fff;font-size:.95rem}
+.sq-alert{border-radius:9px;padding:11px 13px;font-size:.76rem;line-height:1.7;margin-bottom:12px}
+.sq-alert.danger{background:#FEF0F0;border:1.5px solid #C89090;color:#8B2020}
+.sq-alert.warn{background:#FFFBF0;border:1.5px solid #C8A850;color:#7A4800}
+.sq-success-box{background:#EEF9F3;border:1.5px solid #80C0A0;border-radius:9px;padding:12px;text-align:center}
+.sq-back-btn{background:#fff;border:1.5px solid #C9A96E;color:#1B4D4A;border-radius:8px;padding:5px 13px;font-size:.7rem;cursor:pointer;margin-bottom:12px;font-weight:600;box-shadow:0 1px 4px rgba(44,32,21,.08)}
+.sq-btn-primary{width:100%;background:linear-gradient(135deg,#1B4D4A,#256460);color:#fff;border:none;border-radius:9px;padding:10px;font-size:.85rem;font-weight:700;box-shadow:0 3px 12px rgba(27,77,74,.25)}
+.sq-wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;border:none;border-radius:9px;padding:10px 18px;font-size:.83rem;font-weight:700;text-decoration:none}
+
+/* REVIEWS */
+.sq-rate-panel{background:#F4EDD8;border-radius:9px;border:1.5px solid #C9A96E;padding:13px;margin-bottom:11px}
+.sq-star-row{display:flex;gap:5px;direction:ltr;margin-bottom:7px}
+.sq-star{font-size:1.75rem;cursor:pointer;color:#EBE0C8;transition:color .12s}
+.sq-star.on{color:#C49A28}
+.sq-review-card{background:#F4EDD8;border-radius:8px;border:1px solid #EBE0C8;padding:10px 12px;margin-bottom:7px}
+.sq-review-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.sq-reviewer{font-weight:700;color:#2C1F0E;font-size:.76rem}
+.sq-review-text{font-size:.74rem;color:#6B5030;line-height:1.6}
+.sq-review-date{font-size:.6rem;color:#9A7A55;margin-top:3px}
+.sq-textarea{width:100%;background:#fff;border:1.5px solid #C9A96E;border-radius:8px;padding:7px 11px;font-size:.78rem;resize:vertical;line-height:1.7;margin-bottom:7px}
+.sq-btn-sm{border:none;border-radius:7px;padding:7px 18px;font-size:.76rem;font-weight:700;cursor:pointer}
+.sq-btn-sm.on{background:linear-gradient(135deg,#1B4D4A,#256460);color:#fff}
+.sq-btn-sm.off{background:rgba(27,77,74,.1);color:#9A7A55;cursor:not-allowed}
+
+/* REPORT */
+.sq-report-warn{background:#FEF0F0;border:1.5px solid #C89090;border-radius:8px;padding:10px 12px;font-size:.73rem;color:#8B2020;line-height:1.7;margin-bottom:10px}
+.sq-old-rep-item{background:#FFF8F0;border:1px solid #C8A850;border-radius:7px;padding:8px 10px;margin-bottom:5px;font-size:.71rem;color:#6B5030}
+.sq-btn-rep{width:100%;border-radius:8px;padding:8px;font-size:.8rem;font-weight:700;cursor:pointer}
+.sq-btn-rep.on{background:linear-gradient(135deg,#8B2020,#6A1010);color:#fff;border:1px solid #8B2020}
+.sq-btn-rep.off{background:#FDECEC;color:#C09090;border:1px solid #C08888;cursor:not-allowed}
+
+/* REGISTER */
+.sq-form-grp{margin-bottom:10px}
+.sq-form-lbl{font-size:.66rem;color:#9A7A55;margin-bottom:3px;font-weight:600}
+.sq-riw-cards{display:flex;gap:9px;margin-top:5px}
+.sq-riw-card{flex:1;padding:11px 7px;border-radius:10px;cursor:pointer;text-align:center;border:2px solid #C9A96E;transition:all .2s}
+.sq-riw-card.hafs{background:#EEF8EE}.sq-riw-card.warsh{background:#EEF0F8}
+.sq-riw-card.hafs.on{background:#D5EDD5;border-color:#6AB06A}
+.sq-riw-card.warsh.on{background:#D5D8ED;border-color:#6A80B8}
+.sq-riw-card-icon{font-size:1.6rem;margin-bottom:2px}
+.sq-riw-card-name{font-weight:700;font-size:.75rem}
+.sq-riw-card-name.hafs{color:#1A4A1A}.sq-riw-card-name.warsh{color:#1A2A5C}
+.sq-riw-card-zone{font-size:.6rem;color:#9A7A55;margin-top:2px}
+.sq-success{text-align:center;padding:28px 10px}
+.sq-success-icon{width:60px;height:60px;border-radius:50%;background:#1B4D4A;border:3px solid #C49A28;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 12px}
+.sq-success-title{color:#1B4D4A;font-weight:700;font-family:Georgia,serif}
+.sq-success-txt{color:#9A7A55;font-size:.74rem;margin-top:5px;line-height:1.8}
+.sq-err{color:#8B2020;font-size:.76rem;margin-bottom:7px;display:none}
+
+/* GUIDE */
+.sq-guide-step{display:flex;gap:11px;margin-bottom:12px;align-items:flex-start}
+.sq-step-ic{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff;box-shadow:0 2px 7px rgba(27,77,74,.25)}
+.sq-step-title{font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px}
+.sq-step-desc{font-size:.73rem;color:#6B5030;line-height:1.7}
+.sq-hadith-text{font-size:.86rem;color:#0F2E2C;line-height:2.1;font-family:Georgia,serif;border-right:3px solid #C49A28;padding-right:11px;text-align:right;margin:9px 0}
+.sq-hadith-src{font-size:.66rem;color:#9A7A55}
+.sq-empty{text-align:center;padding:36px;color:#9A7A55;font-size:.82rem}
+.sq-loading{text-align:center;padding:28px;color:#9A7A55;font-size:.82rem}
+
+/* MOBILE */
+@media(max-width:480px){
+  .sq-grid2{grid-template-columns:1fr}
+  .sq-grid3{grid-template-columns:1fr 1fr}
+  .sq-riw-cards{flex-direction:column}
+}
+
+/* ── LEAFLET MAP ── */
+.leaflet-container{font-family:'Segoe UI',Tahoma,sans-serif}
+#sq-leaflet-map,#sq-reg-map{z-index:1}
+.sq-map-wrap{border-radius:10px;overflow:hidden;margin-bottom:13px;border:1.5px solid #C9A96E}
+.sq-loc-btn{background:#1B4D4A;color:#fff;border:none;border-radius:7px;padding:6px 14px;font-size:.75rem;cursor:pointer;margin-top:5px;display:inline-flex;align-items:center;gap:5px}
+.sq-loc-label{font-size:.72rem;color:#1B4D4A;margin-top:4px;min-height:18px}
+#sq-app{direction:ltr}</style>
+</head>
+<body>
+<div style="background:#0F2E2C;padding:7px;text-align:center;display:flex;justify-content:center;gap:6px;flex-wrap:wrap"><a href="sahib-qurani-ar.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇸🇦 العربية</a><a href="sahib-qurani-en.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇬🇧 English</a><a href="sahib-qurani-fr.html" style="background:#C49A28;color:#0F2E2C;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:700;border:1px solid #C49A28">🇫🇷 Français</a><a href="sahib-qurani-es.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇪🇸 Español</a></div>
+<div id="sq-app">
+  <div class="sq-header">
+    <svg class="sq-geo" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="sqgp" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse"><polygon points="28,3 31,20 46,14 36,25 53,28 36,31 46,42 31,36 28,53 25,36 10,42 20,31 3,28 20,25 10,14 25,20" fill="none" stroke="#C49A28" stroke-width="0.5" opacity="0.13"/><circle cx="28" cy="28" r="1.8" fill="#C49A28" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(#sqgp)"/></svg>
+    <div class="sq-header-inner">
+      <div id="sq-orn-top"></div>
+      <div class="sq-bismillah">&#xFDFD;</div>
+      <h2 class="sq-title">Le Compagnon Coranique</h2>
+      <p class="sq-sub">Trouvez un partenaire pour la mémorisation du Coran</p>
+      <div id="sq-orn-mid"></div>
+      <div class="sq-tabs">
+        <button class="sq-tab active" onclick="sqTab('search')">🔍 Recherche</button>
+        <button class="sq-tab" onclick="sqTab('register')">✍ Inscription</button>
+        <button class="sq-tab" onclick="sqTab('guide')">📖 Guide</button>
+      </div>
+    </div>
+  </div>
+  <div class="sq-body">
+    <div id="sq-search-view"><p style="text-align:center;padding:30px;color:#9A7A55">&#x23F3;</p></div>
+    <div id="sq-detail-view" style="display:none"></div>
+    <div id="sq-register-view" style="display:none"></div>
+    <div id="sq-guide-view" style="display:none"></div>
+  </div>
+</div>
+<script>
+/* SAHIB QURANI v5 - OpenStreetMap via iframe (no Leaflet, no CSP issues) */
+(function(){
+'use strict';
+
+/* TRANSLATIONS */
+var LANGS = {
+  ar: {
+    dir:"rtl", name:"العربية", flag:"🇸🇦",
+    search:"بحث", register:"تسجيل", guide:"الدليل",
+    gender:"الجنس", age_group:"الفئة العمرية", level:"مستوى الحفظ",
+    method:"طريقة التواصل", time:"وقت المراجعة", country:"البلد", lang:"اللغة",
+    riwaya:"الرواية", search_status:"حالة البحث", search_btn:"ابحث الآن",
+    all:"الكل", results:"نتيجة", click_details:"انقر للتفاصيل",
+    register_title:"سجّل نفسك", name:"الاسم", age:"العمر", city:"المدينة (تلقائياً)",
+    city_ph:"يتحدد تلقائياً...", country_sel:"اختر البلد", lang_sel:"لغتك",
+    level_sel:"اختر", send:"إرسال الطلب", bio:"نبذة", whatsapp:"واتساب",
+    email:"البريد الإلكتروني", from_surah:"من سورة", to_surah:"إلى سورة",
+    riwaya_lbl:"الرواية *", loc_map:"موقعك على الخريطة",
+    loc_btn:"Ma position actuelle (GPS)", loc_detecting:"جاري تحديد الموقع...",
+    male:"ذكر", female:"أنثى", all_ages:"كل الأعمار", all_levels:"كل المستويات",
+    all_methods:"الكل", all_times:"الكل", all_countries:"كل البلدان", all_langs:"كل اللغات",
+    all_riwaya:"الكل", looking:"يبحث", found:"وجد صاحباً",
+    back:"← رجوع", info:"معلومات", reviews:"تقييمات", report:"إبلاغ",
+    bio_lbl:"نبذة", riwaya_range:"نطاق الحفظ", from:"من سورة", to:"إلى سورة", count:"العدد",
+    location:"الموقع", contact:"تواصل", wa_btn:"واتساب", add_review:"أضف تقييمك",
+    send_review:"إرسال التقييم", your_name:"اسمك", comment:"تعليقك...", no_reviews:"لا توجد تقييمات",
+    report_warn:"بلاغان = حظر تلقائي.", report_reason:"سبب البلاغ", details:"تفاصيل",
+    send_report:"إرسال البلاغ", success_reg:"تم التسجيل!", success_reg_txt:"جزاك الله خيراً.",
+    req_fields:"الرجاء ملء الحقول المطلوبة (*) واختيار الرواية",
+    searching:"جاري البحث...", sahib_found:"✅ وجد صاحباً", sahib_looking:"🔍 يبحث",
+    mark_sahib:"تحديد كصاحب", unmark:"إلغاء", loading:"جاري...",
+    guide_title:"كيف يعمل الموقع", badges_title:"دلالة الشارات"
+  },
+  en: {
+    dir:"ltr", name:"English", flag:"🇬🇧",
+    search:"Search", register:"Register", guide:"Guide",
+    gender:"Gender", age_group:"Age Group", level:"Memorization Level",
+    method:"Contact Method", time:"Review Time", country:"Country", lang:"Language",
+    riwaya:"Recitation", search_status:"Search Status", search_btn:"Search Now",
+    all:"All", results:"result(s)", click_details:"Click for details",
+    register_title:"Register", name:"Full Name", age:"Age", city:"City (auto)",
+    city_ph:"Auto-detected...", country_sel:"Select country", lang_sel:"Your language",
+    level_sel:"Select", send:"Submit", bio:"About me", whatsapp:"WhatsApp",
+    email:"Email", from_surah:"From Surah", to_surah:"To Surah",
+    riwaya_lbl:"Recitation *", loc_map:"Your Location on Map",
+    loc_btn:"My Current Location (GPS)", loc_detecting:"Detecting location...",
+    male:"Male", female:"Female", all_ages:"All Ages", all_levels:"All Levels",
+    all_methods:"All", all_times:"All", all_countries:"All Countries", all_langs:"All Languages",
+    all_riwaya:"All", looking:"Seeking", found:"Found Partner",
+    back:"← Back", info:"Info", reviews:"Reviews", report:"Report",
+    bio_lbl:"About", riwaya_range:"Memorization Range", from:"From", to:"To", count:"Count",
+    location:"Location", contact:"Contact", wa_btn:"WhatsApp", add_review:"Add Your Review",
+    send_review:"Submit Review", your_name:"Your name", comment:"Your comment...", no_reviews:"No reviews yet",
+    report_warn:"2 reports = auto ban.", report_reason:"Reason", details:"Details",
+    send_report:"Send Report", success_reg:"Registration Complete!", success_reg_txt:"May Allah reward you.",
+    req_fields:"Please fill required fields (*) and select recitation",
+    searching:"Searching...", sahib_found:"✅ Found Partner", sahib_looking:"🔍 Seeking",
+    mark_sahib:"Mark as Partner Found", unmark:"Unmark", loading:"Loading...",
+    guide_title:"How It Works", badges_title:"Badge Meaning"
+  },
+  fr: {
+    dir:"ltr", name:"Français", flag:"🇫🇷",
+    search:"Recherche", register:"Inscription", guide:"Guide",
+    gender:"Genre", age_group:"Tranche d’âge", level:"Niveau de mémorisation",
+    method:"Mode de contact", time:"Horaire de révision", country:"Pays", lang:"Langue",
+    riwaya:"Récitation", search_status:"Statut", search_btn:"Rechercher",
+    all:"Tous", results:"résultat(s)", click_details:"Cliquer pour détails",
+    register_title:"S’inscrire", name:"Nom complet", age:"Âge", city:"Ville (auto)",
+    city_ph:"Détection auto...", country_sel:"Sélectionner pays", lang_sel:"Votre langue",
+    level_sel:"Sélectionner", send:"Envoyer", bio:"À propos", whatsapp:"WhatsApp",
+    email:"Email", from_surah:"De Sourate", to_surah:"À Sourate",
+    riwaya_lbl:"Récitation *", loc_map:"Votre position sur la carte",
+    loc_btn:"Ma position actuelle (GPS)", loc_detecting:"Détection en cours...",
+    male:"Homme", female:"Femme", all_ages:"Tous les âges", all_levels:"Tous les niveaux",
+    all_methods:"Tous", all_times:"Tous", all_countries:"Tous les pays", all_langs:"Toutes les langues",
+    all_riwaya:"Tous", looking:"Cherche", found:"Trouvé partenaire",
+    back:"← Retour", info:"Infos", reviews:"Avis", report:"Signaler",
+    bio_lbl:"À propos", riwaya_range:"Plage de mémorisation", from:"De", to:"À", count:"Nombre",
+    location:"Localisation", contact:"Contacter", wa_btn:"WhatsApp", add_review:"Ajouter un avis",
+    send_review:"Envoyer l’avis", your_name:"Votre nom", comment:"Votre commentaire...", no_reviews:"Pas d’avis",
+    report_warn:"2 signalements = bannissement auto.", report_reason:"Motif", details:"Détails",
+    send_report:"Envoyer le signalement", success_reg:"Inscription réussie!", success_reg_txt:"Qu’Allah vous récompense.",
+    req_fields:"Veuillez remplir les champs obligatoires (*) et choisir la récitation",
+    searching:"Recherche en cours...", sahib_found:"✅ Partenaire trouvé", sahib_looking:"🔍 Cherche partenaire",
+    mark_sahib:"Marquer comme trouvé", unmark:"Démarquer", loading:"Chargement...",
+    guide_title:"Comment ça marche", badges_title:"Signification des badges"
+  },
+  es: {
+    dir:"ltr", name:"Español", flag:"🇪🇸",
+    search:"Buscar", register:"Registro", guide:"Guía",
+    gender:"Género", age_group:"Grupo de edad", level:"Nivel de memorización",
+    method:"Método de contacto", time:"Horario de repaso", country:"País", lang:"Idioma",
+    riwaya:"Recitación", search_status:"Estado", search_btn:"Buscar ahora",
+    all:"Todos", results:"resultado(s)", click_details:"Clic para detalles",
+    register_title:"Registrarse", name:"Nombre completo", age:"Edad", city:"Ciudad (auto)",
+    city_ph:"Detección automática...", country_sel:"Seleccionar país", lang_sel:"Tu idioma",
+    level_sel:"Seleccionar", send:"Enviar", bio:"Sobre mí", whatsapp:"WhatsApp",
+    email:"Correo", from_surah:"Desde Sura", to_surah:"Hasta Sura",
+    riwaya_lbl:"Recitación *", loc_map:"Tu ubicación en el mapa",
+    loc_btn:"Mi ubicación actual (GPS)", loc_detecting:"Detectando ubicación...",
+    male:"Masculino", female:"Femenino", all_ages:"Todas las edades", all_levels:"Todos los niveles",
+    all_methods:"Todos", all_times:"Todos", all_countries:"Todos los países", all_langs:"Todos los idiomas",
+    all_riwaya:"Todos", looking:"Buscando", found:"Encontró compañero",
+    back:"← Volver", info:"Info", reviews:"Reseñas", report:"Reportar",
+    bio_lbl:"Sobre mí", riwaya_range:"Rango de memorización", from:"Desde", to:"Hasta", count:"Número",
+    location:"Ubicación", contact:"Contactar", wa_btn:"WhatsApp", add_review:"Agregar reseña",
+    send_review:"Enviar reseña", your_name:"Tu nombre", comment:"Tu comentario...", no_reviews:"Sin reseñas",
+    report_warn:"2 reportes = ban automático.", report_reason:"Motivo", details:"Detalles",
+    send_report:"Enviar reporte", success_reg:"¡Registro completado!", success_reg_txt:"Que Allah te recompense.",
+    req_fields:"Por favor complete los campos obligatorios (*) y seleccione la recitación",
+    searching:"Buscando...", sahib_found:"✅ Compañero encontrado", sahib_looking:"🔍 Buscando",
+    mark_sahib:"Marcar como encontrado", unmark:"Desmarcar", loading:"Cargando...",
+    guide_title:"Cómo funciona", badges_title:"Significado de insignias"
+  }
+};
+
+var CUR_LANG = 'fr';
+function T(k){ return (LANGS[CUR_LANG]||LANGS.ar)[k] || (LANGS.ar)[k] || k; }
+function isRTL(){ return (LANGS[CUR_LANG]||LANGS.ar).dir === 'rtl'; }
+
+var SURAHS=["Al-Fatiha","Al-Baqara","Al Imran","An-Nisa","Al-Maida","Al-An'am","Al-A'raf","Al-Anfal","At-Tawba","Yunus","Hud","Yusuf","Ar-Ra'd","Ibrahim","Al-Hijr","An-Nahl","Al-Isra","Al-Kahf","Maryam","Ta-Ha","Al-Anbiya","Al-Hajj","Al-Muminun","An-Nur","Al-Furqan","Ash-Shu'ara","An-Naml","Al-Qasas","Al-Ankabut","Ar-Rum","Luqman","As-Sajda","Al-Ahzab","Saba","Fatir","Ya-Sin","As-Saffat","Sad","Az-Zumar","Ghafir","Fussilat","Ash-Shura","Az-Zukhruf","Ad-Dukhan","Al-Jathiya","Al-Ahqaf","Muhammad","Al-Fath","Al-Hujurat","Qaf","Adh-Dhariyat","At-Tur","An-Najm","Al-Qamar","Ar-Rahman","Al-Waqi'a","Al-Hadid","Al-Mujadila","Al-Hashr","Al-Mumtahana","As-Saf","Al-Jumu'a","Al-Munafiqun","At-Taghabun","At-Talaq","At-Tahrim","Al-Mulk","Al-Qalam","Al-Haqqah","Al-Ma'arij","Nuh","Al-Jinn","Al-Muzzammil","Al-Muddaththir","Al-Qiyama","Al-Insan","Al-Mursalat","An-Naba","An-Nazi'at","Abasa","At-Takwir","Al-Infitar","Al-Mutaffifin","Al-Inshiqaq","Al-Buruj","At-Tariq","Al-A'la","Al-Ghashiya","Al-Fajr","Al-Balad","Ash-Shams","Al-Layl","Ad-Duha","Ash-Sharh","At-Tin","Al-Alaq","Al-Qadr","Al-Bayyina","Az-Zalzala","Al-Adiyat","Al-Qari'a","At-Takathur","Al-Asr","Al-Humaza","Al-Fil","Quraysh","Al-Ma'un","Al-Kawthar","Al-Kafirun","An-Nasr","Al-Masad","Al-Ikhlas","Al-Falaq","An-Nas"];
+var LEVELS=["Débutant","Intermédiaire","Avancé","Hafiz complet"];
+var GENDERS=["\u0630\u0643\u0631","\u0623\u0646\u062b\u0649"];
+var TIMES=["Matin","Soir","Nuit","Flexible"];
+var METHODS=["En ligne","En personne","Les deux"];
+var AGE_GROUPS=["Moins de 8","8-12","13-17","18-24","25-34","35-44","45-54","55+"];
+var REPORT_REASONS=["\u063a\u064a\u0627\u0628 \u0645\u062a\u0643\u0631\u0631","\u0639\u062f\u0645 \u0627\u0644\u062c\u062f\u064a\u0629","\u062a\u0635\u0631\u0641 \u063a\u064a\u0631 \u0644\u0627\u0626\u0642","\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0645\u0632\u064a\u0641\u0629","\u0627\u0646\u0642\u0637\u0627\u0639 \u0641\u062c\u0627\u0626\u064a","\u0623\u062e\u0631\u0649"];
+var RIWAYAT=[{"id":"hafs","label":"Hafs de Asim","short":"Hafs","flag":"🟢","zone":"Moyen-Orient et Asie"},{"id":"warsh","label":"Warsh de Nafi","short":"Warsh","flag":"🔵","zone":"Maroc et Afrique de l'Ouest"}];
+var LANGUAGES=[
+  {id:"ar",label:"\u0627\u0644\u0639\u0631\u0628\u064a\u0629",flag:"\uD83D\uDFE9"},
+  {id:"fr",label:"Fran\u00e7ais",flag:"\uD83C\uDDEB\uD83C\uDDF7"},
+  {id:"en",label:"English",flag:"\uD83C\uDDEC\uD83C\uDDE7"},
+  {id:"tr",label:"T\u00fcrk\u00e7e",flag:"\uD83C\uDDF9\uD83C\uDDF7"},
+  {id:"ur",label:"\u0627\u0631\u062f\u0648",flag:"\uD83C\uDDF5\uD83C\uDDF0"},
+  {id:"ms",label:"Bahasa Melayu",flag:"\uD83C\uDDF2\uD83C\uDDFE"},
+  {id:"id",label:"Bahasa Indonesia",flag:"\uD83C\uDDEE\uD83C\uDDE9"},
+  {id:"ru",label:"\u0420\u0443\u0441\u0441\u043a\u0438\u0439",flag:"\uD83C\uDDF7\uD83C\uDDFA"},
+  {id:"es",label:"Espa\u00f1ol",flag:"\uD83C\uDDEA\uD83C\uDDF8"},
+  {id:"pt",label:"Portugu\u00eas",flag:"\uD83C\uDDF5\uD83C\uDDF9"},
+  {id:"de",label:"Deutsch",flag:"\uD83C\uDDE9\uD83C\uDDEA"},
+  {id:"it",label:"Italiano",flag:"\uD83C\uDDEE\uD83C\uDDF9"},
+  {id:"nl",label:"Nederlands",flag:"\uD83C\uDDF3\uD83C\uDDF1"},
+  {id:"ha",label:"Hausa",flag:"\uD83C\uDDF3\uD83C\uDDEC"},
+  {id:"sw",label:"Kiswahili",flag:"\uD83C\uDDF0\uD83C\uDDEA"},
+  {id:"bn",label:"Bangla",flag:"\uD83C\uDDE7\uD83C\uDDE9"},
+  {id:"hi",label:"Hindi",flag:"\uD83C\uDDEE\uD83C\uDDF3"},
+  {id:"fa",label:"\u0641\u0627\u0631\u0633\u06CC",flag:"\uD83C\uDDEE\uD83C\uDDF7"},
+  {id:"ps",label:"\u067e\u069a\u062a\u0648",flag:"\uD83C\uDDE6\uD83C\uDDEB"},
+  {id:"so",label:"Soomaali",flag:"\uD83C\uDDF8\uD83C\uDDF4"},
+  {id:"am",label:"Amharic",flag:"\uD83C\uDDEA\uD83C\uDDF9"},
+  {id:"zh",label:"\u4e2d\u6587",flag:"\uD83C\uDDE8\uD83C\uDDF3"},
+  {id:"ja",label:"\u65e5\u672c\u8a9e",flag:"\uD83C\uDDEF\uD83C\uDDF5"},
+  {id:"ko",label:"\ud55c\uad6d\uc5b4",flag:"\uD83C\uDDF0\uD83C\uDDF7"},
+  {id:"tl",label:"Filipino",flag:"\uD83C\uDDF5\uD83C\uDDED"},
+  {id:"th",label:"Thai",flag:"\uD83C\uDDF9\uD83C\uDDED"},
+  {id:"pl",label:"Polski",flag:"\uD83C\uDDF5\uD83C\uDDF1"},
+  {id:"ro",label:"Rom\u00e2n\u0103",flag:"\uD83C\uDDF7\uD83C\uDDF4"},
+  {id:"bs",label:"Bosanski",flag:"\uD83C\uDDE7\uD83C\uDDE6"},
+  {id:"sq_",label:"Shqip",flag:"\uD83C\uDDE6\uD83C\uDDF1"},
+  {id:"other",label:"Other",flag:"\uD83C\uDF10"}
+];
+var COUNTRIES=["\u0627\u0644\u0645\u063a\u0631\u0628","\u0627\u0644\u062c\u0632\u0627\u0626\u0631","\u062a\u0648\u0646\u0633","\u0644\u064a\u0628\u064a\u0627","\u0645\u0635\u0631","\u0627\u0644\u0633\u0648\u062f\u0627\u0646","\u0645\u0648\u0631\u064a\u062a\u0627\u0646\u064a\u0627","\u0627\u0644\u0635\u0648\u0645\u0627\u0644","\u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629","\u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a","\u0627\u0644\u0643\u0648\u064a\u062a","\u0642\u0637\u0631","\u0627\u0644\u0628\u062d\u0631\u064a\u0646","\u0639\u064f\u0645\u0627\u0646","\u0627\u0644\u064a\u0645\u0646","\u0627\u0644\u0623\u0631\u062f\u0646","\u0641\u0644\u0633\u0637\u064a\u0646","\u0644\u0628\u0646\u0627\u0646","\u0633\u0648\u0631\u064a\u0627","\u0627\u0644\u0639\u0631\u0627\u0642","\u0646\u064a\u062c\u064a\u0631\u064a\u0627","\u0627\u0644\u0633\u0646\u063a\u0627\u0644","\u063a\u0627\u0646\u0627","\u0645\u0627\u0644\u064a","\u0627\u0644\u0646\u064a\u062c\u0631","\u0625\u062b\u064a\u0648\u0628\u064a\u0627","\u0643\u064a\u0646\u064a\u0627","\u062a\u0646\u0632\u0627\u0646\u064a\u0627","\u062c\u0646\u0648\u0628 \u0623\u0641\u0631\u064a\u0642\u064a\u0627","\u062a\u0631\u0643\u064a\u0627","\u0625\u064a\u0631\u0627\u0646","\u0623\u0641\u063a\u0627\u0646\u0633\u062a\u0627\u0646","\u0628\u0627\u0643\u0633\u062a\u0627\u0646","\u0627\u0644\u0647\u0646\u062f","\u0628\u0646\u063a\u0644\u0627\u062f\u064a\u0634","\u0645\u0627\u0644\u064a\u0632\u064a\u0627","\u0625\u0646\u062f\u0648\u0646\u064a\u0633\u064a\u0627","\u0627\u0644\u0641\u0644\u0628\u064a\u0646","\u0633\u0646\u063a\u0627\u0641\u0648\u0631\u0629","\u0627\u0644\u0635\u064a\u0646","\u0627\u0644\u064a\u0627\u0628\u0627\u0646","\u0643\u0648\u0631\u064a\u0627 \u0627\u0644\u062c\u0646\u0648\u0628\u064a\u0629","\u0643\u0627\u0632\u0627\u062e\u0633\u062a\u0627\u0646","\u0641\u0631\u0646\u0633\u0627","\u0623\u0644\u0645\u0627\u0646\u064a\u0627","\u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0645\u062a\u062d\u062f\u0629","\u0625\u0633\u0628\u0627\u0646\u064a\u0627","\u0625\u064a\u0637\u0627\u0644\u064a\u0627","\u0647\u0648\u0644\u0646\u062f\u0627","\u0628\u0644\u062c\u064a\u0643\u0627","\u0627\u0644\u0633\u0648\u064a\u062f","\u0627\u0644\u0646\u0631\u0648\u064a\u062c","\u0627\u0644\u062f\u0646\u0645\u0627\u0631\u0643","\u0633\u0648\u064a\u0633\u0631\u0627","\u0627\u0644\u0628\u0631\u062a\u063a\u0627\u0644","\u0627\u0644\u064a\u0648\u0646\u0627\u0646","\u0628\u0648\u0644\u0646\u062f\u0627","\u0631\u0648\u0645\u0627\u0646\u064a\u0627","\u0627\u0644\u0628\u0648\u0633\u0646\u0629","\u0623\u0644\u0628\u0627\u0646\u064a\u0627","\u0631\u0648\u0633\u064a\u0627","\u0623\u0648\u0643\u0631\u0627\u0646\u064a\u0627","\u0627\u0644\u0648\u0644\u0627\u064a\u0627\u062a \u0627\u0644\u0645\u062a\u062d\u062f\u0629","\u0643\u0646\u062f\u0627","\u0627\u0644\u0645\u0643\u0633\u064a\u0643","\u0627\u0644\u0628\u0631\u0627\u0632\u064a\u0644","\u0627\u0644\u0623\u0631\u062c\u0646\u062a\u064a\u0646","\u0623\u0633\u062a\u0631\u0627\u0644\u064a\u0627","\u0646\u064a\u0648\u0632\u064a\u0644\u0646\u062f\u0627","\u0623\u062e\u0631\u0649"];
+var FLAGS={"\u0627\u0644\u0645\u063a\u0631\u0628":"\uD83C\uDDF2\uD83C\uDDE6","\u0627\u0644\u062c\u0632\u0627\u0626\u0631":"\uD83C\uDDE9\uD83C\uDDFF","\u062a\u0648\u0646\u0633":"\uD83C\uDDF9\uD83C\uDDF3","\u0645\u0635\u0631":"\uD83C\uDDEA\uD83C\uDDEC","\u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629":"\uD83C\uDDF8\uD83C\uDDE6","\u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a":"\uD83C\uDDE6\uD83C\uDDEA","\u0642\u0637\u0631":"\uD83C\uDDF6\uD83C\uDDE6","\u0627\u0644\u0643\u0648\u064a\u062a":"\uD83C\uDDF0\uD83C\uDDFC","\u0627\u0644\u0623\u0631\u062f\u0646":"\uD83C\uDDEF\uD83C\uDDF4","\u0641\u0644\u0633\u0637\u064a\u0646":"\uD83C\uDDF5\uD83C\uDDF8","\u0644\u0628\u0646\u0627\u0646":"\uD83C\uDDF1\uD83C\uDDE7","\u0646\u064a\u062c\u064a\u0631\u064a\u0627":"\uD83C\uDDF3\uD83C\uDDEC","\u0627\u0644\u0633\u0646\u063a\u0627\u0644":"\uD83C\uDDF8\uD83C\uDDF3","\u0625\u062b\u064a\u0648\u0628\u064a\u0627":"\uD83C\uDDEA\uD83C\uDDF9","\u0643\u064a\u0646\u064a\u0627":"\uD83C\uDDF0\uD83C\uDDEA","\u062a\u0631\u0643\u064a\u0627":"\uD83C\uDDF9\uD83C\uDDF7","\u0628\u0627\u0643\u0633\u062a\u0627\u0646":"\uD83C\uDDF5\uD83C\uDDF0","\u0627\u0644\u0647\u0646\u062f":"\uD83C\uDDEE\uD83C\uDDF3","\u0628\u0646\u063a\u0644\u0627\u062f\u064a\u0634":"\uD83C\uDDE7\uD83C\uDDE9","\u0645\u0627\u0644\u064a\u0632\u064a\u0627":"\uD83C\uDDF2\uD83C\uDDFE","\u0625\u0646\u062f\u0648\u0646\u064a\u0633\u064a\u0627":"\uD83C\uDDEE\uD83C\uDDE9","\u0641\u0631\u0646\u0633\u0627":"\uD83C\uDDEB\uD83C\uDDF7","\u0623\u0644\u0645\u0627\u0646\u064a\u0627":"\uD83C\uDDE9\uD83C\uDDEA","\u0627\u0644\u0645\u0645\u0644\u0643\u0629 \u0627\u0644\u0645\u062a\u062d\u062f\u0629":"\uD83C\uDDEC\uD83C\uDDE7","\u0625\u0633\u0628\u0627\u0646\u064a\u0627":"\uD83C\uDDEA\uD83C\uDDF8","\u0631\u0648\u0633\u064a\u0627":"\uD83C\uDDF7\uD83C\uDDFA","\u0627\u0644\u0648\u0644\u0627\u064a\u0627\u062a \u0627\u0644\u0645\u062a\u062d\u062f\u0629":"\uD83C\uDDFA\uD83C\uDDF8","\u0643\u0646\u062f\u0627":"\uD83C\uDDE8\uD83C\uDDE6","\u0623\u0633\u062a\u0631\u0627\u0644\u064a\u0627":"\uD83C\uDDE6\uD83C\uDDFA"};
+var LEVEL_CLS={"\u0645\u0628\u062a\u062f\u0626":"beginner","\u0645\u062a\u0648\u0633\u0637":"mid","\u0645\u062a\u0642\u062f\u0645":"adv","\u062d\u0627\u0641\u0638 \u0643\u0627\u0645\u0644":"hafiz"};
+
+var S={
+  tab:"search",
+  filters:{gender:"",level:"",method:"",time:"",country:"",riwaya:"",age_group:"",has_sahib:"",language:""},
+  members:[],selected:null,subTab:"info",
+  rStars:0,rDone:false,repDone:false,contacted:false,loading:false,
+  submitted:false,rgRiw:"",rgLat:null,rgLng:null
+};
+
+function ge(id){return document.getElementById(id);}
+function fl(c){return FLAGS[c]||"\uD83C\uDF0D";}
+function isB(m){return m.report_count>=2||m.status==='banned';}
+function isF(m){return m.report_count===1;}
+function isFem(m){return m.gender==="Femme";}
+
+function starsHtml(r,lg){
+  if(!r||parseFloat(r)===0)return'<span class="sq-no-rating">\u0644\u0627 \u062a\u0642\u064a\u064a\u0645</span>';
+  r=parseFloat(r);var s="",i;
+  for(i=0;i<Math.floor(r);i++)s+="\u2605";for(i=Math.floor(r);i<5;i++)s+="\u2606";
+  return'<span class="sq-stars'+(lg?" lg":"")+'">'+s+'<span>'+r.toFixed(1)+'</span></span>';
+}
+function levelChip(l){return'<span class="sq-chip '+(LEVEL_CLS[l]||"muted")+'">'+l+'</span>';}
+function riwChip(id,lg){
+  var r=RIWAYAT.find(function(x){return x.id===id;});if(!r)return"";
+  return'<span class="sq-chip '+id+'" style="font-size:'+(lg?"0.7rem":"0.62rem")+'">'+r.flag+" "+(lg?r.label:r.short)+'</span>';
+}
+function trustChip(m,sm){
+  var f=sm?"0.58rem":"0.62rem",px=sm?"5px":"8px";
+  if(isB(m))return'<span class="sq-chip banned-c" style="font-size:'+f+';padding:1px '+px+'">\u26D4 Banni</span>';
+  if(isF(m))return'<span class="sq-chip flagged-c" style="font-size:'+f+';padding:1px '+px+'">\u26A0\uFE0F Avertissement</span>';
+  if(m.total_ratings>=2&&m.avg_rating>=4.5)return'<span class="sq-chip trusted" style="font-size:'+f+';padding:1px '+px+'">\u2705 Fiable</span>';
+  return"";
+}
+function genderChip(m,sm){
+  var fe=isFem(m),f=sm?"0.58rem":"0.62rem",px=sm?"5px":"8px";
+  return'<span class="sq-chip '+(fe?"female":"male")+'" style="font-size:'+f+';padding:1px '+px+'">'+(fe?"👩 Femme":"👨 Homme")+'</span>';
+}
+function sahibBadge(m){
+  return(m.has_sahib=='1'||m.has_sahib===1)
+    ?'<span class="sq-chip trusted" style="font-size:.58rem">✅ Trouvé \u0635\u0627\u062d\u0628\u0627\u064b</span>'
+    :'<span class="sq-chip muted" style="font-size:.58rem">🔍 Cherche</span>';
+}
+function ageChip(m){if(!m.age_group)return"";return'<span class="sq-chip age">\uD83D\uDC64 '+m.age_group+'</span>';}
+function langChip(m,lg){
+  var l=LANGUAGES.find(function(x){return x.id===m.language;});if(!l)return"";
+  return'<span class="sq-chip muted" style="font-size:.6rem">'+l.flag+(lg?" "+l.label:"")+'</span>';
+}
+function corner(flip,color,op,sz){
+  color=color||"#C49A28";op=op||0.2;sz=sz||55;
+  return'<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 55 55" style="transform:'+(flip?"scaleX(-1)":"none")+';opacity:'+op+'" fill="none"><path d="M3,3 Q27,3 52,27 Q27,27 27,52" stroke="'+color+'" stroke-width="1.2"/><path d="M3,3 Q17,3 27,17 Q17,17 17,31" stroke="'+color+'" stroke-width="0.7"/><circle cx="3" cy="3" r="3" fill="'+color+'"/><circle cx="27" cy="27" r="2" fill="'+color+'"/><polygon points="3,13 6,9 9,13 6,17" fill="'+color+'"/><polygon points="13,3 17,6 13,9 9,6" fill="'+color+'"/></svg>';
+}
+function orn(light){
+  var sc=light?"rgba(255,255,255,0.55)":"#C49A28";
+  var gl=light?"rgba(255,255,255,0.2)":"linear-gradient(to left,#C9A96E,transparent)";
+  var gr=light?"rgba(255,255,255,0.2)":"linear-gradient(to right,#C9A96E,transparent)";
+  return'<div style="display:flex;align-items:center;gap:5px;margin:5px 0"><div style="flex:1;height:1px;background:'+gl+'"></div><svg width="9" height="9" viewBox="0 0 24 24" fill="'+sc+'"><polygon points="12,1 14.5,9.5 23,12 14.5,14.5 12,23 9.5,14.5 1,12 9.5,9.5"/></svg><svg width="6" height="6" viewBox="0 0 24 24" fill="'+sc+'"><polygon points="12,1 14.5,9.5 23,12 14.5,14.5 12,23 9.5,14.5 1,12 9.5,9.5"/></svg><svg width="9" height="9" viewBox="0 0 24 24" fill="'+sc+'"><polygon points="12,1 14.5,9.5 23,12 14.5,14.5 12,23 9.5,14.5 1,12 9.5,9.5"/></svg><div style="flex:1;height:1px;background:'+gr+'"></div></div>';
+}
+function secHead(ic,lb){
+  return'<div style="display:flex;align-items:center;gap:7px;margin-bottom:14px"><div style="flex:1;height:1px;background:linear-gradient(to left,#C9A96E,transparent)"></div><svg width="7" height="7" viewBox="0 0 24 24" fill="#C49A28"><polygon points="12,1 14.5,9.5 23,12 14.5,14.5 12,23 9.5,14.5 1,12 9.5,9.5"/></svg><span style="font-size:.74rem;font-weight:700;color:#1B4D4A">'+ic+' '+lb+'</span><svg width="7" height="7" viewBox="0 0 24 24" fill="#C49A28"><polygon points="12,1 14.5,9.5 23,12 14.5,14.5 12,23 9.5,14.5 1,12 9.5,9.5"/></svg><div style="flex:1;height:1px;background:linear-gradient(to right,#C9A96E,transparent)"></div></div>';
+}
+
+/* ── localStorage-based storage (GitHub Pages / standalone) ── */
+function ajax(action,data,cb){
+  // If WordPress backend exists, use it
+  var cfg=window.SQ_CONFIG||{};
+  if(cfg.ajax_url){
+    var fd=new FormData();
+    fd.append('action',action);fd.append('nonce',cfg.nonce||'');
+    for(var k in data)fd.append(k,data[k]);
+    fetch(cfg.ajax_url,{method:'POST',body:fd})
+      .then(function(r){return r.json();})
+      .then(function(res){cb(res.success,res.data);})
+      .catch(function(e){cb(false,''+e);});
+    return;
+  }
+  // Standalone mode: use localStorage
+  sqLocalAction(action,data,cb);
+}
+
+function sqLocalAction(action,data,cb){
+  try{
+    var members=JSON.parse(localStorage.getItem('sq_members')||'[]');
+    var ratings=JSON.parse(localStorage.getItem('sq_ratings')||'[]');
+
+    if(action==='sq_get_members'){
+      var res=members.filter(function(m){
+        if(m.status==='banned')return false;
+        if(data.gender&&m.gender!==data.gender)return false;
+        if(data.level&&m.level_hifz!==data.level)return false;
+        if(data.method&&m.method!==data.method)return false;
+        if(data.time&&m.avail_time!==data.time)return false;
+        if(data.country&&m.country!==data.country)return false;
+        if(data.riwaya&&m.riwaya!==data.riwaya)return false;
+        if(data.age_group&&m.age_group!==data.age_group)return false;
+        if(data.language&&m.language!==data.language)return false;
+        if(data.has_sahib==='0'&&(m.has_sahib==1||m.has_sahib==='1'))return false;
+        if(data.has_sahib==='1'&&m.has_sahib!=1&&m.has_sahib!=='1')return false;
+        return true;
+      });
+      // Add ratings
+      res.forEach(function(m){
+        m.ratings=ratings.filter(function(r){return r.member_id==m.id;});
+        m.avg_rating=m.ratings.length?(m.ratings.reduce(function(s,r){return s+r.stars;},0)/m.ratings.length).toFixed(1):0;
+        m.total_ratings=m.ratings.length;
+        m.report_count=m.report_count||0;
+        m.reports=[];
+      });
+      cb(true,res);
+      return;
+    }
+
+    if(action==='sq_register'){
+      var age=parseInt(data.age)||0;
+      var ag=age<8?'Under 8':age<=12?'8-12':age<=17?'13-17':age<=24?'18-24':age<=34?'25-34':age<=44?'35-44':age<=54?'45-54':'55+';
+      var newM={
+        id:Date.now(),
+        name:data.name,age:age,age_group:ag,
+        gender:data.gender,country:data.country,city:data.city||'',
+        language:data.language||'',level_hifz:data.level,riwaya:data.riwaya,
+        surah_from:parseInt(data.surah_from)||1,surah_to:parseInt(data.surah_to)||114,
+        avail_time:data.avail_time||'',method:data.method||'',
+        bio:data.bio||'',email:data.email||'',whatsapp:data.whatsapp||'',
+        lat:data.lat||null,lng:data.lng||null,
+        avg_rating:0,total_ratings:0,report_count:0,has_sahib:0,
+        status:'active',created_at:new Date().toISOString().slice(0,10)
+      };
+      members.push(newM);
+      localStorage.setItem('sq_members',JSON.stringify(members));
+      cb(true,{id:newM.id,name:newM.name});
+      return;
+    }
+
+    if(action==='sq_rate'){
+      var mid=parseInt(data.member_id);
+      ratings.push({member_id:mid,stars:parseInt(data.stars),comment:data.comment||'',reviewer:data.reviewer||'Member',date:new Date().toISOString().slice(0,10)});
+      localStorage.setItem('sq_ratings',JSON.stringify(ratings));
+      var mRatings=ratings.filter(function(r){return r.member_id===mid;});
+      var avg=(mRatings.reduce(function(s,r){return s+r.stars;},0)/mRatings.length).toFixed(1);
+      cb(true,{avg:avg,count:mRatings.length});
+      return;
+    }
+
+    if(action==='sq_report'){
+      var mid=parseInt(data.member_id);
+      var m=members.find(function(x){return x.id===mid;});
+      if(m){m.report_count=(m.report_count||0)+1;if(m.report_count>=2)m.status='banned';}
+      localStorage.setItem('sq_members',JSON.stringify(members));
+      cb(true,{count:m?m.report_count:1,banned:m&&m.status==='banned'});
+      return;
+    }
+
+    if(action==='sq_mark_sahib'){
+      var mid=parseInt(data.member_id);
+      var m=members.find(function(x){return x.id===mid;});
+      if(m){m.has_sahib=parseInt(data.has_sahib);}
+      localStorage.setItem('sq_members',JSON.stringify(members));
+      cb(true,{has_sahib:data.has_sahib});
+      return;
+    }
+
+    cb(false,'Unknown action');
+  }catch(e){cb(false,''+e);}
+}
+
+/* ── MAP via pure iframe — ZERO JS library, ZERO CSP issues ── */
+function osmEmbed(lat,lng,h){
+  lat=parseFloat(lat);lng=parseFloat(lng);h=h||220;
+  var bbox=(lng-0.15)+','+(lat-0.1)+','+(lng+0.15)+','+(lat+0.1);
+  var src='https://www.openstreetmap.org/export/embed.html?bbox='+bbox+'&layer=mapnik&marker='+lat+','+lng;
+  var link='https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lng+'#map=13/'+lat+'/'+lng;
+  return '<div style="border-radius:10px;overflow:hidden;border:1.5px solid #C9A96E;margin-bottom:4px;height:'+h+'px;position:relative">'
+    +'<iframe width="100%" height="'+(h+40)+'" frameborder="0" scrolling="no" src="'+src+'" style="display:block;position:absolute;top:0;left:0"></iframe>'
+    +'</div>'
+    +'<div style="text-align:left;margin-bottom:8px"><a href="'+link+'" target="_blank" style="font-size:.62rem;color:#9A7A55">🗺️ OpenStreetMap</a></div>';
+}
+
+function setRegMap(lat,lng){
+  S.rgLat=lat;S.rgLng=lng;
+  var la=ge('rg-lat'),ln=ge('rg-lng');
+  if(la)la.value=lat;if(ln)ln.value=lng;
+  // Update iframe immediately - no re-render needed
+  var mc=ge('sq-reg-map');
+  if(mc){
+    mc.style.background='#e8f0e8';
+    mc.innerHTML=osmEmbed(lat,lng,220);
+  }
+}
+
+window.sqGeolocate=function(){
+  var lbl=ge('sq-loc-label');
+  if(!navigator.geolocation){if(lbl)lbl.textContent='❌ Non disponible';return;}
+  if(lbl)lbl.textContent='⧗ Détection en cours...';
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat=parseFloat(pos.coords.latitude.toFixed(5));
+    var lng=parseFloat(pos.coords.longitude.toFixed(5));
+    // Show map
+    setRegMap(lat,lng);
+    if(lbl)lbl.textContent='📍 Détection de la ville...';
+    // Auto-fill city from Nominatim
+    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lng+'&accept-language=ar&zoom=10')
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!d||!d.address)return;
+        var a=d.address;
+        // Extract city name - try multiple fields
+        var city = a.city||a.town||a.village||a.county||a.state_district||a.state||'';
+        var cityEl=ge('rg-city');
+        if(cityEl&&city) cityEl.value=city;
+
+        // Auto-fill country from Nominatim country_code
+        var countryCode = (a.country_code||'').toUpperCase();
+        var countryMap = {
+          'MA':'المغرب','DZ':'الجزائر','TN':'تونس','LY':'ليبيا','EG':'مصر',
+          'SD':'السودان','MR':'موريتانيا','SO':'الصومال',
+          'SA':'السعودية','AE':'الإمارات','KW':'الكويت','QA':'قطر',
+          'BH':'البحرين','OM':'عُمان','YE':'اليمن','JO':'الأردن',
+          'PS':'فلسطين','LB':'لبنان','SY':'سوريا','IQ':'العراق',
+          'NG':'نيجيريا','SN':'السنغال','GH':'غانا','ML':'مالي',
+          'NE':'النيجر','ET':'إثيوبيا','KE':'كينيا','TZ':'تنزانيا',
+          'ZA':'جنوب أفريقيا','TR':'تركيا','IR':'إيران',
+          'AF':'أفغانستان','PK':'باكستان','IN':'الهند',
+          'BD':'بنغلاديش','MY':'ماليزيا','ID':'إندونيسيا',
+          'PH':'الفلبين','SG':'سنغافورة','CN':'الصين',
+          'JP':'اليابان','KR':'كوريا الجنوبية','KZ':'كازاخستان',
+          'FR':'فرنسا','DE':'ألمانيا','GB':'المملكة المتحدة',
+          'ES':'إسبانيا','IT':'إيطاليا','NL':'هولندا',
+          'BE':'بلجيكا','SE':'السويد','NO':'النرويج',
+          'DK':'الدنمارك','CH':'سويسرا','AT':'النمسا',
+          'PT':'البرتغال','GR':'اليونان','PL':'بولندا',
+          'RO':'رومانيا','BA':'البوسنة','AL':'ألبانيا',
+          'RU':'روسيا','UA':'أوكرانيا',
+          'US':'الولايات المتحدة','CA':'كندا',
+          'MX':'المكسيك','BR':'البرازيل','AR':'الأرجنتين',
+          'AU':'أستراليا','NZ':'نيوزيلندا'
+        };
+        var countryAr = countryMap[countryCode]||'';
+        if(countryAr){
+          var countryEl=ge('rg-country');
+          if(countryEl){
+            // Select matching option
+            for(var i=0;i<countryEl.options.length;i++){
+              if(countryEl.options[i].value===countryAr){
+                countryEl.selectedIndex=i;
+                break;
+              }
+            }
+          }
+        }
+
+        if(lbl) lbl.textContent='📍 '+(city?city+(countryAr?' — '+countryAr:''):lat.toFixed(4)+', '+lng.toFixed(4));
+      }).catch(function(){if(lbl)lbl.textContent='📍 '+lat.toFixed(4)+', '+lng.toFixed(4);});
+  },function(){if(lbl)lbl.textContent='❌ Error';},{timeout:8000});
+};;
+
+/* SEARCH */
+function renderSearch(){
+  var fi=S.filters;
+  var h='<div class="sq-panel"><div class="sq-corner">'+corner(false)+'</div><div class="sq-corner-l">'+corner(true)+'</div>'+secHead("\uD83C\uDFAF",T("search_btn"))+' <div class="sq-grid2">';
+  h+='<div><div class="sq-lbl">'+'Genre'+'</div><select class="sq-sel" onchange="sqF(\'gender\',this.value)"><option value="">Tous</option><option value="Homme"'+(fi.gender==="\u0630\u0643\u0631"?" selected":"")+'>👨 Homme</option><option value="Femme"'+(fi.gender==="\u0623\u0646\u062b\u0649"?" selected":"")+'>👩 Femme</option></select></div>';
+  h+='<div><div class="sq-lbl">'+'Tranche d’âge'+'</div><select class="sq-sel" onchange="sqF(\'age_group\',this.value)"><option value="">Tous les âges</option>';
+  AGE_GROUPS.forEach(function(ag){h+='<option value="'+ag+'"'+(fi.age_group===ag?" selected":"")+'>'+ag+'</option>';});
+  h+='</select></div>';
+  h+='<div><div class="sq-lbl">'+'Niveau de mémorisation'+'</div><select class="sq-sel" onchange="sqF(\'level\',this.value)"><option value="">Tous les niveaux</option>';
+  LEVELS.forEach(function(l){h+='<option value="'+l+'"'+(fi.level===l?" selected":"")+'>'+l+'</option>';});
+  h+='</select></div>';
+  h+='<div><div class="sq-lbl">'+'Mode de contact'+'</div><select class="sq-sel" onchange="sqF(\'method\',this.value)"><option value="">Tous</option>';
+  METHODS.forEach(function(m){h+='<option value="'+m+'"'+(fi.method===m?" selected":"")+'>'+m+'</option>';});
+  h+='</select></div>';
+  h+='<div><div class="sq-lbl">'+'Horaire'+'</div><select class="sq-sel" onchange="sqF(\'time\',this.value)"><option value="">Tous</option>';
+  TIMES.forEach(function(t){h+='<option value="'+t+'"'+(fi.time===t?" selected":"")+'>'+t+'</option>';});
+  h+='</select></div>';
+  h+='<div><div class="sq-lbl">'+'Pays'+'</div><select class="sq-sel" onchange="sqF(\'country\',this.value)"><option value="">Tous les pays</option>';
+  COUNTRIES.forEach(function(c){h+='<option value="'+c+'"'+(fi.country===c?" selected":"")+'>'+fl(c)+' '+c+'</option>';});
+  h+='</select></div>';
+  h+='<div><div class="sq-lbl">'+'Langue'+'</div><select class="sq-sel" onchange="sqF(\'language\',this.value)"><option value="">Toutes les langues</option>';
+  LANGUAGES.forEach(function(l){h+='<option value="'+l.id+'"'+(fi.language===l.id?" selected":"")+'>'+l.flag+' '+l.label+'</option>';});
+  h+='</select></div>';
+  h+='</div>';
+  h+='<div style="margin-top:9px"><div class="sq-lbl">📖 Récitation</div><div class="sq-riw-btns"><button class="sq-riw-btn all'+(fi.riwaya===''?" on":"")+'" onclick="sqF(\'riwaya\',\'\')">📚 Tous</button><button class="sq-riw-btn hafs'+(fi.riwaya==="hafs"?" on":"")+'" onclick="sqF(\'riwaya\',\'hafs\')">🟢 Hafs</button><button class="sq-riw-btn warsh'+(fi.riwaya==="warsh"?" on":"")+'" onclick="sqF(\'riwaya\',\'warsh\')">🔵 Warsh</button></div></div>';
+  h+='<div style="margin-top:9px"><div class="sq-lbl">'+'Statut'+'</div><div class="sq-sahib-btns"><button class="sq-sahib-btn all'+(fi.has_sahib===''?" active":"")+'" onclick="sqF(\'has_sahib\',\'\')">📋 Tous</button><button class="sq-sahib-btn off'+(fi.has_sahib==="0"?" active":"")+'" onclick="sqF(\'has_sahib\',\'0\')">\uD83D\uDD0D Cherche</button><button class="sq-sahib-btn on'+(fi.has_sahib==="1"?" active":"")+'" onclick="sqF(\'has_sahib\',\'1\')">\u2705 Trouvé</button></div></div>';
+  h+='<button class="sq-btn-search" onclick="sqSearch()" style="margin-top:11px">'+(S.loading?T("searching"):T("search_btn"))+'</button></div>';
+
+  if(S.loading){h+='<div style="text-align:center;padding:28px;color:#9A7A55">\u29D7 Recherche...</div>';}
+  else{
+    h+='<div style="display:flex;justify-content:space-between;margin-bottom:9px;font-size:.68rem;color:#9A7A55"><span>'+S.members.length+' résultat(s)</span><span>Cliquer pour détails</span></div>';
+    if(!S.members.length){h+='<div class="sq-panel" style="text-align:center;color:#9A7A55;padding:30px">\uD83D\uDD0D Aucun résultat</div>';}
+    else S.members.forEach(function(m){
+      var bl=isB(m),fl2=isF(m),fe=isFem(m),hs=m.has_sahib=='1'||m.has_sahib===1;
+      h+='<div class="sq-card'+(bl?" banned":fl2?" flagged":hs?" has-sahib":"")+'" onclick="sqOpen('+m.id+')">'
+        +'<div style="position:absolute;top:0;right:0;opacity:.18">'+corner(false,bl?"#C08888":fl2?"#C8A858":fe?"#D4569A":"#C0392B",1,50)+'</div>'
+        +'<div class="sq-card-row"><div class="sq-av '+(fe?"f":"m")+'">'+(fe?"\uD83D\uDC69":"\uD83D\uDC68")+'</div>'
+        +'<div class="sq-card-info"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:3px">'
+        +'<div><div class="sq-card-name'+(bl?" red":fl2?" orange":"")+'">'+(m.lat?"\uD83D\uDCCD ":"")+m.name+'</div>'
+        +'<div class="sq-card-meta">'+m.age+' \u0633\u0646\u0629 &nbsp;\u2022&nbsp; '+fl(m.country)+' '+m.country+(m.city?' &nbsp;\u2022&nbsp; '+m.city:'')+'</div></div>'
+        +starsHtml(m.avg_rating)+'</div>'
+        +'<div class="sq-chips">'+genderChip(m,true)+langChip(m)+ageChip(m)+levelChip(m.level_hifz)+riwChip(m.riwaya)+'<span class="sq-chip muted">'+m.avail_time+'</span>'+trustChip(m,true)+sahibBadge(m)+'</div>'
+        +'<div class="sq-card-bio">'+(m.bio||'')+'</div></div></div></div>';
+    });
+  }
+  ge('sq-search-view').innerHTML=h;
+}
+
+/* DETAIL */
+function renderDetail(){
+  var m=S.selected;if(!m)return;
+  var bl=isB(m),fl2=isF(m),fe=isFem(m);
+  var rw=RIWAYAT.find(function(x){return x.id===m.riwaya;});
+  var mf=parseInt(m.surah_from)||1,mt=parseInt(m.surah_to)||1;
+  var hs=m.has_sahib=='1'||m.has_sahib===1;
+  var gc=fe?"#D4569A":"#C0392B";
+  var h='<button class="sq-back-btn" onclick="sqBack()">\u2190 \u0631\u062c\u0648\u0639</button>'
+    +'<div style="background:#fff;border-radius:14px;border:1.5px solid '+(bl?"#C08888":fl2?"#C8A858":hs?"#BBB":"#C9A96E")+';overflow:hidden;box-shadow:0 4px 18px rgba(44,32,21,.1)">'
+    +'<div class="sq-hero '+(fe?"f":"m")+'">'
+    +'<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="sqgp2" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse"><polygon points="28,3 31,20 46,14 36,25 53,28 36,31 46,42 31,36 28,53 25,36 10,42 20,31 3,28 20,25 10,14 25,20" fill="none" stroke="'+gc+'" stroke-width="0.5" opacity="0.2"/></pattern></defs><rect width="100%" height="100%" fill="url(#sqgp2)"/></svg>'
+    +'<div style="position:absolute;top:0;right:0;opacity:.22">'+corner(false,fe?"#FFB8DE":"#FFB8B8",1,65)+'</div>'
+    +'<div style="position:absolute;top:0;left:0;opacity:.22;transform:scaleX(-1)">'+corner(false,fe?"#FFB8DE":"#FFB8B8",1,65)+'</div>'
+    +'<div style="position:relative;z-index:1">'
+    +'<div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-bottom:6px">'+corner(false,"rgba(255,255,255,.35)",1,32)+'<div class="sq-hero-av '+(fe?"f":"m")+'">'+(fe?"\uD83D\uDC69":"\uD83D\uDC68")+'</div>'+corner(true,"rgba(255,255,255,.35)",1,32)+'</div>'
+    +orn(true)
+    +'<div class="sq-hero-name">'+m.name+'</div>'
+    +'<div class="sq-hero-sub">'+m.age+' \u0633\u0646\u0629 \u2022 '+fl(m.country)+' '+m.country+(m.city?' \u2022 '+m.city:'')+'</div>'
+    +starsHtml(m.avg_rating,true)
+    +'<div style="font-size:.58rem;color:rgba(255,255,255,.4);margin-top:2px">\u0639\u0636\u0648 \u0645\u0646\u0630 '+(m.created_at||'').slice(0,10)+'</div>'
+    +'<div class="sq-hero-chips">'+genderChip(m)+langChip(m,true)+ageChip(m)+levelChip(m.level_hifz)+riwChip(m.riwaya,true)+'<span class="sq-chip muted">'+m.avail_time+'</span><span class="sq-chip muted">'+m.method+'</span>'+trustChip(m)+sahibBadge(m)+'</div>'
+    +'<div style="display:flex;justify-content:center;gap:22px;margin-top:12px">'
+    +'<div style="text-align:center"><div class="sq-stat-n">'+(m.total_ratings||0)+'</div><div class="sq-stat-l">\u2B50 \u062a\u0642\u064a\u064a\u0645</div></div>'
+    +'<div style="text-align:center"><div class="sq-stat-n">'+(m.report_count||0)+'</div><div class="sq-stat-l">\uD83D\uDEA9 \u0628\u0644\u0627\u063a</div></div>'
+    +'<div style="text-align:center"><div class="sq-stat-n">'+(mt-mf+1)+'</div><div class="sq-stat-l">\uD83D\uDCDA \u0633\u0648\u0631\u0629</div></div>'
+    +'</div></div></div>'
+    +'<div class="sq-subtabs">'
+    +'<button class="sq-subtab'+(S.subTab==="info"?" active":"")+'" onclick="sqSub(\'info\')">\uD83D\uDCCB \u0645\u0639\u0644\u0648\u0645\u0627\u062a</button>'
+    +'<button class="sq-subtab'+(S.subTab==="reviews"?" active":"")+'" onclick="sqSub(\'reviews\')">\u2B50 \u062a\u0642\u064a\u064a\u0645\u0627\u062a</button>'
+    +'<button class="sq-subtab'+(S.subTab==="report"?" active":"")+'" onclick="sqSub(\'report\')">\uD83D\uDEA9 \u0625\u0628\u0644\u0627\u063a</button>'
+    +'</div><div class="sq-tab-body">';
+
+  if(S.subTab==="info"){
+    h+='<div class="sq-info-block"><div class="sq-info-lbl">'+'À propos'+'</div><div class="sq-info-text">'+(m.bio||'\u2014')+'</div></div>';
+    if(rw)h+='<div class="sq-riw-block '+m.riwaya+'"><div class="sq-riw-icon">'+rw.flag+'</div><div><div class="sq-riw-name" style="color:'+(m.riwaya==="hafs"?"#1A4A1A":"#1A2A5C")+'">'+rw.label+'</div><div class="sq-riw-zone">'+rw.zone+'</div></div></div>';
+    h+='<div class="sq-range-block"><div class="sq-info-lbl">'+'Plage de mémorisation'+'</div><div class="sq-range-flex"><div class="sq-range-item"><div class="sq-range-lbl">'+'De Sourate'+'</div><div class="sq-range-val">'+SURAHS[mf-1]+'</div></div><div style="color:#9A7A55">\u2190</div><div class="sq-range-item"><div class="sq-range-lbl">'+'À Sourate'+'</div><div class="sq-range-val">'+SURAHS[mt-1]+'</div></div><div class="sq-range-item"><div class="sq-range-lbl">'+'Nombre'+'</div><div class="sq-range-count">'+(mt-mf+1)+'</div></div></div></div>';
+    // MAP via iframe — works 100%, no JS needed
+    if(m.lat&&m.lng){
+      h+='<div class="sq-info-lbl" style="margin-bottom:5px">\uD83D\uDCCD Localisation</div>'
+        +'<div style="border-radius:10px;overflow:hidden;margin-bottom:13px;border:1.5px solid #C9A96E">'
+        +osmEmbed(m.lat,m.lng,200)
+        +'</div>';
+    }
+    if(bl)h+='<div class="sq-alert danger">\u26D4 Banni</div>';
+    else if(fl2)h+='<div class="sq-alert warn">\u26A0\uFE0F Avertissement</div>';
+    h+='<div class="sq-sahib-section '+(hs?"found":"free")+'"><div><div class="sq-sahib-section-text">'+(hs?T("sahib_found"):T("sahib_looking"))+'</div></div><button class="sq-btn-sahib '+(hs?"unmark":"mark")+'" onclick="sqMarkSahib('+(hs?0:1)+')">'+(hs?T("unmark"):"\u2705 "+T("mark_sahib"))+'</button></div>';
+    if(S.contacted)h+='<div class="sq-success-box"><div style="font-size:1.3rem;margin-bottom:4px">\u2705</div><div style="color:#1A5C30;font-weight:700">Envoyé!</div></div>';
+    else if(m.whatsapp)h+='<a class="sq-wa-btn" href="https://wa.me/'+m.whatsapp.replace(/\D/g,'')+'" target="_blank">\uD83D\uDCF1 WhatsApp \u2014 '+m.name+'</a>';
+    else h+='<button class="sq-btn-primary" onclick="sqContact()">\uD83D\uDCAC Contacter</button>';
+  }
+  if(S.subTab==="reviews"){
+    if(!S.rDone){
+      h+='<div class="sq-rate-panel"><div class="sq-info-lbl" style="color:#1B4D4A">\u2B50 Ajouter un avis</div><div class="sq-star-row" id="sq-sr">';
+      for(var i=1;i<=5;i++)h+='<span class="sq-star'+(S.rStars>=i?" on":"")+'" onclick="sqStar('+i+')" onmouseover="sqStarH('+i+')" onmouseout="sqStarH(0)">\u2605</span>';
+      h+='</div><input class="sq-inp" id="sq-reviewer" placeholder="Votre nom" style="margin-bottom:7px"/><textarea class="sq-textarea" id="sq-rcomment" rows="2" placeholder="Votre commentaire..."></textarea><button class="sq-btn-sm '+(S.rStars>0?"on":"off")+'" onclick="sqSubmitRate()">Envoyer l’avis</button></div>';
+    }else h+='<div class="sq-success-box" style="margin-bottom:11px">\u2705 Envoyé!</div>';
+    var ratings=m.ratings||[];
+    if(!ratings.length)h+='<div style="text-align:center;padding:20px;color:#9A7A55">Pas d’avis</div>';
+    else ratings.forEach(function(r){h+='<div class="sq-review-card"><div class="sq-review-top"><span class="sq-reviewer">\uD83D\uDC64 '+r.reviewer+'</span>'+starsHtml(r.stars)+'</div>'+(r.comment?'<div class="sq-review-text">'+r.comment+'</div>':'')+'<div class="sq-review-date">'+r.date+'</div></div>';});
+  }
+  if(S.subTab==="report"){
+    if(!S.repDone){
+      h+='<div class="sq-report-warn">\uD83D\uDEA9 <strong>2 signalements = bannissement.</strong></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Motif'+' *'+'</div><select class="sq-sel" id="sq-rep-reason"><option value="">Sélectionner...</option>';
+      REPORT_REASONS.forEach(function(r){h+='<option value="'+r+'">'+r+'</option>';});
+      h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Détails'+'</div><textarea class="sq-textarea" id="sq-rep-detail" rows="3"></textarea></div><button class="sq-btn-rep off" id="sq-rep-btn" onclick="sqSubmitReport()">\uD83D\uDEA9 Signaler</button>';
+    }else h+='<div style="text-align:center;padding:26px"><div style="font-size:1.8rem">\u2705</div><div style="color:#1B4D4A;font-weight:700">Signalé</div></div>';
+  }
+  h+='</div></div>';
+  ge('sq-detail-view').innerHTML=h;
+  if(S.subTab==="report"&&!S.repDone){var sel=ge('sq-rep-reason');if(sel)sel.addEventListener('change',function(){var b=ge('sq-rep-btn');if(b)b.className='sq-btn-rep '+(this.value?'on':'off');});}
+}
+
+/* REGISTER */
+function renderRegister(){
+  var h='<div class="sq-panel"><div class="sq-corner">'+corner(false,undefined,undefined,70)+'</div><div class="sq-corner-l">'+corner(true,undefined,undefined,70)+'</div>'+secHead("\u270D",T("register_title"));
+  if(S.submitted){
+    h+='<div style="text-align:center;padding:28px"><div style="width:60px;height:60px;border-radius:50%;background:#1B4D4A;border:3px solid #C49A28;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 12px">\u2705</div><div style="color:#1B4D4A;font-weight:700;font-family:Georgia,serif">Inscription réussie!</div></div>';
+  }else{
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Nom complet'+' *'+'</div><input class="sq-inp" id="rg-name" placeholder="Ahmad..."/></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Âge'+' *'+'</div><input class="sq-inp" id="rg-age" type="number" min="5" max="99" placeholder="25"/></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl">'+'Genre'+' *'+'</div><select class="sq-sel" id="rg-gender"><option value="">Sélectionner...</option><option value="Homme">👨 Homme</option><option value="Femme">👩 Femme</option></select></div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Pays'+' *'+'</div><select class="sq-sel" id="rg-country"><option value="">Sélectionner...</option>';
+    COUNTRIES.forEach(function(c){h+='<option value="'+c+'">'+fl(c)+' '+c+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Ville (auto)'+'</div><input class="sq-inp" id="rg-city"/></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl">'+'Langue'+' *'+'</div><select class="sq-sel" id="rg-lang"><option value="">Votre langue...</option>';
+    LANGUAGES.forEach(function(l){h+='<option value="'+l.id+'">'+l.flag+' '+l.label+'</option>';});
+    h+='</select></div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Niveau de mémorisation'+' *'+'</div><select class="sq-sel" id="rg-level"><option value="">Sélectionner...</option>';
+    LEVELS.forEach(function(l){h+='<option value="'+l+'">'+l+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Horaire'+'</div><select class="sq-sel" id="rg-time"><option value="">Sélectionner...</option>';
+    TIMES.forEach(function(t){h+='<option value="'+t+'">'+t+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Mode de contact'+'</div><select class="sq-sel" id="rg-method"><option value="">Sélectionner...</option>';
+    METHODS.forEach(function(m){h+='<option value="'+m+'">'+m+'</option>';});
+    h+='</select></div></div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'De Sourate'+'</div><select class="sq-sel" id="rg-mf">';
+    SURAHS.forEach(function(s,i){h+='<option value="'+(i+1)+'"'+(i===0?" selected":"")+'>'+s+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'À Sourate'+'</div><select class="sq-sel" id="rg-mt">';
+    SURAHS.forEach(function(s,i){h+='<option value="'+(i+1)+'"'+(i===113?" selected":"")+'>'+s+'</option>';});
+    h+='</select></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl" style="margin-bottom:6px">\uD83D\uDCD6 Récitation *</div><div class="sq-riw-cards">';
+    RIWAYAT.forEach(function(r){h+='<div class="sq-riw-card '+r.id+(S.rgRiw===r.id?" on":"")+'" id="rrc-'+r.id+'" onclick="sqPickRiw(\''+r.id+'\')">'+'<div class="sq-riw-card-icon">'+r.flag+'</div><div class="sq-riw-card-name '+r.id+'">'+r.label+'</div><div class="sq-riw-card-zone">'+r.zone+'</div></div>';});
+    h+='</div></div>';
+    /* MAP SECTION — pure iframe, zero JS library */
+    h+='<div class="sq-form-grp">'
+      +'<div class="sq-form-lbl">'+'Votre position sur la carte'+'</div>'
+      +'<div style="font-size:.68rem;color:#9A7A55;margin-bottom:6px">Appuyez sur GPS ou entrez les coordonnées manuellement</div>'
+      +'<button type="button" onclick="sqGeolocate()" class="sq-loc-btn" style="margin-bottom:8px">\uD83D\uDCCD Ma position actuelle (GPS)</button>'
+      +'<div id="sq-loc-label" style="font-size:.72rem;color:#1B4D4A;margin-bottom:6px;min-height:16px"></div>'
+      +'<div id="sq-reg-map" style="border-radius:10px;overflow:hidden;border:1.5px solid #C9A96E;background:#e8f0e8;min-height:80px">'
+      +(S.rgLat&&S.rgLng
+        ? osmEmbed(S.rgLat,S.rgLng,220)
+        : '<div style="display:flex;align-items:center;justify-content:center;padding:22px 10px;color:#9A7A55;font-size:.78rem;text-align:center">\uD83D\uDCCD \u0627\u0636\u063a\u0637 \u00ab\u0645\u0648\u0642\u0639\u064a \u0627\u0644\u062d\u0627\u0644\u064a\u00bb \u0644\u0638\u0647\u0648\u0631 \u0627\u0644\u062e\u0631\u064a\u0637\u0629</div>')
+      +'</div>'
+      +'<div class="sq-grid2" style="margin-top:7px">'
+      +'<div><div class="sq-form-lbl">Latitude</div><input class="sq-inp" id="rg-lat" type="number" step="0.000001" placeholder="33.57" onchange="sqManualCoords()"/></div>'
+      +'<div><div class="sq-form-lbl">Longitude</div><input class="sq-inp" id="rg-lng" type="number" step="0.000001" placeholder="-7.59" onchange="sqManualCoords()"/></div>'
+      +'</div>'
+      +'</div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Email'+'</div><input class="sq-inp" id="rg-email" type="email"/></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'WhatsApp'+'</div><input class="sq-inp" id="rg-wa" placeholder="+212..."/></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl">'+'À propos'+'</div><textarea class="sq-textarea" id="rg-bio" rows="3"></textarea></div>';
+    h+='<div id="sq-reg-err" style="color:#8B2020;font-size:.76rem;margin-bottom:7px;display:none"></div>';
+    h+='<button class="sq-btn-primary" onclick="sqRegister()">\u2705 Envoyer</button>';
+  }
+  h+='</div>';
+  ge('sq-register-view').innerHTML=h;
+}
+
+window.sqManualCoords=function(){
+  var lat=parseFloat((ge('rg-lat')||{}).value);
+  var lng=parseFloat((ge('rg-lng')||{}).value);
+  if(!isNaN(lat)&&!isNaN(lng)&&lat>=-90&&lat<=90&&lng>=-180&&lng<=180){
+    setRegMap(lat,lng);
+  }
+};
+
+/* GUIDE */
+function renderGuide(){
+  var h='<div class="sq-panel" style="margin-bottom:11px"><div class="sq-corner">'+corner(false,undefined,undefined,60)+'</div>'+secHead("\uD83D\uDCD6","Comment ça marche");
+  h+='<div style="display:flex;gap:11px;margin-bottom:12px;align-items:flex-start"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff">1️⃣</div><div><div style="font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px">S’inscrire</div><div style="font-size:.73rem;color:#6B5030;line-height:1.7">Entrez votre pays, langue, niveau, récitation, sourates. Définissez votre position GPS.</div></div></div>';
+  h+='<div style="display:flex;gap:11px;margin-bottom:12px;align-items:flex-start"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff">2️⃣</div><div><div style="font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px">Chercher un partenaire</div><div style="font-size:.73rem;color:#6B5030;line-height:1.7">Filtrez par pays, langue, genre, tranche d\'âge, récitation.</div></div></div>';
+  h+='<div style="display:flex;gap:11px;margin-bottom:12px;align-items:flex-start"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff">3️⃣</div><div><div style="font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px">Contacter et réviser</div><div style="font-size:.73rem;color:#6B5030;line-height:1.7">Ouvrez le profil, consultez la carte, contactez via WhatsApp.</div></div></div>';
+  h+='<div style="display:flex;gap:11px;margin-bottom:12px;align-items:flex-start"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff">✅</div><div><div style="font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px">Trouvé un partenaire ?</div><div style="font-size:.73rem;color:#6B5030;line-height:1.7">Marquez votre profil comme \'Trouvé\'.</div></div></div>';
+  h+='<div style="display:flex;gap:11px;margin-bottom:12px;align-items:flex-start"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff">⭐</div><div><div style="font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px">Évaluer après chaque session</div><div style="font-size:.73rem;color:#6B5030;line-height:1.7">Les avis renforcent la confiance.</div></div></div>';
+  h+='<div style="display:flex;gap:11px;margin-bottom:12px;align-items:flex-start"><div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#1B4D4A,#256460);display:flex;align-items:center;justify-content:center;font-size:.88rem;flex-shrink:0;color:#fff">🚩</div><div><div style="font-weight:700;color:#1B4D4A;font-size:.83rem;margin-bottom:2px">Signaler les non-sérieux</div><div style="font-size:.73rem;color:#6B5030;line-height:1.7">2 signalements = bannissement automatique.</div></div></div>';
+  h+='</div>';
+  h+='<div class="sq-panel" style="margin-bottom:11px">'+secHead("\uD83C\uDFF7\uFE0F","Signification des badges");
+  h+='<div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span class="sq-chip trusted" style="padding:2px 9px">✅ Fiable</span><span style="font-size:.71rem;color:#6B5030">Excellents avis</span></div>';
+  h+='<div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span class="sq-chip flagged-c" style="padding:2px 9px">⚠️ Avertissement</span><span style="font-size:.71rem;color:#6B5030">Un signalement</span></div>';
+  h+='<div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><span class="sq-chip banned-c" style="padding:2px 9px">⛔ Banni</span><span style="font-size:.71rem;color:#6B5030">2+ signalements</span></div>';
+  h+='</div>';
+  h+='<div class="sq-panel" style="text-align:center;position:relative;overflow:hidden"><div class="sq-corner">'+corner(false,undefined,undefined,55)+'</div>'+orn(false)+'<div style="font-size:.86rem;color:#0F2E2C;line-height:2.1;font-family:Georgia,serif;border-right:3px solid #C49A28;padding-right:11px;text-align:right;margin:9px 0">«Renouvelez votre engagement envers ce Coran. Car par Celui dans la main duquel est l\'âme de Muhammad, il s\'échappe plus vite qu\'un chameau de son licou.»</div><div style="font-size:.66rem;color:#9A7A55">Rapporté par Al-Bukhari et Muslim</div>'+orn(false)+'</div>';
+  h+='<button class="sq-btn-primary" onclick="sqTab(\'register\')" style="margin-top:11px">Commencer ✍️</button>';
+  ge('sq-guide-view').innerHTML=h;
+}
+function renderRegister(){
+  var h='<div class="sq-panel"><div class="sq-corner">'+corner(false,undefined,undefined,70)+'</div><div class="sq-corner-l">'+corner(true,undefined,undefined,70)+'</div>'+secHead("\u270D",T("register_title"));
+  if(S.submitted){
+    h+='<div style="text-align:center;padding:28px"><div style="width:60px;height:60px;border-radius:50%;background:#1B4D4A;border:3px solid #C49A28;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 12px">\u2705</div><div style="color:#1B4D4A;font-weight:700;font-family:Georgia,serif">Inscription réussie!</div></div>';
+  }else{
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Nom complet'+' *'+'</div><input class="sq-inp" id="rg-name" placeholder="Ahmad..."/></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Âge'+' *'+'</div><input class="sq-inp" id="rg-age" type="number" min="5" max="99" placeholder="25"/></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl">'+'Genre'+' *'+'</div><select class="sq-sel" id="rg-gender"><option value="">Sélectionner...</option><option value="Homme">👨 Homme</option><option value="Femme">👩 Femme</option></select></div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Pays'+' *'+'</div><select class="sq-sel" id="rg-country"><option value="">Sélectionner...</option>';
+    COUNTRIES.forEach(function(c){h+='<option value="'+c+'">'+fl(c)+' '+c+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Ville (auto)'+'</div><input class="sq-inp" id="rg-city"/></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl">'+'Langue'+' *'+'</div><select class="sq-sel" id="rg-lang"><option value="">Votre langue...</option>';
+    LANGUAGES.forEach(function(l){h+='<option value="'+l.id+'">'+l.flag+' '+l.label+'</option>';});
+    h+='</select></div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Niveau de mémorisation'+' *'+'</div><select class="sq-sel" id="rg-level"><option value="">Sélectionner...</option>';
+    LEVELS.forEach(function(l){h+='<option value="'+l+'">'+l+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Horaire'+'</div><select class="sq-sel" id="rg-time"><option value="">Sélectionner...</option>';
+    TIMES.forEach(function(t){h+='<option value="'+t+'">'+t+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'Mode de contact'+'</div><select class="sq-sel" id="rg-method"><option value="">Sélectionner...</option>';
+    METHODS.forEach(function(m){h+='<option value="'+m+'">'+m+'</option>';});
+    h+='</select></div></div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'De Sourate'+'</div><select class="sq-sel" id="rg-mf">';
+    SURAHS.forEach(function(s,i){h+='<option value="'+(i+1)+'"'+(i===0?" selected":"")+'>'+s+'</option>';});
+    h+='</select></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'À Sourate'+'</div><select class="sq-sel" id="rg-mt">';
+    SURAHS.forEach(function(s,i){h+='<option value="'+(i+1)+'"'+(i===113?" selected":"")+'>'+s+'</option>';});
+    h+='</select></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl" style="margin-bottom:6px">\uD83D\uDCD6 Récitation *</div><div class="sq-riw-cards">';
+    RIWAYAT.forEach(function(r){h+='<div class="sq-riw-card '+r.id+(S.rgRiw===r.id?" on":"")+'" id="rrc-'+r.id+'" onclick="sqPickRiw(\''+r.id+'\')">'+'<div class="sq-riw-card-icon">'+r.flag+'</div><div class="sq-riw-card-name '+r.id+'">'+r.label+'</div><div class="sq-riw-card-zone">'+r.zone+'</div></div>';});
+    h+='</div></div>';
+    /* MAP SECTION — pure iframe, zero JS library */
+    h+='<div class="sq-form-grp">'
+      +'<div class="sq-form-lbl">'+'Votre position sur la carte'+'</div>'
+      +'<div style="font-size:.68rem;color:#9A7A55;margin-bottom:6px">Appuyez sur GPS ou entrez les coordonnées manuellement</div>'
+      +'<button type="button" onclick="sqGeolocate()" class="sq-loc-btn" style="margin-bottom:8px">\uD83D\uDCCD Ma position actuelle (GPS)</button>'
+      +'<div id="sq-loc-label" style="font-size:.72rem;color:#1B4D4A;margin-bottom:6px;min-height:16px"></div>'
+      +'<div id="sq-reg-map" style="border-radius:10px;overflow:hidden;border:1.5px solid #C9A96E;background:#e8f0e8;min-height:80px">'
+      +(S.rgLat&&S.rgLng
+        ? osmEmbed(S.rgLat,S.rgLng,220)
+        : '<div style="display:flex;align-items:center;justify-content:center;padding:22px 10px;color:#9A7A55;font-size:.78rem;text-align:center">\uD83D\uDCCD \u0627\u0636\u063a\u0637 \u00ab\u0645\u0648\u0642\u0639\u064a \u0627\u0644\u062d\u0627\u0644\u064a\u00bb \u0644\u0638\u0647\u0648\u0631 \u0627\u0644\u062e\u0631\u064a\u0637\u0629</div>')
+      +'</div>'
+      +'<div class="sq-grid2" style="margin-top:7px">'
+      +'<div><div class="sq-form-lbl">Latitude</div><input class="sq-inp" id="rg-lat" type="number" step="0.000001" placeholder="33.57" onchange="sqManualCoords()"/></div>'
+      +'<div><div class="sq-form-lbl">Longitude</div><input class="sq-inp" id="rg-lng" type="number" step="0.000001" placeholder="-7.59" onchange="sqManualCoords()"/></div>'
+      +'</div>'
+      +'</div>';
+    h+='<div class="sq-grid2"><div class="sq-form-grp"><div class="sq-form-lbl">'+'Email'+'</div><input class="sq-inp" id="rg-email" type="email"/></div><div class="sq-form-grp"><div class="sq-form-lbl">'+'WhatsApp'+'</div><input class="sq-inp" id="rg-wa" placeholder="+212..."/></div></div>';
+    h+='<div class="sq-form-grp"><div class="sq-form-lbl">'+'À propos'+'</div><textarea class="sq-textarea" id="rg-bio" rows="3"></textarea></div>';
+    h+='<div id="sq-reg-err" style="color:#8B2020;font-size:.76rem;margin-bottom:7px;display:none"></div>';
+    h+='<button class="sq-btn-primary" onclick="sqRegister()">\u2705 Envoyer</button>';
+  }
+  h+='</div>';
+  ge('sq-register-view').innerHTML=h;
+}
+
+window.sqManualCoords=function(){
+  var lat=parseFloat((ge('rg-lat')||{}).value);
+  var lng=parseFloat((ge('rg-lng')||{}).value);
+  if(!isNaN(lat)&&!isNaN(lng)&&lat>=-90&&lat<=90&&lng>=-180&&lng<=180){
+    setRegMap(lat,lng);
+  }
+};
+
+/* GUIDE */
+
+window.sqTab=function(t){
+  S.tab=t;S.selected=null;
+  ['search','detail','register','guide'].forEach(function(v){var el=ge('sq-'+v+'-view');if(el)el.style.display='none';});
+  var target=ge('sq-'+t+'-view');if(target)target.style.display='block';
+  document.querySelectorAll('.sq-tab').forEach(function(b,i){b.classList.toggle('active',['search','register','guide'][i]===t);});
+  if(t==='search'){S.loading=true;renderSearch();sqSearch();}
+  if(t==='register'){S.submitted=false;renderRegister();setTimeout(function(){if(!S.rgLat&&typeof sqGeolocate==='function')sqGeolocate();},600);}
+  if(t==='guide'){renderGuide();}
+};
+window.sqF=function(k,v){S.filters[k]=v;renderSearch();};
+window.sqSearch=function(){
+  S.loading=true;renderSearch();
+  ajax('sq_get_members',S.filters,function(ok,data){S.loading=false;S.members=ok?(data||[]):[];renderSearch();});
+};
+window.sqOpen=function(id){
+  S.selected=S.members.find(function(m){return m.id==id;});
+  if(!S.selected)return;
+  S.subTab='info';S.rStars=0;S.rDone=false;S.repDone=false;S.contacted=false;
+  ge('sq-search-view').style.display='none';ge('sq-detail-view').style.display='block';renderDetail();
+};
+window.sqBack=function(){
+  S.selected=null;
+  ge('sq-detail-view').style.display='none';ge('sq-search-view').style.display='block';
+};
+window.sqSub=function(t){S.subTab=t;renderDetail();};
+window.sqContact=function(){S.contacted=true;renderDetail();};
+window.sqMarkSahib=function(val){if(!S.selected)return;ajax('sq_mark_sahib',{member_id:S.selected.id,has_sahib:val},function(ok,data){if(ok){S.selected.has_sahib=data.has_sahib;renderDetail();}});};
+window.sqStar=function(n){S.rStars=n;renderDetail();};
+window.sqStarH=function(n){document.querySelectorAll('.sq-star').forEach(function(s,i){s.classList.toggle('on',n>0?(i<n):(i<S.rStars));});};
+window.sqSubmitRate=function(){
+  if(!S.rStars||!S.selected)return;
+  ajax('sq_rate',{member_id:S.selected.id,stars:S.rStars,comment:(ge('sq-rcomment')||{}).value||'',reviewer:(ge('sq-reviewer')||{}).value||'\u0639\u0636\u0648'},function(ok,data){if(ok){S.selected.avg_rating=data.avg;S.selected.total_ratings=data.count;S.rDone=true;renderDetail();}});
+};
+window.sqSubmitReport=function(){
+  var reason=(ge('sq-rep-reason')||{}).value;if(!reason||!S.selected)return;
+  ajax('sq_report',{member_id:S.selected.id,reason:reason,detail:(ge('sq-rep-detail')||{}).value||''},function(ok,data){if(ok){S.selected.report_count=data.count;if(data.banned)S.selected.status='banned';S.repDone=true;renderDetail();}});
+};
+window.sqPickRiw=function(id){
+  S.rgRiw=id;
+  RIWAYAT.forEach(function(r){var el=ge('rrc-'+r.id);if(el)el.className='sq-riw-card '+r.id+(r.id===id?" on":"");});
+};
+window.sqRegister=function(){
+  var err=ge('sq-reg-err');
+  var name=(ge('rg-name')||{}).value||'';
+  var age=parseInt((ge('rg-age')||{}).value||'0');
+  var gender=(ge('rg-gender')||{}).value||'';
+  var country=(ge('rg-country')||{}).value||'';
+  var level=(ge('rg-level')||{}).value||'';
+  if(!name||!age||!gender||!country||!level||!S.rgRiw){
+    if(err){err.style.display='block';err.textContent='Veuillez remplir les champs obligatoires (*)';}
+    return;
+  }
+  if(err)err.style.display='none';
+  ajax('sq_register',{
+    name:name,age:age,gender:gender,country:country,
+    city:(ge('rg-city')||{}).value||'',
+    language:(ge('rg-lang')||{}).value||'',
+    level:level,riwaya:S.rgRiw,
+    surah_from:(ge('rg-mf')||{}).value||1,
+    surah_to:(ge('rg-mt')||{}).value||114,
+    avail_time:(ge('rg-time')||{}).value||'',
+    method:(ge('rg-method')||{}).value||'',
+    bio:(ge('rg-bio')||{}).value||'',
+    email:(ge('rg-email')||{}).value||'',
+    whatsapp:(ge('rg-wa')||{}).value||'',
+    lat:S.rgLat||'',lng:S.rgLng||'',
+  },function(ok,res){
+    if(ok){S.submitted=true;renderRegister();setTimeout(function(){sqTab('search');},3000);}
+    else{if(err){err.style.display='block';err.textContent=typeof res==='string'?res:'\u062e\u0637\u0623';}}
+  });
+};
+
+window.sqInit=function(){
+  if(window._sqInited)return;
+  var app=ge('sq-app');if(!app)return;
+  if(app.dataset.sqInited==='1')return;
+  window._sqInited=true;
+  app.dataset.sqInited='1';
+
+  var ot=ge('sq-orn-top'),om=ge('sq-orn-mid');
+  if(ot)ot.innerHTML=orn(true);
+  if(om)om.innerHTML=orn(true);
+
+  // Language switcher
+  var sw=ge('sq-lang-sw');
+  if(sw){
+    var h='';
+    Object.keys(LANGS).forEach(function(k){
+      var l=LANGS[k];
+      h+='<button onclick="sqSetLang(\''+k+'\');" style="background:'+(CUR_LANG===k?'rgba(196,154,40,0.3)':'transparent')+';border:1px solid rgba(255,255,255,0.3);color:#fff;padding:3px 8px;border-radius:12px;font-size:.65rem;cursor:pointer">'+l.flag+' '+l.name+'</button>';
+    });
+    sw.innerHTML=h;
+  }
+  sqTab('search');
+};
+
+window.sqSetLang=function(lang){
+  CUR_LANG=lang;
+  var app=ge('sq-app');
+  if(app) app.style.direction=isRTL()?'rtl':'ltr';
+  window._sqInited=false;
+  if(app) app.dataset.sqInited='0';
+  window._sqInited=false;
+  sqInit();
+};
+
+// Auto-init: one attempt only, using DOMContentLoaded or immediate
+(function(){
+  function tryInit(){
+    if(window._sqInited)return;
+    if(document.getElementById('sq-app'))window.sqInit();
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',tryInit);
+  } else {
+    tryInit();
+  }
+})();
+
+})();
+
+(function(){
+  function init(){if(typeof sqInit==='function')sqInit();}
+  document.readyState==='loading'?document.addEventListener('DOMContentLoaded',init):init();
+})();
+</script>
+</body>
+</html>
