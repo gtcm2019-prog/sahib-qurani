@@ -1,4 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Quranic Companion</title>
 <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #FAF6EF; }
 /* ═══════════════════ SAHIB QURANI v2 ═══════════════════ */
 #sq-app *{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Georgia,sans-serif}
 #sq-app{direction:rtl;background:#FAF6EF;min-height:500px;position:relative;color:#2C1F0E;overflow:hidden}
@@ -235,6 +243,8 @@
 
 #sq-app { direction: ltr; }
 </style>
+</head>
+<body>
 
 <div style="background:#0F2E2C;padding:7px;text-align:center;display:flex;justify-content:center;gap:6px;flex-wrap:wrap"><a href="sahib-qurani-ar.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇸🇦 العربية</a><a href="sahib-qurani-en.html" style="background:#C49A28;color:#0F2E2C;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:700;border:1px solid #C49A28">🇬🇧 English</a><a href="sahib-qurani-fr.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇫🇷 Français</a><a href="sahib-qurani-es.html" style="background:rgba(255,255,255,0.12);color:#fff;padding:5px 14px;border-radius:16px;text-decoration:none;font-size:.73rem;font-weight:400;border:1px solid rgba(255,255,255,0.25)">🇪🇸 Español</a></div>
 
@@ -916,17 +926,15 @@ window.sqSetLang=function(lang){
 
 })();
 
-
-// Fix tab labels and init
 (function(){
   function init(){
     var t = LANGS['en'] || LANGS.ar;
     var ts = document.getElementById('sq-tab-search');
     var tr = document.getElementById('sq-tab-register');
     var tg = document.getElementById('sq-tab-guide');
-    if(ts) ts.textContent = (t.search||'بحث');
-    if(tr) tr.textContent = (t.register||'تسجيل');
-    if(tg) tg.textContent = (t.guide||'الدليل');
+    if(ts) ts.textContent = t.search || 'بحث';
+    if(tr) tr.textContent = t.register || 'تسجيل';
+    if(tg) tg.textContent = t.guide || 'الدليل';
     if(typeof sqInit==='function') sqInit();
   }
   if(document.readyState==='loading'){
@@ -936,3 +944,5 @@ window.sqSetLang=function(lang){
   }
 })();
 </script>
+</body>
+</html>
