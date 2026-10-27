@@ -1,0 +1,68 @@
+{
+  "app": { "title": "Sahib Qurani – Le Compagnon Coranique" },
+  "nav": { "login": "Connexion", "account": "Mon espace", "logout": "Se déconnecter" },
+  "home": {
+    "title": "Le Compagnon Coranique",
+    "subtitle": "Trouvez un partenaire sérieux pour mémoriser et réviser le Coran, en ligne ou près de chez vous.",
+    "cta_start": "Commencer",
+    "cta_login": "J'ai déjà un compte",
+    "members": "{n} membres dans {c} pays"
+  },
+  "guide": {
+    "title": "Comment ça marche",
+    "s1t": "Créer un compte", "s1d": "Avec Google ou votre e-mail, en quelques secondes.",
+    "s2t": "Remplir votre profil", "s2d": "Niveau, récitation, sourates, hizb mémorisés et disponibilités. Ville et pays seulement.",
+    "s3t": "Chercher un partenaire", "s3d": "Filtrez par niveau, langue, pays, horaire… avec l'option même genre uniquement.",
+    "s4t": "Envoyer une demande", "s4d": "Votre WhatsApp n'est partagé qu'après acceptation de la demande.",
+    "s5t": "Réviser ensemble", "s5d": "Puis passez votre statut à « Partenaire trouvé ».",
+    "s6t": "Donner un avis ou signaler", "s6d": "Les avis renforcent la confiance. Chaque signalement est examiné par l'administrateur."
+  },
+  "hadith": {
+    "text": "« Renouvelez sans cesse votre lien avec ce Coran. Par Celui qui tient l'âme de Muhammad dans Sa main, il s'échappe plus vite que le chameau de son entrave. »",
+    "src": "Rapporté par Al-Bukhari et Muslim"
+  },
+  "auth": {
+    "login_title": "Connexion",
+    "signup_title": "Créer un compte",
+    "forgot_title": "Mot de passe oublié",
+    "forgot_text": "Entrez votre e-mail : vous recevrez un lien pour choisir un nouveau mot de passe.",
+    "reset_title": "Nouveau mot de passe",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "password_new": "Nouveau mot de passe",
+    "password_confirm": "Confirmer le mot de passe",
+    "login_btn": "Se connecter",
+    "signup_btn": "Créer mon compte",
+    "forgot_btn": "Envoyer le lien",
+    "reset_btn": "Enregistrer",
+    "google": "Continuer avec Google",
+    "or": "ou",
+    "forgot_link": "Mot de passe oublié ?",
+    "no_account": "Créer un compte",
+    "have_account": "J'ai déjà un compte",
+    "back_login": "Retour à la connexion",
+    "pw_rule": "8 caractères minimum, avec des lettres et des chiffres.",
+    "check_email": "Compte créé. Ouvrez le lien reçu par e-mail pour confirmer votre adresse.",
+    "reset_sent": "Si cette adresse est inscrite, un lien vient de vous être envoyé.",
+    "reset_done": "Mot de passe modifié.",
+    "resend": "Renvoyer l'e-mail de confirmation",
+    "resent": "E-mail de confirmation renvoyé."
+  },
+  "err": {
+    "invalid_email": "Adresse e-mail invalide.",
+    "pw_rule": "Le mot de passe doit contenir au moins 8 caractères, avec des lettres et des chiffres.",
+    "pw_mismatch": "Les deux mots de passe ne sont pas identiques.",
+    "invalid_login": "E-mail ou mot de passe incorrect.",
+    "not_confirmed": "Adresse non confirmée. Ouvrez le lien reçu par e-mail.",
+    "rate_limit": "Trop de tentatives. Réessayez dans quelques minutes.",
+    "google_off": "La connexion Google n'est pas encore disponible.",
+    "same_password": "Choisissez un mot de passe différent de l'ancien.",
+    "network": "Problème de connexion internet.",
+    "generic": "Une erreur est survenue. Réessayez."
+  },
+  "profile": {
+    "soon_title": "Bienvenue",
+    "soon_text": "Vous êtes connecté. La création du profil arrive à la prochaine étape."
+  },
+  "footer": { "lang": "Langue", "text": "Sahib Qurani – Le Compagnon Coranique" }
+}

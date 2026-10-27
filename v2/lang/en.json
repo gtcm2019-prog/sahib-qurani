@@ -1,0 +1,68 @@
+{
+  "app": { "title": "Sahib Qurani – The Quran Companion" },
+  "nav": { "login": "Sign in", "account": "My space", "logout": "Sign out" },
+  "home": {
+    "title": "The Quran Companion",
+    "subtitle": "Find a committed partner to memorize and revise the Quran, online or near you.",
+    "cta_start": "Get started",
+    "cta_login": "I already have an account",
+    "members": "{n} members in {c} countries"
+  },
+  "guide": {
+    "title": "How it works",
+    "s1t": "Create an account", "s1d": "With Google or your email, in a few seconds.",
+    "s2t": "Fill in your profile", "s2d": "Level, recitation, surahs, hizb memorized and availability. City and country only.",
+    "s3t": "Find a partner", "s3d": "Filter by level, language, country, schedule… with a same-gender-only option.",
+    "s4t": "Send a request", "s4d": "Your WhatsApp is shared only after the request is accepted.",
+    "s5t": "Revise together", "s5d": "Then set your status to “Partner found”.",
+    "s6t": "Review or report", "s6d": "Reviews build trust. Every report is checked by the administrator."
+  },
+  "hadith": {
+    "text": "“Keep refreshing your bond with this Quran. By the One in whose hand is the soul of Muhammad, it slips away faster than a camel from its tether.”",
+    "src": "Narrated by Al-Bukhari and Muslim"
+  },
+  "auth": {
+    "login_title": "Sign in",
+    "signup_title": "Create an account",
+    "forgot_title": "Forgot password",
+    "forgot_text": "Enter your email: you will receive a link to choose a new password.",
+    "reset_title": "New password",
+    "email": "Email",
+    "password": "Password",
+    "password_new": "New password",
+    "password_confirm": "Confirm password",
+    "login_btn": "Sign in",
+    "signup_btn": "Create my account",
+    "forgot_btn": "Send the link",
+    "reset_btn": "Save",
+    "google": "Continue with Google",
+    "or": "or",
+    "forgot_link": "Forgot password?",
+    "no_account": "Create an account",
+    "have_account": "I already have an account",
+    "back_login": "Back to sign in",
+    "pw_rule": "At least 8 characters, with letters and numbers.",
+    "check_email": "Account created. Open the link sent to your email to confirm your address.",
+    "reset_sent": "If this address is registered, a link has just been sent.",
+    "reset_done": "Password changed.",
+    "resend": "Resend confirmation email",
+    "resent": "Confirmation email resent."
+  },
+  "err": {
+    "invalid_email": "Invalid email address.",
+    "pw_rule": "The password must have at least 8 characters, with letters and numbers.",
+    "pw_mismatch": "The two passwords do not match.",
+    "invalid_login": "Incorrect email or password.",
+    "not_confirmed": "Address not confirmed. Open the link sent to your email.",
+    "rate_limit": "Too many attempts. Try again in a few minutes.",
+    "google_off": "Google sign-in is not available yet.",
+    "same_password": "Choose a password different from the old one.",
+    "network": "Internet connection problem.",
+    "generic": "Something went wrong. Please try again."
+  },
+  "profile": {
+    "soon_title": "Welcome",
+    "soon_text": "You are signed in. Profile creation comes in the next step."
+  },
+  "footer": { "lang": "Language", "text": "Sahib Qurani – The Quran Companion" }
+}
