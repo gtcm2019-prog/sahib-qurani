@@ -150,6 +150,8 @@ export async function showEdit(session) {
   $('#edit-cancel').hidden = !p;
   f.first_name.value = p?.first_name || '';
   setChecked(f, 'gender', p?.gender || '');
+  $$('input[name="gender"]', f).forEach(i => { i.disabled = !!p; });
+  $('#gender-lock').hidden = !p;
   buildAvatars(f, p?.avatar || '');
   f.age_range.value = p?.age_range || '';
   f.country.value = p?.country || '';

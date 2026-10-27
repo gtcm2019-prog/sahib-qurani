@@ -25,7 +25,7 @@
     "s2t": "Completar tu perfil",
     "s2d": "Nivel, recitación, suras, hizb memorizados y disponibilidad. Solo ciudad y país.",
     "s3t": "Buscar un compañero",
-    "s3d": "Filtra por nivel, idioma, país, horario… con la opción solo mismo género.",
+    "s3d": "Filtra por nivel, idioma, país, horario… entre miembros del mismo género.",
     "s4t": "Enviar una solicitud",
     "s4d": "Tu WhatsApp solo se comparte cuando se acepta la solicitud.",
     "s5t": "Repasar juntos",
@@ -134,7 +134,8 @@
     "cancel": "Cancelar",
     "choose": "Elegir…",
     "avatar": "Avatar",
-    "avatar_initial": "Inicial del nombre"
+    "avatar_initial": "Inicial del nombre",
+    "gender_locked": "El género ya no se puede cambiar. Contacta al administrador si hay un error."
   },
   "gender": {
     "m": "Hombre",
@@ -184,7 +185,6 @@
   "search": {
     "title": "Encontrar un compañero",
     "filters": "Filtros",
-    "same_gender": "Solo mismo género",
     "hizb_min": "Hizb memorizados (mínimo)",
     "time": "Horario",
     "language": "Idioma",
@@ -194,7 +194,8 @@
     "any": "Todos",
     "hizb_n": "{n} hizb o más",
     "count": "{n} miembro(s) encontrado(s)",
-    "none": "Ningún miembro coincide. Prueba a ampliar los filtros."
+    "none": "Ningún miembro coincide. Prueba a ampliar los filtros.",
+    "same_gender_rule": "Para la tranquilidad de todos, las conexiones son solo entre miembros del mismo género."
   },
   "member": {
     "back": "← Volver a la búsqueda",
