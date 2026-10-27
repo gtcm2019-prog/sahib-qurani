@@ -128,7 +128,9 @@
     "guardian_whatsapp": "WhatsApp du tuteur",
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "choose": "Choisir…"
+    "choose": "Choisir…",
+    "avatar": "Avatar",
+    "avatar_initial": "Initiale du prénom"
   },
   "gender": {
     "m": "Homme",

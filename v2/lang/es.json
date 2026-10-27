@@ -128,7 +128,9 @@
     "guardian_whatsapp": "WhatsApp del tutor",
     "save": "Guardar",
     "cancel": "Cancelar",
-    "choose": "Elegir…"
+    "choose": "Elegir…",
+    "avatar": "Avatar",
+    "avatar_initial": "Inicial del nombre"
   },
   "gender": {
     "m": "Hombre",

@@ -128,7 +128,9 @@
     "guardian_whatsapp": "Guardian's WhatsApp",
     "save": "Save",
     "cancel": "Cancel",
-    "choose": "Choose…"
+    "choose": "Choose…",
+    "avatar": "Avatar",
+    "avatar_initial": "First-name initial"
   },
   "gender": {
     "m": "Man",
