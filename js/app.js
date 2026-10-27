@@ -1,13 +1,7 @@
-import { createClient } from './vendor/supabase.js';
-import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
+import { sb } from './sb.js';
 import { detectLang, setLang, lang, t } from './i18n.js';
-
-export const sb = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: { flowType: 'pkce', detectSessionInUrl: true, persistSession: true, autoRefreshToken: true }
-});
-
-const $ = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
+import { showProfile, showEdit, bindProfile, resetProfileCache } from './profile.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
 
@@ -15,7 +9,7 @@ let session = null;
 
 /* ---------- Navigation ---------- */
 const PUBLIC_VIEWS = ['home', 'login', 'signup', 'forgot'];
-const PRIVATE_VIEWS = ['profile', 'reset'];
+const PRIVATE_VIEWS = ['profile', 'edit', 'reset'];
 
 function currentView() {
   const v = (location.hash.replace(/^#\/?/, '').split('?')[0]) || 'home';
@@ -32,34 +26,8 @@ function render() {
   $$('.msg').forEach(el => { el.hidden = true; el.textContent = ''; });
   $$('[data-auth]').forEach(el => { el.hidden = (el.dataset.auth === 'in') !== !!session; });
   window.scrollTo(0, 0);
-}
-
-/* ---------- Messages ---------- */
-function showMsg(form, key, type = 'error', vars) {
-  const box = $('.msg', form);
-  box.textContent = t(key, vars);
-  box.className = 'msg ' + type;
-  box.hidden = false;
-}
-
-function errKey(error) {
-  const m = String(error?.message || '').toLowerCase();
-  const code = String(error?.code || '').toLowerCase();
-  if (code === 'email_not_confirmed' || m.includes('not confirmed')) return 'err.not_confirmed';
-  if (code === 'invalid_credentials' || m.includes('invalid login')) return 'err.invalid_login';
-  if (m.includes('rate limit') || code.includes('rate_limit') || error?.status === 429) return 'err.rate_limit';
-  if (m.includes('provider is not enabled') || m.includes('unsupported provider')) return 'err.google_off';
-  if (code === 'same_password') return 'err.same_password';
-  if (code === 'weak_password' || m.includes('password')) return 'err.pw_rule';
-  if (m.includes('failed to fetch') || m.includes('network')) return 'err.network';
-  return 'err.generic';
-}
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const pwOk = pw => pw.length >= 8 && /[A-Za-z]/.test(pw) && /\d/.test(pw);
-
-function busy(form, on) {
-  $$('button, input', form).forEach(el => { el.disabled = on; });
+  if (v === 'profile') showProfile(session);
+  if (v === 'edit') showEdit(session);
 }
 
 /* ---------- Formulaires ---------- */
@@ -179,14 +147,18 @@ async function start() {
   await setLang(detectLang());
   bindLang();
   bindForms();
+  bindProfile(go);
 
   const params = new URLSearchParams(location.search);
   const wantsReset = params.has('reset');
 
   sb.auth.onAuthStateChange((event, s) => {
+    const changed = (session?.user?.id || null) !== (s?.user?.id || null);
     session = s;
+    if (changed) resetProfileCache();
+    if (!changed && event === 'TOKEN_REFRESHED') return;
     if (event === 'PASSWORD_RECOVERY') go('reset');
-    else if (event === 'SIGNED_IN' && ['login', 'signup', 'home'].includes(currentView()) && !wantsReset) go('profile');
+    else if (event === 'SIGNED_IN' && changed && ['login', 'signup', 'home'].includes(currentView()) && !wantsReset) go('profile');
     render();
   });
 

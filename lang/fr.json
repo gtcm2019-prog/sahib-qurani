@@ -1,6 +1,12 @@
 {
-  "app": { "title": "Sahib Qurani – Le Compagnon Coranique" },
-  "nav": { "login": "Connexion", "account": "Mon espace", "logout": "Se déconnecter" },
+  "app": {
+    "title": "Sahib Qurani – Le Compagnon Coranique"
+  },
+  "nav": {
+    "login": "Connexion",
+    "account": "Mon espace",
+    "logout": "Se déconnecter"
+  },
   "home": {
     "title": "Le Compagnon Coranique",
     "subtitle": "Trouvez un partenaire sérieux pour mémoriser et réviser le Coran, en ligne ou près de chez vous.",
@@ -10,12 +16,18 @@
   },
   "guide": {
     "title": "Comment ça marche",
-    "s1t": "Créer un compte", "s1d": "Avec Google ou votre e-mail, en quelques secondes.",
-    "s2t": "Remplir votre profil", "s2d": "Niveau, récitation, sourates, hizb mémorisés et disponibilités. Ville et pays seulement.",
-    "s3t": "Chercher un partenaire", "s3d": "Filtrez par niveau, langue, pays, horaire… avec l'option même genre uniquement.",
-    "s4t": "Envoyer une demande", "s4d": "Votre WhatsApp n'est partagé qu'après acceptation de la demande.",
-    "s5t": "Réviser ensemble", "s5d": "Puis passez votre statut à « Partenaire trouvé ».",
-    "s6t": "Donner un avis ou signaler", "s6d": "Les avis renforcent la confiance. Chaque signalement est examiné par l'administrateur."
+    "s1t": "Créer un compte",
+    "s1d": "Avec Google ou votre e-mail, en quelques secondes.",
+    "s2t": "Remplir votre profil",
+    "s2d": "Niveau, récitation, sourates, hizb mémorisés et disponibilités. Ville et pays seulement.",
+    "s3t": "Chercher un partenaire",
+    "s3d": "Filtrez par niveau, langue, pays, horaire… avec l'option même genre uniquement.",
+    "s4t": "Envoyer une demande",
+    "s4d": "Votre WhatsApp n'est partagé qu'après acceptation de la demande.",
+    "s5t": "Réviser ensemble",
+    "s5d": "Puis passez votre statut à « Partenaire trouvé ».",
+    "s6t": "Donner un avis ou signaler",
+    "s6d": "Les avis renforcent la confiance. Chaque signalement est examiné par l'administrateur."
   },
   "hadith": {
     "text": "« Renouvelez sans cesse votre lien avec ce Coran. Par Celui qui tient l'âme de Muhammad dans Sa main, il s'échappe plus vite que le chameau de son entrave. »",
@@ -58,11 +70,109 @@
     "google_off": "La connexion Google n'est pas encore disponible.",
     "same_password": "Choisissez un mot de passe différent de l'ancien.",
     "network": "Problème de connexion internet.",
-    "generic": "Une erreur est survenue. Réessayez."
+    "generic": "Une erreur est survenue. Réessayez.",
+    "required": "Merci de remplir tous les champs obligatoires.",
+    "surah_order": "La sourate de début doit précéder la sourate de fin.",
+    "phone": "Numéro invalide. Exemple : +212 612345678",
+    "guardian": "Le nom et le WhatsApp du tuteur sont obligatoires.",
+    "whatsapp": "Le numéro WhatsApp est obligatoire."
   },
   "profile": {
-    "soon_title": "Bienvenue",
-    "soon_text": "Vous êtes connecté. La création du profil arrive à la prochaine étape."
+    "paused_tag": "En pause",
+    "wa_private": "Partagé uniquement après acceptation d'une demande.",
+    "status": "Mon statut",
+    "pause": "Mettre mon profil en pause",
+    "pause_hint": "Il n'apparaît plus dans les recherches.",
+    "edit": "Modifier mon profil",
+    "hizb_of": "{n} / {total} hizb",
+    "progress_aria": "{p} % du Coran mémorisé",
+    "guardian_line": "Tuteur : {name} · {wa}",
+    "surahs": "Sourates en cours"
   },
-  "footer": { "lang": "Langue", "text": "Sahib Qurani – Le Compagnon Coranique" }
+  "footer": {
+    "lang": "Langue",
+    "text": "Sahib Qurani – Le Compagnon Coranique"
+  },
+  "common": {
+    "loading": "Chargement…"
+  },
+  "status": {
+    "searching": "Je cherche",
+    "found": "Partenaire trouvé"
+  },
+  "edit": {
+    "title_new": "Créer mon profil",
+    "title_edit": "Modifier mon profil",
+    "intro": "Ces informations aident à trouver le bon partenaire. Seuls la ville et le pays sont affichés, jamais votre adresse.",
+    "sec_about": "À propos de vous",
+    "first_name": "Prénom",
+    "gender": "Genre",
+    "age_range": "Tranche d'âge",
+    "country": "Pays",
+    "city": "Ville (facultatif)",
+    "languages": "Langues parlées",
+    "sec_quran": "Votre parcours coranique",
+    "level": "Niveau",
+    "riwaya": "Récitation",
+    "hizb": "Hizb mémorisés (0 à 60)",
+    "surahs": "Sourates en cours (facultatif)",
+    "from": "De",
+    "to": "À",
+    "sec_contact": "Disponibilités et contact",
+    "availability": "Disponibilités",
+    "contact_mode": "Mode de révision",
+    "whatsapp": "Numéro WhatsApp",
+    "whatsapp_hint": "Avec l'indicatif du pays. Jamais public : partagé seulement après acceptation.",
+    "guardian_note": "Moins de 18 ans : le contact passe par un parent ou un tuteur.",
+    "guardian_name": "Nom du tuteur",
+    "guardian_whatsapp": "WhatsApp du tuteur",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "choose": "Choisir…"
+  },
+  "gender": {
+    "m": "Homme",
+    "f": "Femme"
+  },
+  "level": {
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé",
+    "hafiz": "Hafiz complet"
+  },
+  "riwaya": {
+    "hafs": "Hafs ʿan ʿĀṣim",
+    "warsh": "Warsh ʿan Nāfiʿ"
+  },
+  "age": {
+    "lt8": "Moins de 8 ans",
+    "8-12": "8 – 12 ans",
+    "13-17": "13 – 17 ans",
+    "18-24": "18 – 24 ans",
+    "25-34": "25 – 34 ans",
+    "35-44": "35 – 44 ans",
+    "45-54": "45 – 54 ans",
+    "55+": "55 ans et plus"
+  },
+  "avail": {
+    "morning": "Matin",
+    "afternoon": "Après-midi",
+    "evening": "Soir",
+    "flexible": "Flexible"
+  },
+  "contact": {
+    "online": "En ligne",
+    "in_person": "En présentiel",
+    "both": "Les deux"
+  },
+  "badge": {
+    "reliable": "Fiable",
+    "warning": "Avertissement",
+    "banned": "Banni"
+  },
+  "names": {
+    "country_PS": "Palestine",
+    "lang_ber": "Amazighe (tamazight)",
+    "lang_other": "Autre"
+  }
 }
