@@ -50,7 +50,6 @@ function fill(sel, items, anyLabel) {
 function buildFilters(f) {
   const any = t('search.any');
   const coll = new Intl.Collator(lang());
-  fill(f.gender, D.GENDERS.map(g => [g, t('gender.' + g)]), any);
   fill(f.age_range, D.AGE_RANGES.filter(a => minor(me) === D.MINOR_AGES.includes(a)).map(a => [a, t('age.' + a)]), any);
   fill(f.level, D.LEVELS.map(l => [l, t('level.' + l)]), any);
   fill(f.riwaya, D.RIWAYAT.map(r => [r, t('riwaya.' + r)]), any);
@@ -61,7 +60,6 @@ function buildFilters(f) {
   fill(f.language, D.LANGUAGES.filter(l => l !== 'other').map(l => [l, languageName(l)]).sort((a, b) => coll.compare(a[1], b[1])), any);
   fill(f.status, D.STATUSES.map(s => [s, t('status.' + s)]), any);
   if (!f.dataset.init) { f.status.value = 'searching'; f.dataset.init = '1'; }
-  f.gender.disabled = f.same_gender.checked;
 }
 
 async function runSearch(reset) {
@@ -73,8 +71,7 @@ async function runSearch(reset) {
 
   let q = sb.from('profiles').select(COLS, { count: 'exact' })
     .neq('id', me.id).eq('is_paused', false).or('badge.is.null,badge.neq.banned');
-  if (f.same_gender.checked) q = q.eq('gender', me.gender);
-  else if (f.gender.value) q = q.eq('gender', f.gender.value);
+  q = q.eq('gender', me.gender);   // même genre obligatoire (aussi verrouillé dans la base)
   if (f.age_range.value) q = q.eq('age_range', f.age_range.value);
   if (f.level.value) q = q.eq('level', f.level.value);
   if (f.riwaya.value) q = q.eq('riwaya', f.riwaya.value);
@@ -89,7 +86,6 @@ async function runSearch(reset) {
   const { data, error, count: total } = await q;
   if (seq !== searchSeq) return;   // une recherche plus récente a été lancée
   busy(f, false);
-  f.gender.disabled = f.same_gender.checked;
   if (error) { console.warn(error); count.textContent = t('err.generic'); count.hidden = false; return; }
   searchedLang = lang();
   count.textContent = total ? t('search.count', { n: total.toLocaleString(lang()) }) : t('search.none');
@@ -332,7 +328,6 @@ export function bindMatch(go) {
   goTo = go;
   const f = $('#form-search');
   f.addEventListener('submit', e => { e.preventDefault(); runSearch(true); });
-  f.same_gender.addEventListener('change', () => { f.gender.disabled = f.same_gender.checked; runSearch(true); });
   $('#btn-more').addEventListener('click', () => runSearch(false));
   $('#btn-filters').addEventListener('click', e => {
     const more = $('#filters-more');
@@ -342,7 +337,6 @@ export function bindMatch(go) {
   $('#btn-reset-filters').addEventListener('click', () => {
     $$('select', f).forEach(s => { s.value = ''; });
     f.status.value = 'searching';
-    f.same_gender.checked = true;
     runSearch(true);
   });
   $$('#seg-req button').forEach(b => b.addEventListener('click', () => { box = b.dataset.box; renderRequests(); }));

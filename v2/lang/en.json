@@ -25,7 +25,7 @@
     "s2t": "Fill in your profile",
     "s2d": "Level, recitation, surahs, hizb memorized and availability. City and country only.",
     "s3t": "Find a partner",
-    "s3d": "Filter by level, language, country, schedule… with a same-gender-only option.",
+    "s3d": "Filter by level, language, country, schedule… among members of the same gender.",
     "s4t": "Send a request",
     "s4d": "Your WhatsApp is shared only after the request is accepted.",
     "s5t": "Revise together",
@@ -134,7 +134,8 @@
     "cancel": "Cancel",
     "choose": "Choose…",
     "avatar": "Avatar",
-    "avatar_initial": "First-name initial"
+    "avatar_initial": "First-name initial",
+    "gender_locked": "Gender can no longer be changed. Contact the administrator if it is wrong."
   },
   "gender": {
     "m": "Man",
@@ -184,7 +185,6 @@
   "search": {
     "title": "Find a partner",
     "filters": "Filters",
-    "same_gender": "Same gender only",
     "hizb_min": "Hizb memorized (minimum)",
     "time": "Time",
     "language": "Language",
@@ -194,7 +194,8 @@
     "any": "Any",
     "hizb_n": "{n} hizb or more",
     "count": "{n} member(s) found",
-    "none": "No member matches. Try widening the filters."
+    "none": "No member matches. Try widening the filters.",
+    "same_gender_rule": "For everyone's peace of mind, connections are only between members of the same gender."
   },
   "member": {
     "back": "← Back to search",

@@ -185,7 +185,8 @@
         <legend data-i18n="edit.sec_about"></legend>
         <label><span data-i18n="edit.first_name"></span><input name="first_name" maxlength="50" autocomplete="given-name" required></label>
         <div class="field"><span class="lbl" data-i18n="edit.gender"></span>
-          <div class="chips" id="f-gender"></div></div>
+          <div class="chips" id="f-gender"></div>
+          <small class="hint" id="gender-lock" data-i18n="edit.gender_locked" hidden></small></div>
         <div class="field"><span class="lbl" data-i18n="edit.avatar"></span>
           <div class="avatars" id="f-avatar"></div></div>
         <label><span data-i18n="edit.age_range"></span><select name="age_range" required></select></label>
@@ -241,13 +242,8 @@
         <h2 data-i18n="search.title"></h2>
         <button type="button" id="btn-filters" class="btn btn-line btn-sm" aria-expanded="false" data-i18n="search.filters"></button>
       </div>
-      <label class="switch">
-        <input type="checkbox" name="same_gender" checked>
-        <span class="slider" aria-hidden="true"></span>
-        <span><b data-i18n="search.same_gender"></b></span>
-      </label>
+      <p class="note-soft" data-i18n="search.same_gender_rule"></p>
       <div id="filters-more" class="f-grid" hidden>
-        <label><span data-i18n="edit.gender"></span><select name="gender"></select></label>
         <label><span data-i18n="edit.age_range"></span><select name="age_range"></select></label>
         <label><span data-i18n="edit.level"></span><select name="level"></select></label>
         <label><span data-i18n="edit.riwaya"></span><select name="riwaya"></select></label>
