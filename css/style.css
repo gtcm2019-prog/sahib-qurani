@@ -52,7 +52,8 @@ body.ready { opacity: 1; }
   text-align: center;
   color: var(--gold-soft);
   font-size: 1.35rem;
-  padding: 10px 16px 0;
+  padding: 14px 16px 2px;
+  line-height: 1.9;
   position: relative; z-index: 1;
 }
 .bar {
