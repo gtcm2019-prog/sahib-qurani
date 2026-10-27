@@ -3,6 +3,7 @@ import { detectLang, setLang, lang, t } from './i18n.js';
 import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
 import { showProfile, showEdit, bindProfile, resetProfileCache } from './profile.js';
 import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMatch } from './match.js';
+import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
 
@@ -10,7 +11,7 @@ let session = null;
 
 /* ---------- Navigation ---------- */
 const PUBLIC_VIEWS = ['home', 'login', 'signup', 'forgot'];
-const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests'];
+const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests', 'admin'];
 
 function currentView() {
   const v = (location.hash.replace(/^#\/?/, '').split('?')[0]) || 'home';
@@ -32,10 +33,11 @@ function render() {
   if (v === 'search') showSearch(session);
   if (v === 'member') showMember(session);
   if (v === 'requests') showRequests(session);
+  if (v === 'admin') showAdmin(session);
   const tab = v === 'member' ? 'search' : v === 'edit' ? 'profile' : v;
   $$('.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
   document.body.classList.toggle('has-tabs', !!session);
-  if (session) refreshCount(false, session);
+  if (session) { refreshCount(false, session); checkAdmin(session).then(a => { if (a) refreshAdminCount(); }); }
 }
 
 /* ---------- Formulaires ---------- */
@@ -157,6 +159,7 @@ async function start() {
   bindForms();
   bindProfile(go);
   bindMatch(go);
+  bindAdmin();
 
   const params = new URLSearchParams(location.search);
   const wantsReset = params.has('reset');
@@ -164,7 +167,7 @@ async function start() {
   sb.auth.onAuthStateChange((event, s) => {
     const changed = (session?.user?.id || null) !== (s?.user?.id || null);
     session = s;
-    if (changed) { resetProfileCache(); resetMatch(); }
+    if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); }
     if (!changed && event === 'TOKEN_REFRESHED') return;
     if (event === 'PASSWORD_RECOVERY') go('reset');
     else if (event === 'SIGNED_IN' && changed && ['login', 'signup', 'home'].includes(currentView()) && !wantsReset) go('search');

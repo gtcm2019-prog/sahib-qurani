@@ -177,6 +177,7 @@ input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rg
   .bar-actions { gap: 6px; flex-shrink: 0; }
   #lang-select { padding: 7px 4px; font-size: .8rem; }
   .top .btn-ghost { padding: 7px 10px; font-size: .82rem; }
+  body.has-tabs .top .btn-ghost[data-auth="in"] { display: none; }
   .bismillah { font-size: 1.15rem; }
   .card { padding: 20px 16px; }
 }
@@ -388,3 +389,50 @@ body.has-tabs { padding-bottom: 76px; }
 .danger { margin-top: 8px; padding: 14px; border-radius: 12px; border: 1px solid #F0C9C9; background: #FFF7F7; display: grid; gap: 8px; }
 .danger h3 { color: var(--red) !important; }
 .danger p { margin: 0; }
+
+/* ---------- Espace admin ---------- */
+.btn-admin { border-color: var(--gold) !important; color: var(--gold-soft) !important; }
+.adm { display: grid; gap: 14px; }
+.seg-scroll { overflow-x: auto; }
+.seg-scroll button { white-space: nowrap; }
+.adm-tools { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; }
+.adm-tools label { flex: 1; min-width: 160px; }
+.adm-content { display: grid; gap: 12px; }
+.adm-item.open { border-inline-start: 4px solid var(--gold); }
+.adm-item.urgent { border-inline-start-color: var(--red); background: #FFF8F8; }
+.adm-meta { margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.adm-pair { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.linkish { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+.linkish:disabled { cursor: default; color: var(--muted); }
+.adm-row { width: 100%; text-align: start; font: inherit; cursor: pointer; }
+.adm-badges { display: grid; gap: 6px; }
+.adm-badges .seg { flex-wrap: wrap; }
+.adm-dialog { width: min(640px, calc(100vw - 24px)); max-height: calc(100vh - 40px); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: var(--paper); box-shadow: var(--shadow); }
+.adm-dialog::backdrop { background: rgba(15,46,44,.55); }
+.adm-dialog .profile { display: grid; gap: 16px; }
+.dlg-close { float: inline-end; background: none; border: 0; font-size: 1.6rem; line-height: 1; cursor: pointer; color: var(--muted); }
+.p-private .btn-wa { margin-inline-start: auto; }
+
+.stat-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.stat-tile { display: grid; gap: 2px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.stat-tile strong { font-family: var(--display); font-size: 2rem; color: var(--green); line-height: 1; }
+.stat-tile span { font-size: .85rem; color: var(--green-dark); font-weight: 500; }
+.stat-grid { display: grid; gap: 14px; }
+@media (min-width: 760px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+.stat-block { padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; display: grid; gap: 10px; min-width: 0; }
+.stat-block h3 { margin: 0; font-size: 1.1rem !important; }
+.hbars { display: grid; gap: 6px; }
+.hbar { display: grid; grid-template-columns: minmax(90px, 38%) 1fr auto; gap: 8px; align-items: center; font-size: .85rem; }
+.hbar-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--green-dark); }
+.hbar-track { height: 12px; background: rgba(27,77,74,.07); border-radius: 4px; overflow: hidden; }
+.hbar-fill { height: 100%; background: var(--green); border-radius: 0 4px 4px 0; }
+[dir="rtl"] .hbar-fill { border-radius: 4px 0 0 4px; margin-inline-start: auto; }
+.hbar-val { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 3ch; text-align: end; }
+.hbar:hover .hbar-fill { background: var(--gold); }
+.vbars { display: flex; gap: 4px; align-items: stretch; height: 160px; }
+.vbar { flex: 1; display: grid; grid-template-rows: 1fr auto; gap: 4px; min-width: 0; }
+.vbar-area { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 2px; }
+.vbar-fill { width: 100%; max-width: 28px; background: var(--green); border-radius: 4px 4px 0 0; }
+.vbar:hover .vbar-fill { background: var(--gold); }
+.vbar-val { font-size: .68rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.vbar-label { font-size: .62rem; color: var(--muted); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

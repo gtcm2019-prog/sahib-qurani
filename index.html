@@ -28,6 +28,7 @@
         <option value="es">Español</option>
       </select>
       <a href="#/login" class="btn btn-ghost" data-auth="out" data-i18n="nav.login"></a>
+      <a href="#/admin" class="btn btn-ghost btn-admin" data-admin hidden><span data-i18n="nav.admin"></span> <span class="count adm-count" hidden></span></a>
       <a href="#/profile" class="btn btn-ghost" data-auth="in" data-i18n="nav.account" hidden></a>
     </div>
   </nav>
@@ -291,6 +292,46 @@
       <div id="req-list" class="req-list"></div>
       <p class="msg" role="alert" hidden></p>
     </div>
+  </section>
+
+  <!-- ESPACE ADMIN -->
+  <section data-view="admin" hidden>
+    <div class="card adm">
+      <h2 data-i18n="admin.title"></h2>
+      <div class="seg seg-full seg-scroll" id="seg-admin">
+        <button type="button" data-tab="reports" class="on"><span data-i18n="admin.t_reports"></span> <span class="count adm-count" hidden></span></button>
+        <button type="button" data-tab="members" data-i18n="admin.t_members"></button>
+        <button type="button" data-tab="reviews" data-i18n="admin.t_reviews"></button>
+        <button type="button" data-tab="stats" data-i18n="admin.t_stats"></button>
+      </div>
+      <div data-adm-tools="reports" class="adm-tools">
+        <label><span data-i18n="admin.filter"></span>
+          <select id="adm-rep-filter">
+            <option value="open" data-i18n="admin.rs_open"></option>
+            <option value="reviewed" data-i18n="admin.rs_reviewed"></option>
+            <option value="actioned" data-i18n="admin.rs_actioned"></option>
+            <option value="dismissed" data-i18n="admin.rs_dismissed"></option>
+            <option value="all" data-i18n="search.any"></option>
+          </select></label>
+      </div>
+      <form id="adm-member-form" data-adm-tools="members" class="adm-tools" hidden novalidate>
+        <label><span data-i18n="edit.first_name"></span><input id="adm-q" type="search" dir="auto"></label>
+        <label><span data-i18n="admin.badge"></span>
+          <select id="adm-badge">
+            <option value="" data-i18n="search.any"></option>
+            <option value="none" data-i18n="admin.no_badge"></option>
+            <option value="reliable" data-i18n="badge.reliable"></option>
+            <option value="warning" data-i18n="badge.warning"></option>
+            <option value="banned" data-i18n="badge.banned"></option>
+          </select></label>
+        <button type="submit" class="btn btn-gold btn-sm" data-i18n="search.go"></button>
+      </form>
+      <div id="adm-content" class="adm-content"></div>
+    </div>
+    <dialog id="adm-dialog" class="adm-dialog">
+      <button type="button" id="adm-dialog-close" class="dlg-close" aria-label="×">×</button>
+      <div id="adm-dialog-body"></div>
+    </dialog>
   </section>
 
 </main>
