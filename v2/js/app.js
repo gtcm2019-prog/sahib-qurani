@@ -181,6 +181,9 @@ async function start() {
   }
 
   window.addEventListener('hashchange', render);
+  // Pastille des demandes : mise à jour au retour sur l'onglet et chaque minute
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && session) refreshCount(true, session); });
+  setInterval(() => { if (!document.hidden && session) refreshCount(true, session); }, 60000);
   render();
   loadStats();
   document.body.classList.add('ready');
