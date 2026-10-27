@@ -2,6 +2,7 @@ import { sb } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $, $$, showMsg, busy } from './ui.js';
 import * as D from './data.js';
+import { AVATARS, avatarEl } from './avatar.js';
 
 let cache = null;      // { uid, pub, priv }
 let goTo = () => {};
@@ -62,6 +63,7 @@ export async function showProfile(session) {
   $('#p-ring').setAttribute('aria-label', t('profile.progress_aria', { p: pct }));
 
   $('#p-name').textContent = p.first_name;
+  $('#p-avatar').replaceChildren(avatarEl(p.avatar, p.gender, p.first_name, 52));
   $('#p-place').textContent = [p.city, countryName(p.country)].filter(Boolean).join(lang() === 'ar' ? '، ' : ', ');
   const g = $('#p-gender');
   g.textContent = t('gender.' + p.gender);
@@ -156,6 +158,22 @@ function buildForm(f) {
   fillSelect(f.contact_mode, D.CONTACT_MODES.map(c => [c, t('contact.' + c)]), choose);
 }
 
+function buildAvatars(f, selected) {
+  const box = $('#f-avatar');
+  const gender = checkedValues(f, 'gender')[0];
+  const cur = selected !== undefined ? selected : (checkedValues(f, 'avatar')[0] ?? '');
+  box.replaceChildren();
+  for (const code of ['', ...AVATARS]) {
+    const lab = document.createElement('label');
+    lab.className = 'av-opt';
+    const inp = document.createElement('input');
+    inp.type = 'radio'; inp.name = 'avatar'; inp.value = code; inp.checked = code === (cur || '');
+    lab.setAttribute('aria-label', code ? code : t('edit.avatar_initial'));
+    lab.append(inp, avatarEl(code || null, gender, f.first_name.value, 44));
+    box.append(lab);
+  }
+}
+
 function setChecked(f, name, values) {
   const vals = Array.isArray(values) ? values : [values];
   $$(`input[name="${name}"]`, f).forEach(i => { i.checked = vals.includes(i.value); });
@@ -182,6 +200,7 @@ export async function showEdit(session) {
   $('#edit-cancel').hidden = !p;
   f.first_name.value = p?.first_name || '';
   setChecked(f, 'gender', p?.gender || '');
+  buildAvatars(f, p?.avatar || '');
   f.age_range.value = p?.age_range || '';
   f.country.value = p?.country || '';
   f.city.value = p?.city || '';
@@ -240,7 +259,8 @@ async function saveProfile(e) {
     first_name: first, gender, age_range: f.age_range.value, country: f.country.value,
     city: f.city.value.trim() || null, languages, level: f.level.value, riwaya,
     hizb_memorized: Number(f.hizb_memorized.value), surah_from: sFrom, surah_to: sTo,
-    availability, contact_mode: f.contact_mode.value, ui_language: lang()
+    availability, contact_mode: f.contact_mode.value, ui_language: lang(),
+    avatar: checkedValues(f, 'avatar')[0] || null
   };
   const priv = { whatsapp: wa, guardian_name: gName, guardian_whatsapp: gWa };
 
@@ -266,6 +286,8 @@ export function bindProfile(go) {
   const f = $('#form-profile');
   f.addEventListener('submit', saveProfile);
   f.age_range.addEventListener('change', () => toggleGuardian(f));
+  $('#f-gender').addEventListener('change', () => buildAvatars(f));
+  f.first_name.addEventListener('input', () => buildAvatars(f));
   f.hizb_memorized.addEventListener('input', () => { $('#hizb-out').textContent = f.hizb_memorized.value; });
 
   $$('#seg-status button').forEach(btn => btn.addEventListener('click', async () => {

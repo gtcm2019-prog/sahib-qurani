@@ -128,7 +128,9 @@
     "guardian_whatsapp": "واتساب الولي",
     "save": "حفظ",
     "cancel": "إلغاء",
-    "choose": "اختر…"
+    "choose": "اختر…",
+    "avatar": "الصورة الرمزية",
+    "avatar_initial": "الحرف الأول من الاسم"
   },
   "gender": {
     "m": "ذكر",

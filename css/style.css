@@ -238,7 +238,7 @@ input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rg
 .form-profile { max-width: 640px; margin: 8px auto; display: grid; gap: 18px; }
 .form-profile h2 { margin-bottom: 0; }
 .form-profile > p { margin: 0; }
-fieldset { border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0; display: grid; gap: 14px; background: #fff; }
+fieldset { min-width: 0; border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 0; display: grid; gap: 14px; background: #fff; }
 legend { padding: 0 8px; font-weight: 700; color: var(--gold); font-size: .88rem; text-transform: uppercase; letter-spacing: .6px; }
 [dir="rtl"] legend { text-transform: none; letter-spacing: 0; font-size: 1rem; }
 select {
@@ -263,3 +263,16 @@ label.sub span { font-weight: 400; color: var(--muted); font-size: .82rem; }
 .hizb output { min-width: 3ch; text-align: center; font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--green); }
 .guardian { display: grid; gap: 14px; padding: 14px; border-radius: 12px; background: #FFF8E6; border: 1px solid #F0DDB0; }
 .note { margin: 0; color: #8A5A00; font-size: .9rem; }
+
+/* ---------- Avatars ---------- */
+.avatar { display: block; flex-shrink: 0; }
+.p-title { display: flex; align-items: center; gap: 12px; justify-content: inherit; }
+@media (max-width: 559px) { .p-title { justify-content: center; } }
+.p-title h2 { margin: 0; }
+.avatars { display: flex; flex-wrap: wrap; gap: 6px; }
+.av-opt { position: relative; cursor: pointer; display: grid; place-items: center; padding: 3px; border-radius: 50%; border: 2.5px solid transparent; transition: border-color .15s, transform .15s; }
+.av-opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.av-opt:has(input:checked) { border-color: var(--gold); transform: scale(1.06); }
+.av-opt:has(input:focus-visible) { outline: 2px solid var(--green); outline-offset: 2px; }
+.form-profile > *, .profile > * { min-width: 0; }
+label, .field, fieldset > *, .grid2 > * { min-width: 0; } select, input { min-width: 0; max-width: 100%; }
