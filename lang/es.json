@@ -5,7 +5,10 @@
   "nav": {
     "login": "Iniciar sesión",
     "account": "Mi espacio",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "search": "Buscar",
+    "requests": "Solicitudes",
+    "profile": "Perfil"
   },
   "home": {
     "title": "El Compañero Coránico",
@@ -176,5 +179,61 @@
     "country_PS": "Palestina",
     "lang_ber": "Amazigh (tamazight)",
     "lang_other": "Otro"
+  },
+  "search": {
+    "title": "Encontrar un compañero",
+    "filters": "Filtros",
+    "same_gender": "Solo mismo género",
+    "hizb_min": "Hizb memorizados (mínimo)",
+    "time": "Horario",
+    "language": "Idioma",
+    "go": "Buscar",
+    "reset": "Restablecer",
+    "more": "Ver más",
+    "any": "Todos",
+    "hizb_n": "{n} hizb o más",
+    "count": "{n} miembro(s) encontrado(s)",
+    "none": "Ningún miembro coincide. Prueba a ampliar los filtros."
+  },
+  "member": {
+    "back": "← Volver a la búsqueda",
+    "unavailable": "Este perfil no está disponible.",
+    "unavailable_short": "Miembro no disponible"
+  },
+  "req": {
+    "title": "Mis solicitudes",
+    "received": "Recibidas",
+    "sent": "Enviadas",
+    "send_title": "Proponer repasar juntos",
+    "message_label": "Mensaje (opcional)",
+    "message_ph": "Preséntate en pocas palabras: tus objetivos, tus horarios…",
+    "send": "Enviar solicitud",
+    "minor_note": "Una vez aceptada, el contacto será entre vuestros tutores.",
+    "sent_ok": "Solicitud enviada.",
+    "was_declined": "Tu solicitud anterior no fue aceptada.",
+    "pending_out": "Solicitud enviada el {date}, a la espera de respuesta.",
+    "cancel": "Cancelar solicitud",
+    "pending_in": "{name} te propone repasar juntos.",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "accepted_line": "Conexión aceptada el {date}.",
+    "wa": "Contactar por WhatsApp",
+    "wa_guardian": "Contactar al tutor {name} por WhatsApp",
+    "no_wa": "No hay número de WhatsApp.",
+    "end": "Terminar la conexión",
+    "end_confirm": "¿Terminar esta conexión?",
+    "contact": "Contactar",
+    "empty_in": "Aún no has recibido solicitudes.",
+    "empty_out": "No has enviado ninguna solicitud.",
+    "st_pending": "Pendiente",
+    "st_accepted": "Aceptada",
+    "st_declined": "Rechazada",
+    "st_cancelled": "Cancelada",
+    "err_dup": "Ya hay una solicitud en curso con este miembro.",
+    "err_unavailable": "Este miembro ya no está disponible."
+  },
+  "wa": {
+    "adult": "As-salamu alaykum {name}, soy {me} de Sahib Qurani. Nuestra solicitud fue aceptada: ¿cuándo quieres empezar a repasar?",
+    "minor": "As-salamu alaykum, soy el tutor de {me} en Sahib Qurani. Nuestros hijos fueron conectados para repasar el Corán con {name}. ¿Podemos organizarlo?"
   }
 }

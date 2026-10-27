@@ -5,7 +5,10 @@
   "nav": {
     "login": "Connexion",
     "account": "Mon espace",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "search": "Rechercher",
+    "requests": "Demandes",
+    "profile": "Profil"
   },
   "home": {
     "title": "Le Compagnon Coranique",
@@ -176,5 +179,61 @@
     "country_PS": "Palestine",
     "lang_ber": "Amazighe (tamazight)",
     "lang_other": "Autre"
+  },
+  "search": {
+    "title": "Trouver un partenaire",
+    "filters": "Filtres",
+    "same_gender": "Même genre uniquement",
+    "hizb_min": "Hizb mémorisés (minimum)",
+    "time": "Horaire",
+    "language": "Langue",
+    "go": "Rechercher",
+    "reset": "Réinitialiser",
+    "more": "Voir plus",
+    "any": "Tous",
+    "hizb_n": "{n} hizb ou plus",
+    "count": "{n} membre(s) trouvé(s)",
+    "none": "Aucun membre ne correspond. Essayez d'élargir les filtres."
+  },
+  "member": {
+    "back": "← Retour à la recherche",
+    "unavailable": "Ce profil n'est pas disponible.",
+    "unavailable_short": "Membre indisponible"
+  },
+  "req": {
+    "title": "Mes demandes",
+    "received": "Reçues",
+    "sent": "Envoyées",
+    "send_title": "Proposer de réviser ensemble",
+    "message_label": "Message (facultatif)",
+    "message_ph": "Présentez-vous en quelques mots : vos objectifs, vos horaires…",
+    "send": "Envoyer la demande",
+    "minor_note": "Une fois acceptée, le contact se fera entre vos tuteurs.",
+    "sent_ok": "Demande envoyée.",
+    "was_declined": "Votre demande précédente n'a pas été acceptée.",
+    "pending_out": "Demande envoyée le {date}, en attente de réponse.",
+    "cancel": "Annuler la demande",
+    "pending_in": "{name} vous propose de réviser ensemble.",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "accepted_line": "Mise en relation acceptée le {date}.",
+    "wa": "Contacter sur WhatsApp",
+    "wa_guardian": "Contacter le tuteur {name} sur WhatsApp",
+    "no_wa": "Aucun numéro WhatsApp n'est renseigné.",
+    "end": "Mettre fin à la mise en relation",
+    "end_confirm": "Mettre fin à cette mise en relation ?",
+    "contact": "Contacter",
+    "empty_in": "Aucune demande reçue pour le moment.",
+    "empty_out": "Vous n'avez envoyé aucune demande.",
+    "st_pending": "En attente",
+    "st_accepted": "Acceptée",
+    "st_declined": "Refusée",
+    "st_cancelled": "Annulée",
+    "err_dup": "Une demande est déjà en cours avec ce membre.",
+    "err_unavailable": "Ce membre n'est plus disponible."
+  },
+  "wa": {
+    "adult": "As-salamu alaykum {name}, je suis {me} de Sahib Qurani. Notre demande a été acceptée : quand souhaites-tu commencer à réviser ?",
+    "minor": "As-salamu alaykum, je suis le tuteur de {me} sur Sahib Qurani. Nos enfants ont été mis en relation pour réviser le Coran avec {name}. Pouvons-nous organiser cela ?"
   }
 }

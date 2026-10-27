@@ -43,7 +43,7 @@
       <div class="cta">
         <a href="#/signup" class="btn btn-gold" data-auth="out" data-i18n="home.cta_start"></a>
         <a href="#/login" class="btn btn-line" data-auth="out" data-i18n="home.cta_login"></a>
-        <a href="#/profile" class="btn btn-gold" data-auth="in" data-i18n="nav.account" hidden></a>
+        <a href="#/search" class="btn btn-gold" data-auth="in" data-i18n="search.title" hidden></a>
       </div>
       <p id="stats" class="stats" hidden></p>
     </div>
@@ -132,23 +132,7 @@
   <section data-view="profile" hidden>
     <p id="profile-loading" class="muted center" data-i18n="common.loading"></p>
     <div id="profile-card" class="card profile" hidden>
-      <div class="p-head">
-        <div class="ring" id="p-ring" role="img">
-          <svg viewBox="0 0 120 120" aria-hidden="true">
-            <defs><linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E3C774"/><stop offset="1" stop-color="#C49A28"/></linearGradient></defs>
-            <circle cx="60" cy="60" r="50" class="ring-track"/>
-            <circle cx="60" cy="60" r="50" class="ring-bar" id="p-ring-bar"/>
-          </svg>
-          <div class="ring-text"><strong id="p-pct"></strong><small id="p-hizb"></small></div>
-        </div>
-        <div class="p-id">
-          <div class="p-title"><span id="p-avatar"></span><h2 id="p-name"></h2></div>
-          <p id="p-place" class="muted"></p>
-          <p class="p-tags"><span id="p-gender" class="tag"></span><span id="p-badge" class="tag" hidden></span><span id="p-paused" class="tag tag-pause" data-i18n="profile.paused_tag" hidden></span></p>
-        </div>
-      </div>
-
-      <dl class="p-facts" id="p-facts"></dl>
+      <div id="p-public"></div>
 
       <div class="p-private">
         <span class="lock" aria-hidden="true">🔒</span>
@@ -237,7 +221,72 @@
     </form>
   </section>
 
+  <!-- RECHERCHE -->
+  <section data-view="search" hidden>
+    <form id="form-search" class="card filters" novalidate>
+      <div class="f-head">
+        <h2 data-i18n="search.title"></h2>
+        <button type="button" id="btn-filters" class="btn btn-line btn-sm" aria-expanded="false" data-i18n="search.filters"></button>
+      </div>
+      <label class="switch">
+        <input type="checkbox" name="same_gender" checked>
+        <span class="slider" aria-hidden="true"></span>
+        <span><b data-i18n="search.same_gender"></b></span>
+      </label>
+      <div id="filters-more" class="f-grid" hidden>
+        <label><span data-i18n="edit.gender"></span><select name="gender"></select></label>
+        <label><span data-i18n="edit.age_range"></span><select name="age_range"></select></label>
+        <label><span data-i18n="edit.level"></span><select name="level"></select></label>
+        <label><span data-i18n="edit.riwaya"></span><select name="riwaya"></select></label>
+        <label><span data-i18n="search.hizb_min"></span><select name="hizb_min"></select></label>
+        <label><span data-i18n="edit.contact_mode"></span><select name="contact_mode"></select></label>
+        <label><span data-i18n="search.time"></span><select name="availability"></select></label>
+        <label><span data-i18n="edit.country"></span><select name="country"></select></label>
+        <label><span data-i18n="search.language"></span><select name="language"></select></label>
+        <label><span data-i18n="profile.status"></span><select name="status"></select></label>
+      </div>
+      <div class="p-actions">
+        <button type="submit" class="btn btn-gold" data-i18n="search.go"></button>
+        <button type="button" id="btn-reset-filters" class="link" data-i18n="search.reset"></button>
+      </div>
+    </form>
+    <p id="search-count" class="muted center" hidden></p>
+    <div id="results" class="results"></div>
+    <p class="center"><button type="button" id="btn-more" class="btn btn-line" data-i18n="search.more" hidden></button></p>
+  </section>
+
+  <!-- FICHE D'UN MEMBRE -->
+  <section data-view="member" hidden>
+    <p><a href="#/search" class="back" data-i18n="member.back"></a></p>
+    <p id="member-loading" class="muted center" data-i18n="common.loading"></p>
+    <div id="member-card" class="card profile" hidden>
+      <div id="m-public"></div>
+      <div id="m-relation" class="relation"></div>
+      <p class="msg" role="alert" hidden></p>
+    </div>
+  </section>
+
+  <!-- MES DEMANDES -->
+  <section data-view="requests" hidden>
+    <div class="card">
+      <h2 data-i18n="req.title"></h2>
+      <div class="seg seg-full" id="seg-req">
+        <button type="button" data-box="in" class="on"><span data-i18n="req.received"></span> <span class="count" id="count-in" hidden></span></button>
+        <button type="button" data-box="out" data-i18n="req.sent"></button>
+      </div>
+      <p id="req-loading" class="muted center" data-i18n="common.loading"></p>
+      <div id="req-list" class="req-list"></div>
+      <p class="msg" role="alert" hidden></p>
+    </div>
+  </section>
+
 </main>
+
+<nav class="tabs" data-auth="in" hidden>
+  <a href="#/search" data-tab="search"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span><span data-i18n="nav.search"></span></a>
+  <a href="#/requests" data-tab="requests"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span><span data-i18n="nav.requests"></span><span class="count" id="tab-count" hidden></span></a>
+  <a href="#/profile" data-tab="profile"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span data-i18n="nav.profile"></span></a>
+</nav>
 
 <footer class="foot">
   <span class="star" aria-hidden="true">✦</span>

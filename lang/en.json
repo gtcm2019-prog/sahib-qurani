@@ -5,7 +5,10 @@
   "nav": {
     "login": "Sign in",
     "account": "My space",
-    "logout": "Sign out"
+    "logout": "Sign out",
+    "search": "Search",
+    "requests": "Requests",
+    "profile": "Profile"
   },
   "home": {
     "title": "The Quran Companion",
@@ -176,5 +179,61 @@
     "country_PS": "Palestine",
     "lang_ber": "Amazigh (Tamazight)",
     "lang_other": "Other"
+  },
+  "search": {
+    "title": "Find a partner",
+    "filters": "Filters",
+    "same_gender": "Same gender only",
+    "hizb_min": "Hizb memorized (minimum)",
+    "time": "Time",
+    "language": "Language",
+    "go": "Search",
+    "reset": "Reset",
+    "more": "Show more",
+    "any": "Any",
+    "hizb_n": "{n} hizb or more",
+    "count": "{n} member(s) found",
+    "none": "No member matches. Try widening the filters."
+  },
+  "member": {
+    "back": "← Back to search",
+    "unavailable": "This profile is not available.",
+    "unavailable_short": "Member unavailable"
+  },
+  "req": {
+    "title": "My requests",
+    "received": "Received",
+    "sent": "Sent",
+    "send_title": "Suggest revising together",
+    "message_label": "Message (optional)",
+    "message_ph": "Introduce yourself in a few words: your goals, your schedule…",
+    "send": "Send request",
+    "minor_note": "Once accepted, contact will be between your guardians.",
+    "sent_ok": "Request sent.",
+    "was_declined": "Your previous request was not accepted.",
+    "pending_out": "Request sent on {date}, awaiting reply.",
+    "cancel": "Cancel request",
+    "pending_in": "{name} suggests revising together.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "accepted_line": "Connection accepted on {date}.",
+    "wa": "Contact on WhatsApp",
+    "wa_guardian": "Contact guardian {name} on WhatsApp",
+    "no_wa": "No WhatsApp number provided.",
+    "end": "End this connection",
+    "end_confirm": "End this connection?",
+    "contact": "Contact",
+    "empty_in": "No requests received yet.",
+    "empty_out": "You have not sent any requests.",
+    "st_pending": "Pending",
+    "st_accepted": "Accepted",
+    "st_declined": "Declined",
+    "st_cancelled": "Cancelled",
+    "err_dup": "A request is already open with this member.",
+    "err_unavailable": "This member is no longer available."
+  },
+  "wa": {
+    "adult": "As-salamu alaykum {name}, I am {me} from Sahib Qurani. Our request was accepted: when would you like to start revising?",
+    "minor": "As-salamu alaykum, I am the guardian of {me} on Sahib Qurani. Our children were connected to revise the Quran with {name}. Can we arrange this?"
   }
 }
