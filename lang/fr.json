@@ -235,5 +235,56 @@
   "wa": {
     "adult": "As-salamu alaykum {name}, je suis {me} de Sahib Qurani. Notre demande a été acceptée : quand souhaites-tu commencer à réviser ?",
     "minor": "As-salamu alaykum, je suis le tuteur de {me} sur Sahib Qurani. Nos enfants ont été mis en relation pour réviser le Coran avec {name}. Pouvons-nous organiser cela ?"
+  },
+  "rev": {
+    "no_reviews": "Aucun avis",
+    "aria": "Note moyenne {avg} sur 5, {n} avis",
+    "n_stars": "{n} étoile(s)",
+    "add_title": "Donner votre avis sur {name}",
+    "edit_title": "Modifier votre avis sur {name}",
+    "comment_ph": "Comment se passent vos révisions ? (facultatif)",
+    "save": "Publier mon avis",
+    "err_rating": "Choisissez une note de 1 à 5 étoiles.",
+    "saved": "Avis enregistré. Merci !",
+    "list_title": "Avis reçus",
+    "my_title": "Mes avis reçus",
+    "my_empty": "Vous n'avez encore reçu aucun avis.",
+    "hide_hint": "Vous pouvez masquer le commentaire d'un avis ; sa note reste comptée dans votre moyenne.",
+    "hide": "Masquer le commentaire",
+    "show": "Afficher le commentaire"
+  },
+  "safe": {
+    "title": "Signaler ou bloquer",
+    "reason": "Motif du signalement",
+    "details_ph": "Expliquez brièvement ce qui s'est passé (facultatif)",
+    "report": "Envoyer le signalement",
+    "report_hint": "Votre signalement est confidentiel et sera examiné par l'administrateur.",
+    "err_reason": "Choisissez un motif.",
+    "err_dup": "Vous avez déjà un signalement en cours pour ce membre.",
+    "reported": "Signalement envoyé. Merci, il sera examiné.",
+    "block": "Bloquer {name}",
+    "block_hint": "Un membre bloqué ne vous voit plus et ne peut plus vous contacter. Votre mise en relation éventuelle prend fin.",
+    "block_confirm": "Bloquer {name} ? Vous ne vous verrez plus l'un l'autre.",
+    "blocked_title": "Membres bloqués",
+    "no_blocks": "Aucun membre bloqué.",
+    "unblock": "Débloquer"
+  },
+  "reason": {
+    "absences": "Absences répétées",
+    "not_serious": "Manque de sérieux",
+    "inappropriate": "Comportement inapproprié",
+    "false_info": "Informations fausses",
+    "sudden_stop": "Arrêt soudain",
+    "other": "Autre"
+  },
+  "acct": {
+    "delete_title": "Supprimer mon compte",
+    "delete_text": "Votre profil, vos demandes, vos avis et toutes vos données seront définitivement effacés.",
+    "delete_btn": "Supprimer mon compte",
+    "delete_confirm1": "Supprimer définitivement votre compte et toutes vos données ? Cette action est irréversible.",
+    "delete_confirm2": "Pour confirmer, tapez {word} :",
+    "delete_word": "SUPPRIMER",
+    "delete_mismatch": "Mot de confirmation incorrect. Rien n'a été supprimé.",
+    "deleted": "Votre compte a été supprimé."
   }
 }

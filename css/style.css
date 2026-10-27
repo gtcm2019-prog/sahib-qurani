@@ -353,3 +353,38 @@ body.has-tabs { padding-bottom: 76px; }
 .ring-sm .ring-text strong { font-size: 1.3rem; }
 
 .p-id h2, .m-top b, .req-who b { unicode-bidi: plaintext; }
+
+/* ---------- Avis, signalement, blocage ---------- */
+.small { font-size: .82rem; }
+.trust { display: grid; gap: 16px; }
+.trust:empty { display: none; }
+.trust h3, .rev-summary h3, #account-card h3 { margin: 0; color: var(--green); font-family: var(--display); font-size: 1.3rem; }
+[dir="rtl"] .trust h3, [dir="rtl"] #account-card h3 { font-family: 'Amiri', serif; }
+.stars { display: inline-flex; align-items: center; gap: 4px; font-size: .82rem; }
+.stars-ico { color: var(--gold); letter-spacing: 1px; }
+.m-top .stars { font-size: .75rem; }
+.m-top .stars small { display: none; }
+.star-pick { display: flex; gap: 4px; direction: ltr; }
+.star-pick label { cursor: pointer; font-size: 2rem; line-height: 1; color: #D9D0BF; transition: color .1s, transform .1s; }
+.star-pick label.on { color: var(--gold); }
+.star-pick label:hover { transform: scale(1.12); }
+.star-pick input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.rev-form, .rev-list, .rep-form { display: grid; gap: 10px; }
+.rev-item { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; display: grid; gap: 4px; }
+.rev-item.faded { opacity: .55; }
+.rev-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.rev-text { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rev-summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.safety { border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; background: #fff; }
+.safety summary { cursor: pointer; padding: 10px 0; color: var(--muted); font-weight: 600; }
+.safety[open] { padding-bottom: 14px; }
+.safety hr { border: 0; border-top: 1px solid var(--line); margin: 16px 0 8px; }
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #9E2F2F; }
+.btn-block { width: 100%; }
+.block-list { display: grid; gap: 8px; }
+.block-row { display: flex; align-items: center; gap: 10px; }
+.block-row b { flex: 1; }
+.danger { margin-top: 8px; padding: 14px; border-radius: 12px; border: 1px solid #F0C9C9; background: #FFF7F7; display: grid; gap: 8px; }
+.danger h3 { color: var(--red) !important; }
+.danger p { margin: 0; }

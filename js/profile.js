@@ -4,6 +4,7 @@ import { $, $$, showMsg, busy } from './ui.js';
 import * as D from './data.js';
 import { AVATARS, avatarEl } from './avatar.js';
 import { countryName, languageName, surahName, profileCard } from './card.js';
+import { renderMyReviews, renderMyBlocks, deleteAccount } from './trust.js';
 
 let cache = null;      // { uid, pub, priv }
 let goTo = () => {};
@@ -28,7 +29,7 @@ export async function loadMine(session) {
 /* ---------- Affichage du profil ---------- */
 export async function showProfile(session) {
   const card = $('#profile-card'), loading = $('#profile-loading');
-  card.hidden = true; loading.hidden = false;
+  card.hidden = true; loading.hidden = false; $('#account-card').hidden = true;
   let me;
   try { me = await loadMine(session); }
   catch (e) { loading.textContent = t('err.generic'); return; }
@@ -51,6 +52,9 @@ export async function showProfile(session) {
   $('#chk-pause').checked = !!p.is_paused;
 
   card.hidden = false;
+  $('#account-card').hidden = false;
+  renderMyReviews(p);
+  renderMyBlocks(p);
 }
 
 async function updateField(fields) {
@@ -229,6 +233,7 @@ async function saveProfile(e) {
 /* ---------- Liaisons ---------- */
 export function bindProfile(go) {
   goTo = go;
+  $('#btn-delete').addEventListener('click', () => deleteAccount(() => { cache = null; goTo('home'); }));
   const f = $('#form-profile');
   f.addEventListener('submit', saveProfile);
   f.age_range.addEventListener('change', () => toggleGuardian(f));

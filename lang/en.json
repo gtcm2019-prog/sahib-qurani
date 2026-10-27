@@ -235,5 +235,56 @@
   "wa": {
     "adult": "As-salamu alaykum {name}, I am {me} from Sahib Qurani. Our request was accepted: when would you like to start revising?",
     "minor": "As-salamu alaykum, I am the guardian of {me} on Sahib Qurani. Our children were connected to revise the Quran with {name}. Can we arrange this?"
+  },
+  "rev": {
+    "no_reviews": "No reviews",
+    "aria": "Average rating {avg} out of 5, {n} reviews",
+    "n_stars": "{n} star(s)",
+    "add_title": "Review {name}",
+    "edit_title": "Edit your review of {name}",
+    "comment_ph": "How are your revisions going? (optional)",
+    "save": "Post my review",
+    "err_rating": "Choose a rating from 1 to 5 stars.",
+    "saved": "Review saved. Thank you!",
+    "list_title": "Reviews received",
+    "my_title": "My reviews",
+    "my_empty": "You have not received any reviews yet.",
+    "hide_hint": "You can hide a review's comment; its rating still counts in your average.",
+    "hide": "Hide comment",
+    "show": "Show comment"
+  },
+  "safe": {
+    "title": "Report or block",
+    "reason": "Reason for report",
+    "details_ph": "Briefly explain what happened (optional)",
+    "report": "Send report",
+    "report_hint": "Your report is confidential and will be reviewed by the administrator.",
+    "err_reason": "Choose a reason.",
+    "err_dup": "You already have an open report for this member.",
+    "reported": "Report sent. Thank you, it will be reviewed.",
+    "block": "Block {name}",
+    "block_hint": "A blocked member can no longer see or contact you. Any connection between you ends.",
+    "block_confirm": "Block {name}? You will no longer see each other.",
+    "blocked_title": "Blocked members",
+    "no_blocks": "No blocked members.",
+    "unblock": "Unblock"
+  },
+  "reason": {
+    "absences": "Repeated absences",
+    "not_serious": "Lack of seriousness",
+    "inappropriate": "Inappropriate behavior",
+    "false_info": "False information",
+    "sudden_stop": "Sudden stop",
+    "other": "Other"
+  },
+  "acct": {
+    "delete_title": "Delete my account",
+    "delete_text": "Your profile, requests, reviews and all your data will be permanently erased.",
+    "delete_btn": "Delete my account",
+    "delete_confirm1": "Permanently delete your account and all your data? This cannot be undone.",
+    "delete_confirm2": "To confirm, type {word}:",
+    "delete_word": "DELETE",
+    "delete_mismatch": "Incorrect confirmation word. Nothing was deleted.",
+    "deleted": "Your account has been deleted."
   }
 }
