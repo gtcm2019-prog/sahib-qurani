@@ -339,5 +339,18 @@
     "s_city": "Villes (30 premières)",
     "s_hizb": "Hizb mémorisés",
     "hizb_range": "{r} hizb"
+  },
+  "pwa": {
+    "title": "Installer l'application",
+    "text": "Accès direct depuis votre écran d'accueil, comme une application.",
+    "install": "Installer",
+    "ios_title": "Installer sur iPhone / iPad",
+    "ios_safari": "Ouvrez d'abord ce site dans Safari : l'installation n'est possible que depuis Safari.",
+    "ios_s1t": "Touchez « Partager »",
+    "ios_s1d": "en bas de l'écran (carré avec une flèche)",
+    "ios_s2t": "« Sur l'écran d'accueil »",
+    "ios_s2d": "Faites défiler le menu et touchez cette option.",
+    "ios_s3t": "Touchez « Ajouter »",
+    "ios_s3d": "L'icône Sahib Qurani apparaît sur votre écran d'accueil."
   }
 }
