@@ -1,0 +1,49 @@
+// Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
+const VERSION = 'sq-v1';
+const SHELL = [
+  './', 'index.html', 'css/style.css', 'manifest.webmanifest',
+  'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',
+  'js/avatar.js', 'js/profile.js', 'js/match.js', 'js/trust.js', 'js/admin.js', 'js/pwa.js',
+  'js/vendor/supabase.js',
+  'lang/ar.json', 'lang/fr.json', 'lang/en.json', 'lang/es.json',
+  'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-32.png'
+];
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', e => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  // Supabase (comptes, base) : jamais en cache
+  if (url.hostname.endsWith('supabase.co')) return;
+  // Polices Google : cache d'abord
+  if (url.hostname.includes('fonts.g')) {
+    e.respondWith(caches.open(VERSION).then(async c => {
+      const hit = await c.match(req);
+      if (hit) return hit;
+      const res = await fetch(req);
+      if (res.ok || res.type === 'opaque') c.put(req, res.clone());
+      return res;
+    }));
+    return;
+  }
+  if (url.origin !== location.origin) return;
+  // Fichiers du site : réseau d'abord (toujours à jour), cache si hors ligne
+  e.respondWith(
+    fetch(req).then(res => {
+      if (res.ok) { const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); }
+      return res;
+    }).catch(async () => (await caches.match(req, { ignoreSearch: true })) ||
+      (req.mode === 'navigate' ? caches.match('index.html') : Response.error()))
+  );
+});

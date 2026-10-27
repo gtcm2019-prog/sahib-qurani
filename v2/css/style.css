@@ -438,3 +438,14 @@ body.has-tabs { padding-bottom: 76px; }
 .vbar-label { font-size: .62rem; color: var(--muted); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .note-soft { margin: 0; font-size: .88rem; color: var(--green); background: rgba(27,77,74,.06); border-radius: 10px; padding: 8px 12px; }
+
+/* ---------- Installation (PWA) ---------- */
+.install { display: flex; align-items: center; gap: 14px; }
+.install img { border-radius: 14px; flex-shrink: 0; }
+.install > div { flex: 1; display: grid; min-width: 0; }
+.install b { color: var(--green); }
+.install-row { padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.ios-guide h2 { margin: 0 0 12px; font-size: 1.4rem; }
+.ios-steps { grid-template-columns: 1fr !important; }
+.ios-ico { vertical-align: -4px; color: #0A84FF; }
+@media (display-mode: standalone) { .top { padding-top: env(safe-area-inset-top); } }

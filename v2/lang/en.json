@@ -339,5 +339,18 @@
     "s_city": "Cities (top 30)",
     "s_hizb": "Hizb memorized",
     "hizb_range": "{r} hizb"
+  },
+  "pwa": {
+    "title": "Install the app",
+    "text": "Open it straight from your home screen, like an app.",
+    "install": "Install",
+    "ios_title": "Install on iPhone / iPad",
+    "ios_safari": "First open this site in Safari: installation only works from Safari.",
+    "ios_s1t": "Tap “Share”",
+    "ios_s1d": "at the bottom of the screen (square with an arrow)",
+    "ios_s2t": "“Add to Home Screen”",
+    "ios_s2d": "Scroll the menu and tap this option.",
+    "ios_s3t": "Tap “Add”",
+    "ios_s3d": "The Sahib Qurani icon appears on your home screen."
   }
 }

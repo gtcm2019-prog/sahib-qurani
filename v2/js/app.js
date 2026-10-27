@@ -3,6 +3,7 @@ import { detectLang, setLang, lang, t } from './i18n.js';
 import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
 import { showProfile, showEdit, bindProfile, resetProfileCache } from './profile.js';
 import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMatch } from './match.js';
+import { initPwa } from './pwa.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
@@ -160,6 +161,7 @@ async function start() {
   bindProfile(go);
   bindMatch(go);
   bindAdmin();
+  initPwa();
 
   const params = new URLSearchParams(location.search);
   const wantsReset = params.has('reset');
