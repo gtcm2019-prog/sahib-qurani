@@ -12,7 +12,17 @@ import webpush from 'npm:web-push@3.6.7';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
 const URL_ = Deno.env.get('SUPABASE_URL')!;
-const SERVICE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+function serviceKey(): string {
+  const legacy = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (legacy) return legacy;
+  const single = Deno.env.get('SUPABASE_SECRET_KEY');
+  if (single) return single;
+  try {
+    const all = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') ?? '{}');
+    return all.default ?? Object.values(all)[0] ?? '';
+  } catch { return ''; }
+}
+const SERVICE = serviceKey();
 const PUB = Deno.env.get('VAPID_PUBLIC_KEY') ?? '';
 const PRIV = Deno.env.get('VAPID_PRIVATE_KEY') ?? '';
 const SUBJECT = Deno.env.get('VAPID_SUBJECT') ?? 'mailto:admin@sahibqurani.com';
