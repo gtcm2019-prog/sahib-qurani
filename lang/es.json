@@ -352,5 +352,16 @@
     "ios_s2d": "Desplaza el menú y toca esta opción.",
     "ios_s3t": "Toca «Añadir»",
     "ios_s3d": "El icono de Sahib Qurani aparece en tu pantalla de inicio."
+  },
+  "notif": {
+    "title": "Notificaciones en este dispositivo",
+    "hint": "Nuevas solicitudes y solicitudes aceptadas.",
+    "on": "Activadas en este dispositivo.",
+    "denied": "Notificaciones bloqueadas: permítelas para este sitio en los ajustes del navegador.",
+    "unsupported": "Este navegador no admite notificaciones.",
+    "ios_install": "En iPhone, instala primero la aplicación (botón «Instalar») y ábrela desde su icono.",
+    "server": "Servicio de notificaciones no disponible por ahora.",
+    "test": "Enviar una notificación de prueba",
+    "test_sent": "Notificación de prueba enviada."
   }
 }

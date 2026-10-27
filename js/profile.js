@@ -5,6 +5,7 @@ import * as D from './data.js';
 import { AVATARS, avatarEl } from './avatar.js';
 import { countryName, languageName, surahName, profileCard } from './card.js';
 import { renderMyReviews, renderMyBlocks, deleteAccount } from './trust.js';
+import { renderNotif, bindNotif } from './notify.js';
 
 let cache = null;      // { uid, pub, priv }
 let goTo = () => {};
@@ -55,6 +56,7 @@ export async function showProfile(session) {
   $('#account-card').hidden = false;
   renderMyReviews(p);
   renderMyBlocks(p);
+  renderNotif();
 }
 
 async function updateField(fields) {
@@ -235,6 +237,7 @@ async function saveProfile(e) {
 /* ---------- Liaisons ---------- */
 export function bindProfile(go) {
   goTo = go;
+  bindNotif();
   $('#btn-delete').addEventListener('click', () => deleteAccount(() => { cache = null; goTo('home'); }));
   const f = $('#form-profile');
   f.addEventListener('submit', saveProfile);

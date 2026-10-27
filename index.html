@@ -183,6 +183,15 @@
         <div><b data-i18n="pwa.title"></b><small class="muted" data-i18n="pwa.text"></small></div>
         <button type="button" class="btn btn-gold btn-sm btn-install" data-i18n="pwa.install"></button>
       </div>
+      <div class="notif-row">
+        <label class="switch">
+          <input type="checkbox" id="chk-notif">
+          <span class="slider" aria-hidden="true"></span>
+          <span><b data-i18n="notif.title"></b><small class="muted" data-i18n="notif.hint"></small></span>
+        </label>
+        <p id="notif-state" class="small muted"></p>
+        <button type="button" id="btn-notif-test" class="link" data-i18n="notif.test" hidden></button>
+      </div>
       <h3 data-i18n="safe.blocked_title"></h3>
       <div id="p-blocks" class="block-list"></div>
       <div class="danger">

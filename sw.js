@@ -1,9 +1,9 @@
 // Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
-const VERSION = 'sq-v1';
+const VERSION = 'sq-v2';
 const SHELL = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',
-  'js/avatar.js', 'js/profile.js', 'js/match.js', 'js/trust.js', 'js/admin.js', 'js/pwa.js',
+  'js/avatar.js', 'js/profile.js', 'js/match.js', 'js/trust.js', 'js/admin.js', 'js/pwa.js', 'js/notify.js',
   'js/vendor/supabase.js',
   'lang/ar.json', 'lang/fr.json', 'lang/en.json', 'lang/es.json',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-32.png'
@@ -46,4 +46,29 @@ self.addEventListener('fetch', e => {
     }).catch(async () => (await caches.match(req, { ignoreSearch: true })) ||
       (req.mode === 'navigate' ? caches.match('index.html') : Response.error()))
   );
+});
+
+// Notifications push
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) { d = { body: e.data && e.data.text() }; }
+  e.waitUntil(self.registration.showNotification(d.title || 'Sahib Qurani', {
+    body: d.body || '',
+    icon: 'icons/icon-192.png',
+    badge: 'icons/favicon-32.png',
+    tag: d.tag || 'sq',
+    renotify: true,
+    data: { url: d.url || '' }
+  }));
+});
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const target = new URL(self.registration.scope).href + (e.notification.data && e.notification.data.url || '');
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) {
+      if (c.url.startsWith(self.registration.scope) && 'focus' in c) { c.navigate(target).catch(() => {}); return c.focus(); }
+    }
+    return self.clients.openWindow(target);
+  }));
 });

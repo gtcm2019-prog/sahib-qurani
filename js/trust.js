@@ -4,6 +4,7 @@ import { t, lang } from './i18n.js';
 import { $, showMsg, busy } from './ui.js';
 import { el } from './card.js';
 import { avatarEl } from './avatar.js';
+import { notify } from './notify.js';
 
 let trustSeq = 0;
 const REASONS = ['absences', 'not_serious', 'inappropriate', 'false_info', 'sudden_stop', 'other'];
@@ -129,9 +130,10 @@ export async function renderMemberTrust(p, me, isPartner, onBlocked) {
     e.preventDefault();
     if (!sel.value) return showMsg(card, 'safe.err_reason');
     busy(rep, true);
-    const { error } = await sb.from('reports').insert({
+    const { data: newRep, error } = await sb.from('reports').insert({
       reporter_id: me.id, reported_id: p.id, reason: sel.value, details: det.value.trim() || null
-    });
+    }).select('id').single();
+    if (!error && newRep) notify('report', newRep.id);
     busy(rep, false);
     if (error) { console.warn(error); return showMsg(card, error.code === '23505' ? 'safe.err_dup' : 'err.generic'); }
     rep.reset();
