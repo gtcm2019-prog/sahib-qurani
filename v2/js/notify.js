@@ -84,7 +84,17 @@ export function bindNotif() {
     renderNotif();
   });
   $('#btn-notif-test').addEventListener('click', async () => {
-    const { data } = await sb.functions.invoke('notify', { body: { type: 'test' } });
-    setState(data?.sent ? 'notif.test_sent' : 'notif.server', data?.sent ? 'muted' : 'error-text');
+    const { data, error } = await sb.functions.invoke('notify', { body: { type: 'test' } });
+    if (data?.sent) return setState('notif.test_sent');
+    // Diagnostic : code renvoyé par le serveur
+    let detail = data ? JSON.stringify(data) : '';
+    if (error) {
+      const res = error.context;
+      let body = '';
+      try { body = res && typeof res.text === 'function' ? await res.text() : ''; } catch (e) { /* ignore */ }
+      detail = `${res?.status || ''} ${body || error.message}`.trim();
+    }
+    setState('notif.server', 'error-text');
+    $('#notif-state').textContent += ' [' + detail.slice(0, 160) + ']';
   });
 }
