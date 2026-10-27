@@ -164,6 +164,11 @@ async function start() {
   bindMatch(go);
   bindAdmin();
   initPwa();
+  // Nouvelle version installée : recharger une fois pour l'utiliser
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; location.reload(); } });
+  }
 
   const params = new URLSearchParams(location.search);
   const wantsReset = params.has('reset');
