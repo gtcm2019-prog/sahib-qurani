@@ -235,5 +235,56 @@
   "wa": {
     "adult": "As-salamu alaykum {name}, soy {me} de Sahib Qurani. Nuestra solicitud fue aceptada: ¿cuándo quieres empezar a repasar?",
     "minor": "As-salamu alaykum, soy el tutor de {me} en Sahib Qurani. Nuestros hijos fueron conectados para repasar el Corán con {name}. ¿Podemos organizarlo?"
+  },
+  "rev": {
+    "no_reviews": "Sin opiniones",
+    "aria": "Valoración media {avg} de 5, {n} opiniones",
+    "n_stars": "{n} estrella(s)",
+    "add_title": "Opinar sobre {name}",
+    "edit_title": "Editar tu opinión sobre {name}",
+    "comment_ph": "¿Cómo van vuestros repasos? (opcional)",
+    "save": "Publicar mi opinión",
+    "err_rating": "Elige una nota de 1 a 5 estrellas.",
+    "saved": "Opinión guardada. ¡Gracias!",
+    "list_title": "Opiniones recibidas",
+    "my_title": "Mis opiniones recibidas",
+    "my_empty": "Aún no has recibido opiniones.",
+    "hide_hint": "Puedes ocultar el comentario de una opinión; su nota sigue contando en tu media.",
+    "hide": "Ocultar comentario",
+    "show": "Mostrar comentario"
+  },
+  "safe": {
+    "title": "Denunciar o bloquear",
+    "reason": "Motivo de la denuncia",
+    "details_ph": "Explica brevemente lo ocurrido (opcional)",
+    "report": "Enviar denuncia",
+    "report_hint": "Tu denuncia es confidencial y la revisará el administrador.",
+    "err_reason": "Elige un motivo.",
+    "err_dup": "Ya tienes una denuncia abierta sobre este miembro.",
+    "reported": "Denuncia enviada. Gracias, será revisada.",
+    "block": "Bloquear a {name}",
+    "block_hint": "Un miembro bloqueado ya no te ve ni puede contactarte. La conexión entre vosotros termina.",
+    "block_confirm": "¿Bloquear a {name}? Dejaréis de veros.",
+    "blocked_title": "Miembros bloqueados",
+    "no_blocks": "Ningún miembro bloqueado.",
+    "unblock": "Desbloquear"
+  },
+  "reason": {
+    "absences": "Ausencias repetidas",
+    "not_serious": "Falta de seriedad",
+    "inappropriate": "Comportamiento inapropiado",
+    "false_info": "Información falsa",
+    "sudden_stop": "Abandono repentino",
+    "other": "Otro"
+  },
+  "acct": {
+    "delete_title": "Eliminar mi cuenta",
+    "delete_text": "Tu perfil, solicitudes, opiniones y todos tus datos se borrarán definitivamente.",
+    "delete_btn": "Eliminar mi cuenta",
+    "delete_confirm1": "¿Eliminar definitivamente tu cuenta y todos tus datos? No se puede deshacer.",
+    "delete_confirm2": "Para confirmar, escribe {word}:",
+    "delete_word": "ELIMINAR",
+    "delete_mismatch": "Palabra incorrecta. No se ha eliminado nada.",
+    "deleted": "Tu cuenta ha sido eliminada."
   }
 }

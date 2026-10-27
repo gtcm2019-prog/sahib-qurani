@@ -105,6 +105,7 @@ export function memberRow(p, href) {
   const a = el('a', 'm-row');
   a.href = href;
   a.dataset.gender = p.gender;
+  a.dataset.id = p.id;
   const info = el('div', 'm-info');
   const top = el('div', 'm-top');
   top.append(el('b', null, p.first_name));

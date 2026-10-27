@@ -6,6 +6,7 @@ import * as D from './data.js';
 import { loadMine } from './profile.js';
 import { el, profileCard, memberRow, countryName, languageName } from './card.js';
 import { avatarEl } from './avatar.js';
+import { decorateRows, renderMemberTrust } from './trust.js';
 
 const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at';
 const PAGE = 20;
@@ -94,6 +95,7 @@ async function runSearch(reset) {
   count.textContent = total ? t('search.count', { n: total.toLocaleString(lang()) }) : t('search.none');
   count.hidden = false;
   for (const p of data) list.append(memberRow(p, '#/member?id=' + p.id));
+  decorateRows(list);
   page++;
   more.hidden = !(total > page * PAGE);
 }
@@ -130,6 +132,10 @@ async function renderRelation(p) {
   if (seq !== relSeq) return;
   zone.replaceChildren();
   const iSent = r && r.sender_id === me.id;
+  renderMemberTrust(p, me, r?.status === 'accepted', () => {
+    searchedLang = null; $('#results').replaceChildren(); searchSeq = 0;
+    goTo('search');
+  });
 
   // Aucune demande en cours : formulaire
   if (!r || r.status === 'declined' || r.status === 'cancelled') {

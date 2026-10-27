@@ -155,9 +155,21 @@
       </div>
       <p class="msg" role="alert" hidden></p>
 
+      <div id="p-reviews" class="trust"></div>
+
       <div class="p-actions">
         <a href="#/edit" class="btn btn-gold" data-i18n="profile.edit"></a>
         <button type="button" id="btn-logout" class="btn btn-line" data-i18n="nav.logout"></button>
+      </div>
+    </div>
+
+    <div id="account-card" class="card profile" hidden>
+      <h3 data-i18n="safe.blocked_title"></h3>
+      <div id="p-blocks" class="block-list"></div>
+      <div class="danger">
+        <h3 data-i18n="acct.delete_title"></h3>
+        <p class="muted" data-i18n="acct.delete_text"></p>
+        <button type="button" id="btn-delete" class="btn btn-danger" data-i18n="acct.delete_btn"></button>
       </div>
     </div>
   </section>
@@ -262,6 +274,7 @@
     <div id="member-card" class="card profile" hidden>
       <div id="m-public"></div>
       <div id="m-relation" class="relation"></div>
+      <div id="m-trust" class="trust"></div>
       <p class="msg" role="alert" hidden></p>
     </div>
   </section>
