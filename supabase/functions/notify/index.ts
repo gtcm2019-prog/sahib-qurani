@@ -87,9 +87,11 @@ async function langOf(uid: string): Promise<Lang> {
 }
 
 // Envoie à tous les appareils d'un membre ; supprime les abonnements expirés.
+const lastErrors: string[] = [];
 async function pushTo(uid: string, kind: string, vars: Record<string, string>, url: string) {
-  const { data: subs } = await db.from('push_subscriptions').select('id, endpoint, p256dh, auth').eq('user_id', uid);
-  if (!subs?.length) return 0;
+  const { data: subs, error: qe } = await db.from('push_subscriptions').select('id, endpoint, p256dh, auth').eq('user_id', uid);
+  if (qe) lastErrors.push('db: ' + qe.message);
+  if (!subs?.length) { lastErrors.push('no_subscription'); return 0; }
   const lang = await langOf(uid);
   const [title, body] = TEXT[kind][lang];
   let text = body;
@@ -103,6 +105,7 @@ async function pushTo(uid: string, kind: string, vars: Record<string, string>, u
       sent++;
     } catch (e) {
       const code = (e as { statusCode?: number }).statusCode;
+      lastErrors.push(`push ${code ?? ''} ${(e as { body?: string }).body ?? (e as Error).message}`.slice(0, 200));
       if (code === 404 || code === 410) await db.from('push_subscriptions').delete().eq('id', s.id);
       else console.warn('push error', code, (e as Error).message);
     }
@@ -116,9 +119,10 @@ Deno.serve(async req => {
 
   // Membre connecté uniquement
   const token = (req.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '');
-  const { data: u } = await db.auth.getUser(token);
+  if (!SERVICE) return json({ error: 'service_key_missing' }, 500);
+  const { data: u, error: ue } = await db.auth.getUser(token);
   const me = u?.user?.id;
-  if (!me) return json({ error: 'auth' }, 401);
+  if (!me) return json({ error: 'auth', detail: ue?.message ?? '' }, 401);
 
   let body: { type?: string; id?: string } = {};
   try { body = await req.json(); } catch { /* corps vide */ }
@@ -127,7 +131,11 @@ Deno.serve(async req => {
   if (type === 'key') return json({ key: PUB });
   if (!PUB || !PRIV) return json({ error: 'vapid_missing' }, 500);
 
-  if (type === 'test') return json({ sent: await pushTo(me, 'test', {}, '#/profile') });
+  if (type === 'test') {
+    lastErrors.length = 0;
+    const sent = await pushTo(me, 'test', {}, '#/profile');
+    return json({ sent, errors: lastErrors, service: SERVICE ? 'ok' : 'missing' });
+  }
 
   if (!id || !/^[0-9a-f-]{36}$/i.test(id)) return json({ error: 'id' }, 400);
 
