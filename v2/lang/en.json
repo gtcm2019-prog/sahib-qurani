@@ -352,5 +352,16 @@
     "ios_s2d": "Scroll the menu and tap this option.",
     "ios_s3t": "Tap “Add”",
     "ios_s3d": "The Sahib Qurani icon appears on your home screen."
+  },
+  "notif": {
+    "title": "Notifications on this device",
+    "hint": "New requests and accepted requests.",
+    "on": "Enabled on this device.",
+    "denied": "Notifications blocked: allow them for this site in your browser settings.",
+    "unsupported": "This browser does not support notifications.",
+    "ios_install": "On iPhone, first install the app (“Install” button), then open it from its icon.",
+    "server": "Notification service unavailable at the moment.",
+    "test": "Send a test notification",
+    "test_sent": "Test notification sent."
   }
 }

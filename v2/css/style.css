@@ -449,3 +449,9 @@ body.has-tabs { padding-bottom: 76px; }
 .ios-steps { grid-template-columns: 1fr !important; }
 .ios-ico { vertical-align: -4px; color: #0A84FF; }
 @media (display-mode: standalone) { .top { padding-top: env(safe-area-inset-top); } }
+
+/* ---------- Notifications ---------- */
+.notif-row { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.notif-row p { margin: 0; }
+.notif-row .link { justify-self: start; font-size: .88rem; }
+.error-text { color: var(--red); }

@@ -7,6 +7,7 @@ import { loadMine } from './profile.js';
 import { el, profileCard, memberRow, countryName, languageName } from './card.js';
 import { avatarEl } from './avatar.js';
 import { decorateRows, renderMemberTrust } from './trust.js';
+import { notify } from './notify.js';
 
 const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at';
 const PAGE = 20;
@@ -151,7 +152,8 @@ async function renderRelation(p) {
     form.addEventListener('submit', async e => {
       e.preventDefault();
       busy(form, true);
-      const { error } = await sb.from('requests').insert({ sender_id: me.id, receiver_id: p.id, message: ta.value.trim() || null });
+      const { data: created, error } = await sb.from('requests').insert({ sender_id: me.id, receiver_id: p.id, message: ta.value.trim() || null }).select('id').single();
+      if (!error && created) notify('request', created.id);
       busy(form, false);
       if (error) { console.warn(error); return showMsg(card, reqErr(error)); }
       showMsg(card, 'req.sent_ok', 'ok');
@@ -215,6 +217,7 @@ async function renderRelation(p) {
 
 async function answer(id, status, then) {
   const { error } = await sb.from('requests').update({ status }).eq('id', id);
+  if (!error && status === 'accepted') notify('accepted', id);
   if (error) { console.warn(error); alert(t('err.generic')); return; }
   refreshCount(true);
   then && then();

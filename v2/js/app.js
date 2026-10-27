@@ -4,6 +4,7 @@ import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
 import { showProfile, showEdit, bindProfile, resetProfileCache } from './profile.js';
 import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMatch } from './match.js';
 import { initPwa } from './pwa.js';
+import { disable as disableNotif } from './notify.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
@@ -118,6 +119,7 @@ function bindForms() {
   }));
 
   $('#btn-logout').addEventListener('click', async () => {
+    await disableNotif().catch(() => {});   // cet appareil ne reçoit plus les notifications du compte
     await sb.auth.signOut();
     go('home');
   });
