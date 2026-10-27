@@ -3,32 +3,17 @@ import { t, lang } from './i18n.js';
 import { $, $$, showMsg, busy } from './ui.js';
 import * as D from './data.js';
 import { AVATARS, avatarEl } from './avatar.js';
+import { countryName, languageName, surahName, profileCard } from './card.js';
 
 let cache = null;      // { uid, pub, priv }
 let goTo = () => {};
 
 export function resetProfileCache() { cache = null; }
 
-/* ---------- Libellés ---------- */
-function override(key) { const s = t(key); return s === key ? null : s; }
-
-export function countryName(code) {
-  if (!code) return '';
-  try { return override('names.country_' + code) || new Intl.DisplayNames([lang()], { type: 'region' }).of(code); }
-  catch (e) { return code; }
-}
-export function languageName(code) {
-  try { return override('names.lang_' + code) || new Intl.DisplayNames([lang()], { type: 'language' }).of(code); }
-  catch (e) { return code; }
-}
-export function surahName(n) {
-  if (!n) return '';
-  return lang() === 'ar' ? `${n}. ${D.SURAHS_AR[n - 1]}` : `${n}. ${D.SURAHS_LATIN[n - 1]}`;
-}
 const collator = () => new Intl.Collator(lang());
 
 /* ---------- Données ---------- */
-async function loadMine(session) {
+export async function loadMine(session) {
   const uid = session.user.id;
   if (cache && cache.uid === uid) return cache;
   const [pub, priv] = await Promise.all([
@@ -51,47 +36,8 @@ export async function showProfile(session) {
   const p = me.pub;
   loading.hidden = true;
 
-  // Cercle de progression
-  const pct = Math.round((p.hizb_memorized / D.HIZB_TOTAL) * 100);
-  const circ = 2 * Math.PI * 50;
-  const bar = $('#p-ring-bar');
-  bar.style.strokeDasharray = circ;
-  bar.style.strokeDashoffset = circ;
-  requestAnimationFrame(() => requestAnimationFrame(() => { bar.style.strokeDashoffset = circ * (1 - pct / 100); }));
-  $('#p-pct').textContent = new Intl.NumberFormat(lang(), { style: 'percent' }).format(pct / 100);
-  $('#p-hizb').textContent = t('profile.hizb_of', { n: p.hizb_memorized, total: D.HIZB_TOTAL });
-  $('#p-ring').setAttribute('aria-label', t('profile.progress_aria', { p: pct }));
-
-  $('#p-name').textContent = p.first_name;
-  $('#p-avatar').replaceChildren(avatarEl(p.avatar, p.gender, p.first_name, 52));
-  $('#p-place').textContent = [p.city, countryName(p.country)].filter(Boolean).join(lang() === 'ar' ? '، ' : ', ');
-  const g = $('#p-gender');
-  g.textContent = t('gender.' + p.gender);
-  g.className = 'tag tag-' + p.gender;
+  $('#p-public').replaceChildren(profileCard(p));
   card.dataset.gender = p.gender;
-  const b = $('#p-badge');
-  b.hidden = !p.badge;
-  if (p.badge) { b.textContent = t('badge.' + p.badge); b.className = 'tag badge-' + p.badge; }
-  $('#p-paused').hidden = !p.is_paused;
-
-  // Informations
-  const facts = [
-    ['edit.level', t('level.' + p.level)],
-    ['edit.riwaya', t('riwaya.' + p.riwaya)],
-    ['edit.age_range', t('age.' + p.age_range)],
-    ['edit.languages', (p.languages || []).map(languageName).join(lang() === 'ar' ? '، ' : ', ')],
-    ['profile.surahs', p.surah_from && p.surah_to ? `${surahName(p.surah_from)} ${lang() === 'ar' ? '←' : '→'} ${surahName(p.surah_to)}` : '—'],
-    ['edit.availability', (p.availability || []).map(a => t('avail.' + a)).join(lang() === 'ar' ? '، ' : ', ') || '—'],
-    ['edit.contact_mode', t('contact.' + p.contact_mode)]
-  ];
-  const dl = $('#p-facts');
-  dl.replaceChildren();
-  for (const [k, v] of facts) {
-    const wrap = document.createElement('div');
-    const dt = document.createElement('dt'); dt.textContent = t(k);
-    const dd = document.createElement('dd'); dd.textContent = v;
-    wrap.append(dt, dd); dl.append(wrap);
-  }
 
   // WhatsApp (visible par soi seul ici)
   const priv = me.priv || {};
@@ -294,12 +240,13 @@ export function bindProfile(go) {
     if (btn.classList.contains('on')) return;
     if (await updateField({ status: btn.dataset.status })) {
       $$('#seg-status button').forEach(x => x.classList.toggle('on', x === btn));
+      $('#p-public').replaceChildren(profileCard(cache.pub));
     }
   }));
 
   $('#chk-pause').addEventListener('change', async e => {
     const on = e.target.checked;
-    if (await updateField({ is_paused: on })) $('#p-paused').hidden = !on;
+    if (await updateField({ is_paused: on })) $('#p-public').replaceChildren(profileCard(cache.pub));
     else e.target.checked = !on;
   });
 }
