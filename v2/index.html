@@ -128,13 +128,111 @@
     </form>
   </section>
 
-  <!-- MON ESPACE (profil : étape suivante) -->
+  <!-- MON PROFIL -->
   <section data-view="profile" hidden>
-    <div class="card">
-      <h2 data-i18n="profile.soon_title"></h2>
-      <p class="muted" data-i18n="profile.soon_text"></p>
-      <button type="button" id="btn-logout" class="btn btn-line" data-i18n="nav.logout"></button>
+    <p id="profile-loading" class="muted center" data-i18n="common.loading"></p>
+    <div id="profile-card" class="card profile" hidden>
+      <div class="p-head">
+        <div class="ring" id="p-ring" role="img">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <defs><linearGradient id="gold-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E3C774"/><stop offset="1" stop-color="#C49A28"/></linearGradient></defs>
+            <circle cx="60" cy="60" r="50" class="ring-track"/>
+            <circle cx="60" cy="60" r="50" class="ring-bar" id="p-ring-bar"/>
+          </svg>
+          <div class="ring-text"><strong id="p-pct"></strong><small id="p-hizb"></small></div>
+        </div>
+        <div class="p-id">
+          <h2 id="p-name"></h2>
+          <p id="p-place" class="muted"></p>
+          <p class="p-tags"><span id="p-gender" class="tag"></span><span id="p-badge" class="tag" hidden></span><span id="p-paused" class="tag tag-pause" data-i18n="profile.paused_tag" hidden></span></p>
+        </div>
+      </div>
+
+      <dl class="p-facts" id="p-facts"></dl>
+
+      <div class="p-private">
+        <span class="lock" aria-hidden="true">🔒</span>
+        <div><b id="p-wa"></b><small class="muted" data-i18n="profile.wa_private"></small></div>
+      </div>
+
+      <div class="p-controls">
+        <div>
+          <span class="ctl-label" data-i18n="profile.status"></span>
+          <div class="seg" id="seg-status">
+            <button type="button" data-status="searching" data-i18n="status.searching"></button>
+            <button type="button" data-status="found" data-i18n="status.found"></button>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="chk-pause">
+          <span class="slider" aria-hidden="true"></span>
+          <span><b data-i18n="profile.pause"></b><small class="muted" data-i18n="profile.pause_hint"></small></span>
+        </label>
+      </div>
+      <p class="msg" role="alert" hidden></p>
+
+      <div class="p-actions">
+        <a href="#/edit" class="btn btn-gold" data-i18n="profile.edit"></a>
+        <button type="button" id="btn-logout" class="btn btn-line" data-i18n="nav.logout"></button>
+      </div>
     </div>
+  </section>
+
+  <!-- CRÉER / MODIFIER LE PROFIL -->
+  <section data-view="edit" hidden>
+    <form id="form-profile" class="card form-profile" novalidate>
+      <h2 id="edit-title"></h2>
+      <p class="muted" data-i18n="edit.intro"></p>
+
+      <fieldset>
+        <legend data-i18n="edit.sec_about"></legend>
+        <label><span data-i18n="edit.first_name"></span><input name="first_name" maxlength="50" autocomplete="given-name" required></label>
+        <div class="field"><span class="lbl" data-i18n="edit.gender"></span>
+          <div class="chips" id="f-gender"></div></div>
+        <label><span data-i18n="edit.age_range"></span><select name="age_range" required></select></label>
+        <div class="grid2">
+          <label><span data-i18n="edit.country"></span><select name="country" required></select></label>
+          <label><span data-i18n="edit.city"></span><input name="city" maxlength="80" autocomplete="address-level2"></label>
+        </div>
+        <div class="field"><span class="lbl" data-i18n="edit.languages"></span>
+          <div class="chips chips-wrap" id="f-languages"></div></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="edit.sec_quran"></legend>
+        <div class="grid2">
+          <label><span data-i18n="edit.level"></span><select name="level" required></select></label>
+          <div class="field"><span class="lbl" data-i18n="edit.riwaya"></span><div class="chips" id="f-riwaya"></div></div>
+        </div>
+        <label><span data-i18n="edit.hizb"></span>
+          <div class="hizb"><input type="range" name="hizb_memorized" min="0" max="60" step="1" value="0"><output id="hizb-out">0</output></div>
+        </label>
+        <div class="field"><span class="lbl" data-i18n="edit.surahs"></span>
+          <div class="grid2">
+            <label class="sub"><span data-i18n="edit.from"></span><select name="surah_from"></select></label>
+            <label class="sub"><span data-i18n="edit.to"></span><select name="surah_to"></select></label>
+          </div></div>
+      </fieldset>
+
+      <fieldset>
+        <legend data-i18n="edit.sec_contact"></legend>
+        <div class="field"><span class="lbl" data-i18n="edit.availability"></span><div class="chips" id="f-availability"></div></div>
+        <label><span data-i18n="edit.contact_mode"></span><select name="contact_mode" required></select></label>
+        <label id="wa-own"><span data-i18n="edit.whatsapp"></span><input name="whatsapp" type="tel" dir="ltr" inputmode="tel" placeholder="+212 6 12 34 56 78" autocomplete="tel">
+          <small class="hint" data-i18n="edit.whatsapp_hint"></small></label>
+        <div id="guardian" class="guardian" hidden>
+          <p class="note" data-i18n="edit.guardian_note"></p>
+          <label><span data-i18n="edit.guardian_name"></span><input name="guardian_name" maxlength="80"></label>
+          <label><span data-i18n="edit.guardian_whatsapp"></span><input name="guardian_whatsapp" type="tel" dir="ltr" inputmode="tel" placeholder="+212 6 12 34 56 78"></label>
+        </div>
+      </fieldset>
+
+      <p class="msg" role="alert" hidden></p>
+      <div class="p-actions">
+        <button type="submit" class="btn btn-gold" data-i18n="edit.save"></button>
+        <a href="#/profile" id="edit-cancel" class="btn btn-line" data-i18n="edit.cancel"></a>
+      </div>
+    </form>
   </section>
 
 </main>

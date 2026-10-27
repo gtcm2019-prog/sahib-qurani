@@ -1,6 +1,12 @@
 {
-  "app": { "title": "Sahib Qurani – The Quran Companion" },
-  "nav": { "login": "Sign in", "account": "My space", "logout": "Sign out" },
+  "app": {
+    "title": "Sahib Qurani – The Quran Companion"
+  },
+  "nav": {
+    "login": "Sign in",
+    "account": "My space",
+    "logout": "Sign out"
+  },
   "home": {
     "title": "The Quran Companion",
     "subtitle": "Find a committed partner to memorize and revise the Quran, online or near you.",
@@ -10,12 +16,18 @@
   },
   "guide": {
     "title": "How it works",
-    "s1t": "Create an account", "s1d": "With Google or your email, in a few seconds.",
-    "s2t": "Fill in your profile", "s2d": "Level, recitation, surahs, hizb memorized and availability. City and country only.",
-    "s3t": "Find a partner", "s3d": "Filter by level, language, country, schedule… with a same-gender-only option.",
-    "s4t": "Send a request", "s4d": "Your WhatsApp is shared only after the request is accepted.",
-    "s5t": "Revise together", "s5d": "Then set your status to “Partner found”.",
-    "s6t": "Review or report", "s6d": "Reviews build trust. Every report is checked by the administrator."
+    "s1t": "Create an account",
+    "s1d": "With Google or your email, in a few seconds.",
+    "s2t": "Fill in your profile",
+    "s2d": "Level, recitation, surahs, hizb memorized and availability. City and country only.",
+    "s3t": "Find a partner",
+    "s3d": "Filter by level, language, country, schedule… with a same-gender-only option.",
+    "s4t": "Send a request",
+    "s4d": "Your WhatsApp is shared only after the request is accepted.",
+    "s5t": "Revise together",
+    "s5d": "Then set your status to “Partner found”.",
+    "s6t": "Review or report",
+    "s6d": "Reviews build trust. Every report is checked by the administrator."
   },
   "hadith": {
     "text": "“Keep refreshing your bond with this Quran. By the One in whose hand is the soul of Muhammad, it slips away faster than a camel from its tether.”",
@@ -58,11 +70,109 @@
     "google_off": "Google sign-in is not available yet.",
     "same_password": "Choose a password different from the old one.",
     "network": "Internet connection problem.",
-    "generic": "Something went wrong. Please try again."
+    "generic": "Something went wrong. Please try again.",
+    "required": "Please fill in all required fields.",
+    "surah_order": "The starting surah must come before the ending surah.",
+    "phone": "Invalid number. Example: +212 612345678",
+    "guardian": "The guardian's name and WhatsApp are required.",
+    "whatsapp": "The WhatsApp number is required."
   },
   "profile": {
-    "soon_title": "Welcome",
-    "soon_text": "You are signed in. Profile creation comes in the next step."
+    "paused_tag": "Paused",
+    "wa_private": "Shared only after a request is accepted.",
+    "status": "My status",
+    "pause": "Pause my profile",
+    "pause_hint": "It no longer appears in searches.",
+    "edit": "Edit my profile",
+    "hizb_of": "{n} / {total} hizb",
+    "progress_aria": "{p}% of the Quran memorized",
+    "guardian_line": "Guardian: {name} · {wa}",
+    "surahs": "Current surahs"
   },
-  "footer": { "lang": "Language", "text": "Sahib Qurani – The Quran Companion" }
+  "footer": {
+    "lang": "Language",
+    "text": "Sahib Qurani – The Quran Companion"
+  },
+  "common": {
+    "loading": "Loading…"
+  },
+  "status": {
+    "searching": "Looking",
+    "found": "Partner found"
+  },
+  "edit": {
+    "title_new": "Create my profile",
+    "title_edit": "Edit my profile",
+    "intro": "This information helps find the right partner. Only your city and country are shown, never your address.",
+    "sec_about": "About you",
+    "first_name": "First name",
+    "gender": "Gender",
+    "age_range": "Age range",
+    "country": "Country",
+    "city": "City (optional)",
+    "languages": "Languages spoken",
+    "sec_quran": "Your Quran journey",
+    "level": "Level",
+    "riwaya": "Recitation",
+    "hizb": "Hizb memorized (0 to 60)",
+    "surahs": "Current surahs (optional)",
+    "from": "From",
+    "to": "To",
+    "sec_contact": "Availability and contact",
+    "availability": "Availability",
+    "contact_mode": "Revision mode",
+    "whatsapp": "WhatsApp number",
+    "whatsapp_hint": "With country code. Never public: shared only after acceptance.",
+    "guardian_note": "Under 18: contact goes through a parent or guardian.",
+    "guardian_name": "Guardian's name",
+    "guardian_whatsapp": "Guardian's WhatsApp",
+    "save": "Save",
+    "cancel": "Cancel",
+    "choose": "Choose…"
+  },
+  "gender": {
+    "m": "Man",
+    "f": "Woman"
+  },
+  "level": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "hafiz": "Full hafiz"
+  },
+  "riwaya": {
+    "hafs": "Hafs ʿan ʿĀṣim",
+    "warsh": "Warsh ʿan Nāfiʿ"
+  },
+  "age": {
+    "lt8": "Under 8",
+    "8-12": "8 – 12",
+    "13-17": "13 – 17",
+    "18-24": "18 – 24",
+    "25-34": "25 – 34",
+    "35-44": "35 – 44",
+    "45-54": "45 – 54",
+    "55+": "55 and over"
+  },
+  "avail": {
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "flexible": "Flexible"
+  },
+  "contact": {
+    "online": "Online",
+    "in_person": "In person",
+    "both": "Both"
+  },
+  "badge": {
+    "reliable": "Reliable",
+    "warning": "Warning",
+    "banned": "Banned"
+  },
+  "names": {
+    "country_PS": "Palestine",
+    "lang_ber": "Amazigh (Tamazight)",
+    "lang_other": "Other"
+  }
 }
