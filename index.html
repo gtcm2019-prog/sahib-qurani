@@ -1,9 +1,149 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="fr" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url=sahib-qurani-ar.html">
-<script>window.location.href='sahib-qurani-ar.html';</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1B4D4A">
+<meta name="description" content="Sahib Qurani – trouvez un partenaire pour mémoriser et réviser le Coran.">
+<title>Sahib Qurani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&family=Noto+Kufi+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body></body>
+<body>
+
+<header class="top">
+  <div class="bismillah" lang="ar" dir="rtl">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+  <nav class="bar">
+    <a href="#/" class="brand">
+      <span class="brand-mark" aria-hidden="true">۞</span>
+      <span class="brand-text"><strong>Sahib Qurani</strong><small lang="ar" dir="rtl">صاحب القرآن</small></span>
+    </a>
+    <div class="bar-actions">
+      <select id="lang-select" data-i18n-aria="footer.lang">
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+      </select>
+      <a href="#/login" class="btn btn-ghost" data-auth="out" data-i18n="nav.login"></a>
+      <a href="#/profile" class="btn btn-ghost" data-auth="in" data-i18n="nav.account" hidden></a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ACCUEIL -->
+  <section data-view="home">
+    <div class="hero">
+      <h1 data-i18n="home.title"></h1>
+      <p class="lead" data-i18n="home.subtitle"></p>
+      <div class="cta">
+        <a href="#/signup" class="btn btn-gold" data-auth="out" data-i18n="home.cta_start"></a>
+        <a href="#/login" class="btn btn-line" data-auth="out" data-i18n="home.cta_login"></a>
+        <a href="#/profile" class="btn btn-gold" data-auth="in" data-i18n="nav.account" hidden></a>
+      </div>
+      <p id="stats" class="stats" hidden></p>
+    </div>
+
+    <div class="card">
+      <h2 class="sec" data-i18n="guide.title"></h2>
+      <ol class="steps">
+        <li><b data-i18n="guide.s1t"></b><span data-i18n="guide.s1d"></span></li>
+        <li><b data-i18n="guide.s2t"></b><span data-i18n="guide.s2d"></span></li>
+        <li><b data-i18n="guide.s3t"></b><span data-i18n="guide.s3d"></span></li>
+        <li><b data-i18n="guide.s4t"></b><span data-i18n="guide.s4d"></span></li>
+        <li><b data-i18n="guide.s5t"></b><span data-i18n="guide.s5d"></span></li>
+        <li><b data-i18n="guide.s6t"></b><span data-i18n="guide.s6d"></span></li>
+      </ol>
+    </div>
+
+    <figure class="card hadith">
+      <p class="hadith-ar" lang="ar" dir="rtl">«تَعَاهَدُوا هَذَا الْقُرْآنَ، فَوَالَّذِي نَفْسُ مُحَمَّدٍ بِيَدِهِ لَهُوَ أَشَدُّ تَفَلُّتًا مِنَ الإِبِلِ فِي عُقُلِهَا»</p>
+      <p class="hadith-tr" data-i18n="hadith.text"></p>
+      <figcaption data-i18n="hadith.src"></figcaption>
+    </figure>
+  </section>
+
+  <!-- CONNEXION -->
+  <section data-view="login" hidden>
+    <form id="form-login" class="card auth" novalidate>
+      <h2 data-i18n="auth.login_title"></h2>
+      <button type="button" class="btn btn-google"><span class="g" aria-hidden="true">G</span><span data-i18n="auth.google"></span></button>
+      <div class="or"><span data-i18n="auth.or"></span></div>
+      <label><span data-i18n="auth.email"></span><input name="email" type="email" dir="ltr" autocomplete="email" required></label>
+      <label><span data-i18n="auth.password"></span>
+        <span class="pw"><input name="password" type="password" dir="ltr" autocomplete="current-password" required><button type="button" class="pw-toggle" aria-label="👁">👁</button></span>
+      </label>
+      <p class="msg" role="alert" hidden></p>
+      <p id="resend-wrap" hidden><button type="button" id="btn-resend" class="link" data-i18n="auth.resend"></button></p>
+      <button type="submit" class="btn btn-gold" data-i18n="auth.login_btn"></button>
+      <p class="links"><a href="#/forgot" data-i18n="auth.forgot_link"></a><a href="#/signup" data-i18n="auth.no_account"></a></p>
+    </form>
+  </section>
+
+  <!-- INSCRIPTION -->
+  <section data-view="signup" hidden>
+    <form id="form-signup" class="card auth" novalidate>
+      <h2 data-i18n="auth.signup_title"></h2>
+      <button type="button" class="btn btn-google"><span class="g" aria-hidden="true">G</span><span data-i18n="auth.google"></span></button>
+      <div class="or"><span data-i18n="auth.or"></span></div>
+      <label><span data-i18n="auth.email"></span><input name="email" type="email" dir="ltr" autocomplete="email" required></label>
+      <label><span data-i18n="auth.password"></span>
+        <span class="pw"><input name="password" type="password" dir="ltr" autocomplete="new-password" required><button type="button" class="pw-toggle" aria-label="👁">👁</button></span>
+        <small class="hint" data-i18n="auth.pw_rule"></small>
+      </label>
+      <label><span data-i18n="auth.password_confirm"></span><input name="password2" type="password" dir="ltr" autocomplete="new-password" required></label>
+      <p class="msg" role="alert" hidden></p>
+      <button type="submit" class="btn btn-gold" data-i18n="auth.signup_btn"></button>
+      <p class="links"><a href="#/login" data-i18n="auth.have_account"></a></p>
+    </form>
+  </section>
+
+  <!-- MOT DE PASSE OUBLIÉ -->
+  <section data-view="forgot" hidden>
+    <form id="form-forgot" class="card auth" novalidate>
+      <h2 data-i18n="auth.forgot_title"></h2>
+      <p class="muted" data-i18n="auth.forgot_text"></p>
+      <label><span data-i18n="auth.email"></span><input name="email" type="email" dir="ltr" autocomplete="email" required></label>
+      <p class="msg" role="alert" hidden></p>
+      <button type="submit" class="btn btn-gold" data-i18n="auth.forgot_btn"></button>
+      <p class="links"><a href="#/login" data-i18n="auth.back_login"></a></p>
+    </form>
+  </section>
+
+  <!-- NOUVEAU MOT DE PASSE -->
+  <section data-view="reset" hidden>
+    <form id="form-reset" class="card auth" novalidate>
+      <h2 data-i18n="auth.reset_title"></h2>
+      <label><span data-i18n="auth.password_new"></span>
+        <span class="pw"><input name="password" type="password" dir="ltr" autocomplete="new-password" required><button type="button" class="pw-toggle" aria-label="👁">👁</button></span>
+        <small class="hint" data-i18n="auth.pw_rule"></small>
+      </label>
+      <label><span data-i18n="auth.password_confirm"></span><input name="password2" type="password" dir="ltr" autocomplete="new-password" required></label>
+      <p class="msg" role="alert" hidden></p>
+      <button type="submit" class="btn btn-gold" data-i18n="auth.reset_btn"></button>
+    </form>
+  </section>
+
+  <!-- MON ESPACE (profil : étape suivante) -->
+  <section data-view="profile" hidden>
+    <div class="card">
+      <h2 data-i18n="profile.soon_title"></h2>
+      <p class="muted" data-i18n="profile.soon_text"></p>
+      <button type="button" id="btn-logout" class="btn btn-line" data-i18n="nav.logout"></button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span class="star" aria-hidden="true">✦</span>
+  <p data-i18n="footer.text"></p>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
 </html>
