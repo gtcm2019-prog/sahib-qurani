@@ -1,9 +1,9 @@
 // Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
-const VERSION = 'sq-v15';
+const VERSION = 'sq-v16';
 const SHELL = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',
-  'js/avatar.js', 'js/profile.js', 'js/match.js', 'js/trust.js', 'js/admin.js', 'js/pwa.js', 'js/notify.js', 'js/share.js', 'js/clock.js', 'js/partner.js', 'js/onboard.js',
+  'js/avatar.js', 'js/profile.js', 'js/match.js', 'js/trust.js', 'js/admin.js', 'js/pwa.js', 'js/notify.js', 'js/share.js', 'js/clock.js', 'js/partner.js',
   'js/vendor/supabase.js',
   'lang/ar.json', 'lang/fr.json', 'lang/en.json', 'lang/es.json',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-32.png',
