@@ -339,7 +339,22 @@
     "s_monthly": "Sign-ups per month (last 12)",
     "s_city": "Cities (top 30)",
     "s_hizb": "Hizb memorized",
-    "hizb_range": "{r} hizb"
+    "hizb_range": "{r} hizb",
+    "t_shares": "Shares",
+    "sh_shares": "Shares",
+    "sh_week": "{n} in the last 7 days",
+    "sh_sharers": "Members who share",
+    "sh_visits": "Visits via a link",
+    "sh_signups": "Sign-ups gained",
+    "sh_rate": "{p}% of visits",
+    "sh_hint": "Each share contains a personal link: visits and sign-ups gained thanks to each member are counted. Country, city and language come from the sharer's profile.",
+    "sh_top": "Top ambassadors",
+    "sh_c_shares": "Shares",
+    "sh_c_visits": "Visits",
+    "sh_c_signups": "Sign-ups",
+    "sh_weekly": "Shares per week",
+    "sh_monthly": "Shares per month",
+    "sh_lang": "Share language"
   },
   "pwa": {
     "title": "Install the app",

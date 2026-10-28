@@ -5,7 +5,7 @@ import { sb } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $, $$, showMsg } from './ui.js';
 import * as D from './data.js';
-import { el, profileCard, countryName, place } from './card.js';
+import { el, profileCard, countryName, place, languageName } from './card.js';
 import { avatarEl } from './avatar.js';
 import { starsEl, loadRatings } from './trust.js';
 
@@ -309,6 +309,55 @@ async function renderStats(zone, my) {
   zone.append(grid);
 }
 
+/* ================= PARTAGES ET PARRAINAGE ================= */
+async function renderShares(zone, my) {
+  const { data: s, error } = await sb.rpc('admin_share_stats');
+  if (my !== seq) return;
+  zone.replaceChildren();
+  if (error) { console.warn(error); zone.append(el('p', 'msg error', t('err.generic'))); return; }
+  const rate = s.visits ? Math.round((s.signups / s.visits) * 100) : 0;
+  const tiles = el('div', 'stat-tiles');
+  tiles.append(
+    tile(t('admin.sh_shares'), s.shares, t('admin.sh_week', { n: fmtNum(s.shares_week) })),
+    tile(t('admin.sh_sharers'), s.sharers),
+    tile(t('admin.sh_visits'), s.visits),
+    tile(t('admin.sh_signups'), s.signups, t('admin.sh_rate', { p: rate }) + ' · ' + t('admin.sh_week', { n: fmtNum(s.signups_week) }))
+  );
+  zone.append(tiles, el('p', 'muted small', t('admin.sh_hint')));
+
+  // Classement des ambassadeurs
+  const top = el('section', 'stat-block');
+  top.append(el('h3', null, t('admin.sh_top')));
+  if (!s.top?.length) top.append(el('p', 'muted', '—'));
+  else {
+    const head = el('div', 'rank-row rank-head');
+    head.append(el('span', null, '#'), el('span', null, ''), el('span', null, t('admin.sh_c_shares')), el('span', null, t('admin.sh_c_visits')), el('span', null, t('admin.sh_c_signups')));
+    top.append(head);
+    s.top.forEach((p, i) => {
+      const row = el('div', 'rank-row');
+      const cell = el('div', 'rank-who');
+      cell.append(who(p, async x => { const m = (await profilesById([x.id]))[x.id]; if (m) openMember(m); }));
+      const pl = [p.city, p.country ? countryName(p.country) : ''].filter(Boolean).join(lang() === 'ar' ? '، ' : ', ');
+      if (pl) cell.append(el('small', 'muted', pl));
+      row.append(el('b', 'rank-n', String(i + 1)), cell, el('span', null, fmtNum(p.shares)), el('span', null, fmtNum(p.visits)), el('b', 'rank-sign', fmtNum(p.signups)));
+      top.append(row);
+    });
+  }
+  zone.append(top);
+
+  const shortDate = k => new Intl.DateTimeFormat(lang(), { day: 'numeric', month: 'short' }).format(new Date(k + 'T00:00:00'));
+  const shortMonth = k => new Intl.DateTimeFormat(lang(), { month: 'short', year: '2-digit' }).format(new Date(k + '-01T00:00:00'));
+  const grid = el('div', 'stat-grid');
+  grid.append(
+    columns(t('admin.sh_weekly'), s.weekly || [], shortDate),
+    columns(t('admin.sh_monthly'), s.monthly || [], shortMonth),
+    bars(t('edit.country'), sorted(s.by_country).slice(0, 15), countryName),
+    bars(t('admin.s_city'), (s.by_city || []).map(([c, k, n]) => [c + ' · ' + k, n]), x => x),
+    bars(t('admin.sh_lang'), sorted(s.by_lang), k => { const n = languageName(k); return n.charAt(0).toLocaleUpperCase(lang()) + n.slice(1); })
+  );
+  zone.append(grid);
+}
+
 /* ================= AFFICHAGE ================= */
 export async function showAdmin(session) {
   const zone = $('#adm-content');
@@ -321,6 +370,7 @@ export async function showAdmin(session) {
   if (tab === 'members') renderMembers(zone, my);
   if (tab === 'reviews') renderReviews(zone, my);
   if (tab === 'stats') renderStats(zone, my);
+  if (tab === 'shares') renderShares(zone, my);
   refreshAdminCount(true);
 }
 

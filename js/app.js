@@ -6,6 +6,7 @@ import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMat
 import { initPwa } from './pwa.js';
 import { disable as disableNotif } from './notify.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
+import { captureRef, onSession as shareSession, bindShare } from './share.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
 
@@ -143,14 +144,6 @@ function bindLang() {
   });
 }
 
-/* ---------- Partager l'application via WhatsApp ---------- */
-function bindShare() {
-  $('#tab-share').addEventListener('click', () => {
-    const text = t('share.msg', { url: 'https://sahibqurani.com' });
-    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
-  });
-}
-
 /* ---------- Statistiques publiques ---------- */
 async function loadStats() {
   const box = $('#stats');
@@ -184,6 +177,7 @@ async function start() {
     navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; location.reload(); } });
   }
 
+  captureRef();
   const params = new URLSearchParams(location.search);
   const wantsReset = params.has('reset');
 
@@ -191,6 +185,8 @@ async function start() {
     const changed = (session?.user?.id || null) !== (s?.user?.id || null);
     session = s;
     if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); }
+    // Hors du rappel d'authentification (évite un blocage de supabase-js)
+    setTimeout(() => shareSession(s), 0);
     if (!changed && event === 'TOKEN_REFRESHED') return;
     if (event === 'PASSWORD_RECOVERY') go('reset');
     else if (event === 'SIGNED_IN' && changed && ['login', 'signup', 'home'].includes(currentView()) && !wantsReset) go('search');

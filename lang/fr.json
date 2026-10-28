@@ -339,7 +339,22 @@
     "s_monthly": "Inscriptions par mois (12 derniers)",
     "s_city": "Villes (30 premières)",
     "s_hizb": "Hizb mémorisés",
-    "hizb_range": "{r} hizb"
+    "hizb_range": "{r} hizb",
+    "t_shares": "Partages",
+    "sh_shares": "Partages",
+    "sh_week": "{n} ces 7 derniers jours",
+    "sh_sharers": "Membres qui partagent",
+    "sh_visits": "Visites via un lien",
+    "sh_signups": "Inscriptions obtenues",
+    "sh_rate": "{p} % des visites",
+    "sh_hint": "Chaque partage contient un lien personnel : on compte les visites et les inscriptions obtenues grâce à chaque membre. Le pays, la ville et la langue viennent du profil de celui qui partage.",
+    "sh_top": "Meilleurs ambassadeurs",
+    "sh_c_shares": "Partages",
+    "sh_c_visits": "Visites",
+    "sh_c_signups": "Inscrits",
+    "sh_weekly": "Partages par semaine",
+    "sh_monthly": "Partages par mois",
+    "sh_lang": "Langue du partage"
   },
   "pwa": {
     "title": "Installer l'application",
