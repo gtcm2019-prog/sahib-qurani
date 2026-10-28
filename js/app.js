@@ -7,6 +7,8 @@ import { initPwa } from './pwa.js';
 import { disable as disableNotif } from './notify.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 import { captureRef, onSession as shareSession, bindShare } from './share.js';
+import { showPartnerCard } from './partner.js';
+import { syncTz, resetTz } from './clock.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
 
@@ -37,10 +39,11 @@ function render() {
   if (v === 'member') showMember(session);
   if (v === 'requests') showRequests(session);
   if (v === 'admin') showAdmin(session);
+  if (v === 'home') showPartnerCard(session);
   const tab = v === 'member' ? 'search' : v === 'edit' ? 'profile' : v;
   $$('.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
   document.body.classList.toggle('has-tabs', !!session);
-  if (session) { refreshCount(false, session); checkAdmin(session).then(a => { if (a) refreshAdminCount(); }); }
+  if (session) { syncTz(session); refreshCount(false, session); checkAdmin(session).then(a => { if (a) refreshAdminCount(); }); }
 }
 
 /* ---------- Formulaires ---------- */
@@ -184,12 +187,12 @@ async function start() {
   sb.auth.onAuthStateChange((event, s) => {
     const changed = (session?.user?.id || null) !== (s?.user?.id || null);
     session = s;
-    if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); }
+    if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); resetTz(); }
     // Hors du rappel d'authentification (évite un blocage de supabase-js)
     setTimeout(() => shareSession(s), 0);
     if (!changed && event === 'TOKEN_REFRESHED') return;
     if (event === 'PASSWORD_RECOVERY') go('reset');
-    else if (event === 'SIGNED_IN' && changed && ['login', 'signup', 'home'].includes(currentView()) && !wantsReset) go('search');
+    else if (event === 'SIGNED_IN' && changed && ['login', 'signup'].includes(currentView()) && !wantsReset) go('home');
     render();
   });
 

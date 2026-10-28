@@ -206,11 +206,38 @@ export async function renderMyBlocks(me) {
 }
 
 /* ---------- Suppression du compte ---------- */
+const LEAVE_REASONS = ['found_partner', 'no_time', 'no_match', 'not_useful', 'privacy', 'other'];
+
+// Raison du départ (facultative). Renvoie { ok, reason } ; ok=false si annulé.
+function askLeaveReason() {
+  return new Promise(resolve => {
+    const dlg = $('#leave-dialog'), list = $('#leave-reasons');
+    list.replaceChildren();
+    for (const k of LEAVE_REASONS) {
+      const lab = el('label', 'leave-opt');
+      const inp = el('input'); inp.type = 'radio'; inp.name = 'leave'; inp.value = k;
+      lab.append(inp, el('span', null, t('leave.' + k)));
+      list.append(lab);
+    }
+    const done = ok => {
+      const reason = list.querySelector('input:checked')?.value || null;
+      dlg.close(); resolve({ ok, reason });
+    };
+    $('#leave-next').onclick = () => done(true);
+    $('#leave-cancel').onclick = () => done(false);
+    dlg.oncancel = e => { e.preventDefault(); done(false); };
+    dlg.showModal();
+  });
+}
+
 export async function deleteAccount(onDone) {
+  const { ok, reason } = await askLeaveReason();
+  if (!ok) return;
   if (!confirm(t('acct.delete_confirm1'))) return;
   const word = prompt(t('acct.delete_confirm2', { word: t('acct.delete_word') }));
   if (word === null) return;
   if (word.trim().toUpperCase() !== t('acct.delete_word').toUpperCase()) { alert(t('acct.delete_mismatch')); return; }
+  if (reason) await sb.rpc('set_leave_reason', { p_reason: reason });
   const { error } = await sb.rpc('delete_my_account');
   if (error) { console.warn(error); alert(t('err.generic')); return; }
   await sb.auth.signOut({ scope: 'local' });

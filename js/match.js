@@ -8,8 +8,10 @@ import { el, profileCard, memberRow, countryName, languageName } from './card.js
 import { avatarEl } from './avatar.js';
 import { decorateRows, renderMemberTrust } from './trust.js';
 import { notify } from './notify.js';
+import { clockPair, clockChip } from './clock.js';
+import { endPartnership } from './partner.js';
 
-const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at';
+const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at, timezone';
 const PAGE = 20;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -28,6 +30,7 @@ const minor = p => D.MINOR_AGES.includes(p.age_range);
 function reqErr(error) {
   if (error?.code === '23505') return 'req.err_dup';
   if (error?.code === '42501') return 'req.err_unavailable';
+  if (error?.message === 'one_partner') return 'req.err_one_partner';
   return 'err.generic';
 }
 
@@ -129,14 +132,15 @@ async function renderRelation(p) {
   if (seq !== relSeq) return;
   zone.replaceChildren();
   const iSent = r && r.sender_id === me.id;
-  renderMemberTrust(p, me, r?.status === 'accepted', () => {
+  renderMemberTrust(p, me, ['accepted', 'ended'].includes(r?.status), () => {
     searchedLang = null; $('#results').replaceChildren(); searchSeq = 0;
     goTo('search');
   });
 
   // Aucune demande en cours : formulaire
-  if (!r || r.status === 'declined' || r.status === 'cancelled') {
+  if (!r || ['declined', 'cancelled', 'ended'].includes(r.status)) {
     if (r && r.status === 'declined' && iSent) zone.append(el('p', 'note', t('req.was_declined')));
+    if (r && r.status === 'ended') zone.append(el('p', 'note', t('req.ended_note')));
     const form = el('form', 'req-form');
     form.noValidate = true;
     const lab = el('label');
@@ -204,21 +208,22 @@ async function renderRelation(p) {
     } else {
       zone.append(el('p', 'muted', t('req.no_wa')));
     }
-    if (iSent) {
-      const c = el('button', 'link', t('req.end'));
-      c.type = 'button';
-      c.addEventListener('click', () => {
-        if (confirm(t('req.end_confirm'))) answer(r.id, 'cancelled', () => renderRelation(p));
-      });
-      zone.append(c);
-    }
+    const c = el('button', 'btn btn-line btn-sm', t('req.end'));
+    c.type = 'button';
+    c.addEventListener('click', async () => {
+      if (!confirm(t('req.end_confirm', { name: p.first_name }))) return;
+      const { error } = await endPartnership(r.id);
+      if (error) { console.warn(error); alert(t('err.generic')); return; }
+      renderRelation(p);
+    });
+    zone.append(c);
   }
 }
 
 async function answer(id, status, then) {
   const { error } = await sb.from('requests').update({ status }).eq('id', id);
   if (!error && status === 'accepted') notify('accepted', id);
-  if (error) { console.warn(error); alert(t('err.generic')); return; }
+  if (error) { console.warn(error); alert(t(reqErr(error))); return; }
   refreshCount(true);
   then && then();
 }
@@ -235,14 +240,17 @@ export async function showMember(s) {
   if (seq !== memSeq) return;
   if (error || !p) { loading.textContent = t('member.unavailable'); return; }
   loading.hidden = true;
-  $('#m-public').replaceChildren(profileCard(p));
+  const pc = profileCard(p), clocks = clockPair(p.timezone, p.first_name);
+  const tags = pc.querySelector('.p-tags');
+  if (tags) tags.after(clocks); else pc.append(clocks);
+  $('#m-public').replaceChildren(pc);
   card.dataset.gender = p.gender;
   card.hidden = false;
   renderRelation(p);
 }
 
 /* ================= MES DEMANDES ================= */
-const STATUS_CLASS = { pending: 'tag-pending', accepted: 'badge-reliable', declined: 'tag-pause', cancelled: 'tag-pause' };
+const STATUS_CLASS = { pending: 'tag-pending', accepted: 'badge-reliable', declined: 'tag-pause', cancelled: 'tag-pause', ended: 'tag-pause' };
 
 async function renderRequests() {
   const list = $('#req-list'), loading = $('#req-loading');
@@ -266,12 +274,13 @@ async function renderRequests() {
 
   for (const r of reqs) {
     const other = byId[box === 'in' ? r.sender_id : r.receiver_id];
-    const item = el('div', 'req-item' + (['declined', 'cancelled'].includes(r.status) ? ' faded' : ''));
+    const item = el('div', 'req-item' + (['declined', 'cancelled', 'ended'].includes(r.status) ? ' faded' : ''));
     const head = el('div', 'req-head');
     if (other) {
       const a = el('a', 'req-who');
       a.href = '#/member?id=' + other.id;
       a.append(avatarEl(other.avatar, other.gender, other.first_name, 40), el('b', null, other.first_name));
+      if (['pending', 'accepted'].includes(r.status)) a.append(clockChip(other.timezone));
       head.append(a);
     } else {
       head.append(el('span', 'req-who muted', t('member.unavailable_short')));

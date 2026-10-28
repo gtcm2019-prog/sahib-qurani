@@ -473,3 +473,56 @@ body.has-tabs { padding-bottom: 76px; }
 .rank-n { color: var(--gold); }
 .rank-sign { color: var(--green); font-size: 1rem; }
 @media (max-width: 480px) { .rank-row { grid-template-columns: 18px minmax(0, 1fr) 52px 46px 50px; font-size: .82rem; } .rank-who small { padding-inline-start: 0; } }
+
+/* ---------- Horloges chez moi / chez le partenaire ---------- */
+.clk-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: 10px; margin: 14px 0; }
+.clk-pair.solo { grid-template-columns: minmax(0, 220px); justify-content: center; }
+.clk { display: grid; justify-items: center; align-content: start; gap: 4px; padding: 12px 8px 10px; border-radius: 14px;
+  background: linear-gradient(180deg, #FFF8E4, #FDF1CF); border: 1px solid #EBD9A5; color: var(--green-dark); text-align: center; min-width: 0; position: relative; }
+.clk.night { background: linear-gradient(180deg, #17403D, #0F2E2C); border-color: #2C5A56; color: #F1EAD8; }
+.clk-label { font-size: .8rem; font-weight: 700; letter-spacing: .2px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clk-time { font-size: 1.7rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; letter-spacing: .5px; }
+.clk-foot { display: inline-flex; align-items: center; gap: 5px; }
+.clk-ico { font-size: 1rem; line-height: 1; }
+.clk-sub { font-size: .75rem; opacity: .8; text-transform: capitalize; }
+.clk-face .clk-dial { fill: #fff; stroke: var(--gold); stroke-width: 3; }
+.clk.night .clk-face .clk-dial { fill: #0B2523; stroke: var(--gold-soft); }
+.clk-face .clk-tick { stroke: #C9B27A; stroke-width: 2; stroke-linecap: round; }
+.clk-face .clk-tick.big { stroke: var(--gold); stroke-width: 3.5; }
+.clk-face .clk-h { stroke: var(--green); stroke-width: 6; stroke-linecap: round; }
+.clk-face .clk-m { stroke: var(--green-2); stroke-width: 4; stroke-linecap: round; }
+.clk.night .clk-face .clk-h { stroke: #F1EAD8; }
+.clk.night .clk-face .clk-m { stroke: var(--gold-soft); }
+.clk-face .clk-pin { fill: var(--gold); }
+.clk-mid { direction: ltr; unicode-bidi: isolate; align-self: center; font-weight: 700; font-size: .85rem; color: var(--gold); background: var(--paper); border: 1px solid var(--gold); border-radius: 999px; padding: 4px 9px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.clk-mid:empty { display: none; }
+.clk-unknown { background: #F7F3EA; border-style: dashed; color: var(--muted); }
+.clk-q { font-size: 2.4rem; font-weight: 700; line-height: 64px; opacity: .5; }
+.clk-pair.compact .clk-time { font-size: 1.35rem; }
+.clk-chip { font-size: .78rem; font-weight: 600; color: var(--muted); margin-inline-start: 6px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+@media (max-width: 400px) { .clk-pair { gap: 6px; } .clk { padding: 10px 4px 8px; } .clk-time { font-size: 1.45rem; } .clk-mid { padding: 3px 6px; font-size: .78rem; } }
+
+/* ---------- Carte « Mon partenaire » (accueil) ---------- */
+.partner-home { border-top: 3px solid var(--gold); }
+.partner-home .ph-head h2 { margin: 0 0 10px; color: var(--green); font-family: var(--display); font-size: 1.6rem; }
+[dir="rtl"] .partner-home .ph-head h2 { font-family: var(--arabic); font-size: 1.35rem; }
+.ph-who { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+.ph-who div { display: grid; gap: 1px; }
+.ph-who b { font-size: 1.15rem; color: var(--green-dark); }
+.partner-home.empty { text-align: center; }
+.partner-home.empty .btn { margin-top: 4px; }
+
+/* ---------- Raison du départ ---------- */
+.leave-dialog { max-width: 460px; }
+.leave-dialog h2 { margin: 0 0 6px; color: var(--green); }
+.leave-reasons { display: grid; gap: 8px; margin: 14px 0 18px; }
+.leave-opt input { width: auto; flex: none; margin: 0; accent-color: var(--gold); }
+.leave-opt span { flex: 1; text-align: start; }
+.leave-opt { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.leave-opt:has(input:checked) { border-color: var(--gold); background: #FDF6E3; }
+.stat-sec { margin: 26px 0 10px; color: var(--green); font-family: var(--display); font-size: 1.4rem; border-top: 1px solid var(--line); padding-top: 18px; }
+[dir="rtl"] .stat-sec { font-family: var(--arabic); font-size: 1.2rem; }
+
+/* Membre connecté : l'accueil va droit au partenaire (le texte d'accueil est pour les visiteurs) */
+body.has-tabs .hero .lead, body.has-tabs .hero .cta { display: none; }
+body.has-tabs .hero { padding-bottom: 0; }

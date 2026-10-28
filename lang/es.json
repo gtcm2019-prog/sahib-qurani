@@ -10,7 +10,8 @@
     "requests": "Solicitudes",
     "profile": "Perfil",
     "admin": "Admin",
-    "share": "Compartir"
+    "share": "Compartir",
+    "home": "Inicio"
   },
   "home": {
     "title": "El Compañero Coránico",
@@ -223,8 +224,8 @@
     "wa": "Contactar por WhatsApp",
     "wa_guardian": "Contactar al tutor {name} por WhatsApp",
     "no_wa": "No hay número de WhatsApp.",
-    "end": "Terminar la conexión",
-    "end_confirm": "¿Terminar esta conexión?",
+    "end": "Terminar la colaboración",
+    "end_confirm": "¿Terminar la colaboración con {name}? Después podrás elegir otro compañero.",
     "contact": "Contactar",
     "empty_in": "Aún no has recibido solicitudes.",
     "empty_out": "No has enviado ninguna solicitud.",
@@ -233,7 +234,10 @@
     "st_declined": "Rechazada",
     "st_cancelled": "Cancelada",
     "err_dup": "Ya hay una solicitud en curso con este miembro.",
-    "err_unavailable": "Este miembro ya no está disponible."
+    "err_unavailable": "Este miembro ya no está disponible.",
+    "ended_note": "Tu colaboración con este miembro ha terminado.",
+    "st_ended": "Terminada",
+    "err_one_partner": "Un solo compañero a la vez: uno de los dos ya tiene un compañero activo. Primero hay que terminar la colaboración actual."
   },
   "wa": {
     "adult": "As-salamu alaykum {name}, soy {me} de Sahib Qurani. Nuestra solicitud fue aceptada: ¿cuándo quieres empezar a repasar?",
@@ -354,7 +358,15 @@
     "sh_c_signups": "Registros",
     "sh_weekly": "Compartidos por semana",
     "sh_monthly": "Compartidos por mes",
-    "sh_lang": "Idioma del envío"
+    "sh_lang": "Idioma del envío",
+    "d_title": "Bajas (cuentas eliminadas, anónimas)",
+    "d_total": "Bajas",
+    "d_avg": "Antigüedad media (días)",
+    "d_partner": "Habían tenido compañero",
+    "d_weekly": "Bajas por semana",
+    "d_monthly": "Bajas por mes",
+    "d_reason": "Motivo de la baja",
+    "d_none": "No indicado"
   },
   "pwa": {
     "title": "Instalar la aplicación",
@@ -382,5 +394,37 @@
   },
   "share": {
     "msg": "Assalamu alaykum 🌿\nTe recomiendo Sahib Qurani: una web y una aplicación gratuitas para encontrar un compañero para memorizar y repasar el Corán.\n👉 {url}\n\n«El mejor de vosotros es quien aprende el Corán y lo enseña.» (Al-Bujari)\n«Quien indica el bien es como quien lo hace.» (At-Tirmidi)"
+  },
+  "partner": {
+    "title": "Mi compañero",
+    "none": "Todavía no tienes un compañero activo.",
+    "find": "Buscar un compañero",
+    "since": "Compañeros desde el {date}",
+    "profile": "Ver ficha"
+  },
+  "clock": {
+    "me": "Mi hora",
+    "other": "Hora de {name}",
+    "same": "Misma hora",
+    "h": "{h} h",
+    "hm": "{h} h {m}",
+    "day": "Es de día",
+    "night": "Es de noche",
+    "tomorrow": "mañana",
+    "yesterday": "ayer",
+    "unknown": "Visible cuando {name} abra la app",
+    "local_time": "Hora local"
+  },
+  "leave": {
+    "title": "Antes de irte…",
+    "text": "¿Por qué dejas Sahib Qurani? (opcional, anónimo)",
+    "found_partner": "Encontré a mi compañero",
+    "no_time": "Ya no tengo tiempo",
+    "no_match": "No encuentro compañero",
+    "not_useful": "El sitio no me conviene",
+    "privacy": "Privacidad",
+    "other": "Otro motivo",
+    "next": "Continuar la eliminación",
+    "cancel": "Cancelar"
   }
 }

@@ -10,7 +10,8 @@
     "requests": "Requests",
     "profile": "Profile",
     "admin": "Admin",
-    "share": "Share"
+    "share": "Share",
+    "home": "Home"
   },
   "home": {
     "title": "The Quran Companion",
@@ -223,8 +224,8 @@
     "wa": "Contact on WhatsApp",
     "wa_guardian": "Contact guardian {name} on WhatsApp",
     "no_wa": "No WhatsApp number provided.",
-    "end": "End this connection",
-    "end_confirm": "End this connection?",
+    "end": "End the partnership",
+    "end_confirm": "End the partnership with {name}? You can then choose another partner.",
     "contact": "Contact",
     "empty_in": "No requests received yet.",
     "empty_out": "You have not sent any requests.",
@@ -233,7 +234,10 @@
     "st_declined": "Declined",
     "st_cancelled": "Cancelled",
     "err_dup": "A request is already open with this member.",
-    "err_unavailable": "This member is no longer available."
+    "err_unavailable": "This member is no longer available.",
+    "ended_note": "Your partnership with this member has ended.",
+    "st_ended": "Ended",
+    "err_one_partner": "One partner at a time: one of you already has an active partner. The current partnership must be ended first."
   },
   "wa": {
     "adult": "As-salamu alaykum {name}, I am {me} from Sahib Qurani. Our request was accepted: when would you like to start revising?",
@@ -354,7 +358,15 @@
     "sh_c_signups": "Sign-ups",
     "sh_weekly": "Shares per week",
     "sh_monthly": "Shares per month",
-    "sh_lang": "Share language"
+    "sh_lang": "Share language",
+    "d_title": "Departures (deleted accounts, anonymous)",
+    "d_total": "Departures",
+    "d_avg": "Average membership (days)",
+    "d_partner": "Had a partner",
+    "d_weekly": "Departures per week",
+    "d_monthly": "Departures per month",
+    "d_reason": "Reason for leaving",
+    "d_none": "Not given"
   },
   "pwa": {
     "title": "Install the app",
@@ -382,5 +394,37 @@
   },
   "share": {
     "msg": "Assalamu alaykum 🌿\nI recommend Sahib Qurani: a free website and app to find a partner for memorizing and revising the Quran.\n👉 {url}\n\n“The best of you are those who learn the Quran and teach it.” (Al-Bukhari)\n“The one who guides to good is like the one who does it.” (At-Tirmidhi)"
+  },
+  "partner": {
+    "title": "My partner",
+    "none": "You don't have an active partner yet.",
+    "find": "Find a partner",
+    "since": "Partners since {date}",
+    "profile": "View profile"
+  },
+  "clock": {
+    "me": "My time",
+    "other": "{name}'s time",
+    "same": "Same time",
+    "h": "{h} h",
+    "hm": "{h} h {m}",
+    "day": "Daytime",
+    "night": "Night-time",
+    "tomorrow": "tomorrow",
+    "yesterday": "yesterday",
+    "unknown": "Shown once {name} opens the app",
+    "local_time": "Local time"
+  },
+  "leave": {
+    "title": "Before you go…",
+    "text": "Why are you leaving Sahib Qurani? (optional, anonymous)",
+    "found_partner": "I found my partner",
+    "no_time": "I don't have time any more",
+    "no_match": "I can't find a partner",
+    "not_useful": "The site doesn't suit me",
+    "privacy": "Privacy",
+    "other": "Other reason",
+    "next": "Continue deleting",
+    "cancel": "Cancel"
   }
 }
