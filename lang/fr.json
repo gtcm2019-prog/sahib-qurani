@@ -10,7 +10,8 @@
     "requests": "Demandes",
     "profile": "Profil",
     "admin": "Admin",
-    "share": "Partager"
+    "share": "Partager",
+    "home": "Accueil"
   },
   "home": {
     "title": "Le Compagnon Coranique",
@@ -223,8 +224,8 @@
     "wa": "Contacter sur WhatsApp",
     "wa_guardian": "Contacter le tuteur {name} sur WhatsApp",
     "no_wa": "Aucun numéro WhatsApp n'est renseigné.",
-    "end": "Mettre fin à la mise en relation",
-    "end_confirm": "Mettre fin à cette mise en relation ?",
+    "end": "Terminer le partenariat",
+    "end_confirm": "Terminer le partenariat avec {name} ? Vous pourrez ensuite choisir un autre partenaire.",
     "contact": "Contacter",
     "empty_in": "Aucune demande reçue pour le moment.",
     "empty_out": "Vous n'avez envoyé aucune demande.",
@@ -233,7 +234,10 @@
     "st_declined": "Refusée",
     "st_cancelled": "Annulée",
     "err_dup": "Une demande est déjà en cours avec ce membre.",
-    "err_unavailable": "Ce membre n'est plus disponible."
+    "err_unavailable": "Ce membre n'est plus disponible.",
+    "ended_note": "Votre partenariat avec ce membre est terminé.",
+    "st_ended": "Terminé",
+    "err_one_partner": "Un seul partenaire à la fois : l'un de vous deux a déjà un partenaire actif. Il faut d'abord terminer le partenariat en cours."
   },
   "wa": {
     "adult": "As-salamu alaykum {name}, je suis {me} de Sahib Qurani. Notre demande a été acceptée : quand souhaites-tu commencer à réviser ?",
@@ -354,7 +358,28 @@
     "sh_c_signups": "Inscrits",
     "sh_weekly": "Partages par semaine",
     "sh_monthly": "Partages par mois",
-    "sh_lang": "Langue du partage"
+    "sh_lang": "Langue du partage",
+    "d_title": "Départs (comptes supprimés, anonymes)",
+    "d_total": "Départs",
+    "d_avg": "Ancienneté moyenne (jours)",
+    "d_partner": "Avaient eu un partenaire",
+    "d_weekly": "Départs par semaine",
+    "d_monthly": "Départs par mois",
+    "d_reason": "Raison du départ",
+    "d_none": "Non précisée",
+    "a_title": "Application installée",
+    "a_installs": "Installations",
+    "a_active": "Actives (30 derniers jours)",
+    "a_inactive": "Inactives depuis 30 jours",
+    "a_inactive_note": "Probablement désinstallées ou abandonnées",
+    "a_members": "Membres avec l'appli",
+    "a_weekly": "Installations par semaine",
+    "a_monthly": "Installations par mois",
+    "a_platform": "Appareil",
+    "p_android": "Android",
+    "p_ios": "iPhone / iPad",
+    "p_desktop": "Ordinateur",
+    "p_other": "Autre"
   },
   "pwa": {
     "title": "Installer l'application",
@@ -382,5 +407,40 @@
   },
   "share": {
     "msg": "Assalamou alaykoum 🌿\nJe te recommande Sahib Qurani : un site et une application gratuits pour trouver un partenaire de mémorisation et de révision du Coran.\n👉 {url}\n\n« Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne. » (Al-Bukhari)\n« Celui qui indique le bien est comme celui qui le fait. » (At-Tirmidhi)"
+  },
+  "partner": {
+    "find": "Trouver un partenaire",
+    "profile": "Voir la fiche",
+    "title_m": "Mon partenaire",
+    "title_f": "Ma partenaire",
+    "none_m": "Vous n'avez pas encore de partenaire actif.",
+    "none_f": "Vous n'avez pas encore de partenaire active.",
+    "since_m": "Partenaires depuis le {date}",
+    "since_f": "Partenaires depuis le {date}"
+  },
+  "clock": {
+    "me": "Chez moi",
+    "other": "Chez {name}",
+    "same": "Même heure",
+    "h": "{h} h",
+    "hm": "{h} h {m}",
+    "day": "Il fait jour",
+    "night": "Il fait nuit",
+    "tomorrow": "demain",
+    "yesterday": "hier",
+    "unknown": "Visible quand {name} ouvrira l'appli",
+    "local_time": "Heure locale"
+  },
+  "leave": {
+    "title": "Avant de partir…",
+    "text": "Pourquoi quittez-vous Sahib Qurani ? (facultatif, anonyme)",
+    "found_partner": "J'ai trouvé mon partenaire",
+    "no_time": "Je n'ai plus le temps",
+    "no_match": "Je ne trouve pas de partenaire",
+    "not_useful": "Le site ne me convient pas",
+    "privacy": "Confidentialité",
+    "other": "Autre raison",
+    "next": "Continuer la suppression",
+    "cancel": "Annuler"
   }
 }

@@ -60,7 +60,7 @@ async function renderReports(zone, my) {
   if (my !== seq) return;
   // Nombre de signalements par membre visé (sur la liste chargée)
   const perMember = {};
-  for (const r of reps) perMember[r.reported_id] = (perMember[r.reported_id] || 0) + 1;
+  for (const r of reps) if (r.reported_id) perMember[r.reported_id] = (perMember[r.reported_id] || 0) + 1;
 
   zone.replaceChildren();
   if (!reps.length) { zone.append(el('p', 'muted center', t('admin.no_reports'))); return; }
@@ -97,7 +97,8 @@ async function renderReports(zone, my) {
     const bBan = btn('btn-danger btn-sm', 'admin.act_ban'); bBan.addEventListener('click', () => save('actioned', 'banned'));
     const bDis = btn('btn-line btn-sm', 'admin.act_dismiss'); bDis.addEventListener('click', () => save('dismissed'));
     const bNote = btn('btn-line btn-sm', 'admin.act_note'); bNote.addEventListener('click', () => save(r.status === 'open' ? 'reviewed' : r.status));
-    actions.append(bWarn, bBan, bDis, bNote);
+    if (r.reported_id) actions.append(bWarn, bBan);
+    actions.append(bDis, bNote);
     item.append(actions);
     if (r.reviewed_at) item.append(el('small', 'muted', t('admin.reviewed_on', { date: fmtDate(r.reviewed_at) })));
     zone.append(item);
@@ -307,6 +308,51 @@ async function renderStats(zone, my) {
     bars(t('admin.s_hizb'), sorted(s.by_hizb, ['0', '1-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60']), k => t('admin.hizb_range', { r: k }))
   );
   zone.append(grid);
+
+  // Application installée
+  const { data: ap } = await sb.rpc('admin_app_stats');
+  if (my !== seq) return;
+  if (ap) {
+    zone.append(el('h3', 'stat-sec', t('admin.a_title')));
+    const at = el('div', 'stat-tiles');
+    at.append(
+      tile(t('admin.a_installs'), ap.installs, t('admin.sh_week', { n: fmtNum(ap.week) })),
+      tile(t('admin.a_active'), ap.active30),
+      tile(t('admin.a_inactive'), ap.inactive30, t('admin.a_inactive_note')),
+      tile(t('admin.a_members'), ap.members)
+    );
+    zone.append(at);
+    const ag = el('div', 'stat-grid');
+    ag.append(
+      columns(t('admin.a_weekly'), ap.weekly || [], shortDate),
+      columns(t('admin.a_monthly'), ap.monthly || [], shortMonth),
+      bars(t('admin.a_platform'), sorted(ap.by_platform, ['android', 'ios', 'desktop', 'other']), k => t('admin.p_' + k))
+    );
+    zone.append(ag);
+  }
+
+  // Départs (comptes supprimés, anonymes)
+  const { data: d, error: e2 } = await sb.rpc('admin_departure_stats');
+  if (my !== seq || e2 || !d) return;
+  zone.append(el('h3', 'stat-sec', t('admin.d_title')));
+  const dt = el('div', 'stat-tiles');
+  dt.append(
+    tile(t('admin.d_total'), d.total, t('admin.sh_week', { n: fmtNum(d.week) })),
+    tile(t('admin.d_avg'), d.avg_days),
+    tile(t('admin.d_partner'), d.had_partner)
+  );
+  zone.append(dt);
+  const REASONS_ORDER = ['found_partner', 'no_time', 'no_match', 'not_useful', 'privacy', 'other', 'none'];
+  const dg = el('div', 'stat-grid');
+  dg.append(
+    columns(t('admin.d_weekly'), d.weekly || [], shortDate),
+    columns(t('admin.d_monthly'), d.monthly || [], shortMonth),
+    bars(t('admin.d_reason'), sorted(d.by_reason, REASONS_ORDER), k => k === 'none' ? t('admin.d_none') : t('leave.' + k)),
+    bars(t('edit.country'), sorted(d.by_country).slice(0, 15), countryName),
+    bars(t('edit.gender'), sorted(d.by_gender, D.GENDERS), k => t('gender.' + k)),
+    bars(t('edit.age_range'), sorted(d.by_age, D.AGE_RANGES), k => t('age.' + k))
+  );
+  zone.append(dg);
 }
 
 /* ================= PARTAGES ET PARRAINAGE ================= */
