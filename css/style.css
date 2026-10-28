@@ -624,3 +624,4 @@ body.onb-on main { padding: 0; }
 .onb-s-welcome .lead { font-size: .95rem; line-height: 1.5; }
 .onb-intro { font-size: .85rem; line-height: 1.5; }
 .onb-s-welcome { gap: 0; padding-top: 0; }
+.onb-cant { margin-top: 10px; font-size: .85rem; color: var(--muted); }
