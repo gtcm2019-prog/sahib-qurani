@@ -54,7 +54,7 @@
       </figure>
       <p class="lead" data-i18n="home.subtitle"></p>
       <div class="cta">
-        <a href="#/signup" class="btn btn-gold" data-auth="out" data-i18n="home.cta_start"></a>
+        <a href="#/start" class="btn btn-gold" data-auth="out" data-i18n="home.cta_start"></a>
         <a href="#/login" class="btn btn-line" data-auth="out" data-i18n="home.cta_login"></a>
         <a href="#/search" class="btn btn-gold" data-auth="in" data-i18n="search.title" hidden></a>
       </div>
@@ -82,6 +82,22 @@
     </div>
   </section>
 
+  <!-- INSCRIPTION PAS À PAS (plein écran) -->
+  <section data-view="start" id="onb" class="onb" hidden>
+    <div class="onb-top" id="onb-top">
+      <button type="button" id="onb-back" class="onb-back" data-i18n-aria="onb.back"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="onb-prog" id="onb-prog" role="progressbar" aria-valuemin="0"><span id="onb-fill"></span></div>
+      <span class="onb-count" id="onb-count"></span>
+    </div>
+    <div class="onb-body" id="onb-body"></div>
+    <div class="onb-foot">
+      <p class="msg" id="onb-msg" role="alert" hidden></p>
+      <button type="button" id="onb-next" class="btn btn-gold btn-block onb-next"></button>
+      <button type="button" id="onb-alt" class="link onb-alt" data-i18n="home.cta_login" hidden></button>
+      <a href="#/" class="link onb-skip" id="onb-skip" data-i18n="onb.discover"></a>
+    </div>
+  </section>
+
   <!-- CONNEXION -->
   <section data-view="login" hidden>
     <form id="form-login" class="card auth" novalidate>
@@ -95,7 +111,7 @@
       <p class="msg" role="alert" hidden></p>
       <p id="resend-wrap" hidden><button type="button" id="btn-resend" class="link" data-i18n="auth.resend"></button></p>
       <button type="submit" class="btn btn-gold" data-i18n="auth.login_btn"></button>
-      <p class="links"><a href="#/forgot" data-i18n="auth.forgot_link"></a><a href="#/signup" data-i18n="auth.no_account"></a></p>
+      <p class="links"><a href="#/forgot" data-i18n="auth.forgot_link"></a><a href="#/start?s=auth" data-i18n="auth.no_account"></a></p>
     </form>
   </section>
 
