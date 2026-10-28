@@ -25,15 +25,15 @@
   <nav class="bar">
     <a href="#/" class="brand">
       <span class="brand-mark" aria-hidden="true">۞</span>
-      <span class="brand-text"><strong>Sahib Qurani</strong><small lang="ar" dir="rtl">صاحب القرآن</small></span>
+      <span class="brand-text"><strong>Sahib Qurani</strong><small lang="ar" dir="rtl">الصاحب القرآني</small></span>
     </a>
+    <div class="lang-seg" id="lang-seg" role="group" data-i18n-aria="footer.lang">
+      <button type="button" data-lang="ar" title="العربية" aria-label="العربية"><img src="icons/flags/ar.svg" alt="" width="26" height="18"></button>
+      <button type="button" data-lang="fr" title="Français" aria-label="Français"><img src="icons/flags/fr.svg" alt="" width="26" height="18"></button>
+      <button type="button" data-lang="en" title="English" aria-label="English"><img src="icons/flags/en.svg" alt="" width="26" height="18"></button>
+      <button type="button" data-lang="es" title="Español" aria-label="Español"><img src="icons/flags/es.svg" alt="" width="26" height="18"></button>
+    </div>
     <div class="bar-actions">
-      <select id="lang-select" data-i18n-aria="footer.lang">
-        <option value="ar">العربية</option>
-        <option value="fr">Français</option>
-        <option value="en">English</option>
-        <option value="es">Español</option>
-      </select>
       <a href="#/login" class="btn btn-ghost" data-auth="out" data-i18n="nav.login"></a>
       <a href="#/admin" class="btn btn-ghost btn-admin" data-admin hidden><span data-i18n="nav.admin"></span> <span class="count adm-count" hidden></span></a>
       <a href="#/profile" class="btn btn-ghost" data-auth="in" data-i18n="nav.account" hidden></a>
@@ -47,6 +47,11 @@
   <section data-view="home">
     <div class="hero">
       <h1 data-i18n="home.title"></h1>
+      <figure class="hadith-top">
+        <p class="hadith-ar" lang="ar" dir="rtl">«خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ»</p>
+        <p class="hadith-tr" data-i18n="hadith.text"></p>
+        <figcaption data-i18n="hadith.src"></figcaption>
+      </figure>
       <p class="lead" data-i18n="home.subtitle"></p>
       <div class="cta">
         <a href="#/signup" class="btn btn-gold" data-auth="out" data-i18n="home.cta_start"></a>
@@ -73,12 +78,6 @@
         <li><b data-i18n="guide.s6t"></b><span data-i18n="guide.s6d"></span></li>
       </ol>
     </div>
-
-    <figure class="card hadith">
-      <p class="hadith-ar" lang="ar" dir="rtl">«تَعَاهَدُوا هَذَا الْقُرْآنَ، فَوَالَّذِي نَفْسُ مُحَمَّدٍ بِيَدِهِ لَهُوَ أَشَدُّ تَفَلُّتًا مِنَ الإِبِلِ فِي عُقُلِهَا»</p>
-      <p class="hadith-tr" data-i18n="hadith.text"></p>
-      <figcaption data-i18n="hadith.src"></figcaption>
-    </figure>
   </section>
 
   <!-- CONNEXION -->
