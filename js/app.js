@@ -1,10 +1,9 @@
 import { sb } from './sb.js';
 import { detectLang, setLang, lang, t } from './i18n.js';
 import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
-import { showProfile, showEdit, bindProfile, resetProfileCache, loadMine } from './profile.js';
-import { showOnboard, bindOnboard, firstVisit } from './onboard.js';
+import { showProfile, showEdit, bindProfile, resetProfileCache } from './profile.js';
 import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMatch } from './match.js';
-import { initPwa, pingApp, isStandalone } from './pwa.js';
+import { initPwa, pingApp } from './pwa.js';
 import { disable as disableNotif } from './notify.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 import { captureRef, onSession as shareSession, bindShare } from './share.js';
@@ -16,7 +15,7 @@ const BASE = location.origin + location.pathname;
 let session = null;
 
 /* ---------- Navigation ---------- */
-const PUBLIC_VIEWS = ['home', 'start', 'login', 'signup', 'forgot'];
+const PUBLIC_VIEWS = ['home', 'login', 'signup', 'forgot'];
 const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests', 'admin'];
 
 function currentView() {
@@ -30,13 +29,10 @@ function render() {
   let v = currentView();
   if (PRIVATE_VIEWS.includes(v) && !session) v = 'login';
   if (['login', 'signup'].includes(v) && session) v = 'profile';
-  if (v === 'signup') { go('start?s=auth'); return; }   // l'inscription passe par les écrans pas à pas
   $$('[data-view]').forEach(el => { el.hidden = el.dataset.view !== v; });
   $$('.msg').forEach(el => { el.hidden = true; el.textContent = ''; });
   $$('[data-auth]').forEach(el => { el.hidden = (el.dataset.auth === 'in') !== !!session; });
-  document.body.classList.toggle('onb-on', v === 'start');
   window.scrollTo(0, 0);
-  if (v === 'start') { showOnboard(session); return; }
   if (v === 'profile') showProfile(session);
   if (v === 'edit') showEdit(session);
   if (v === 'search') showSearch(session);
@@ -140,13 +136,14 @@ function bindForms() {
 }
 
 /* ---------- Langue ---------- */
-const markLang = () => $('#lang-seg').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang())));
-async function changeLang(code) { await setLang(code); markLang(); render(); loadStats(); }
 function bindLang() {
-  markLang();
-  $('#lang-seg').addEventListener('click', e => {
+  const seg = $('#lang-seg');
+  const mark = () => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang())));
+  mark();
+  seg.addEventListener('click', async e => {
     const b = e.target.closest('button[data-lang]');
-    if (b && b.dataset.lang !== lang()) changeLang(b.dataset.lang);
+    if (!b || b.dataset.lang === lang()) return;
+    await setLang(b.dataset.lang); mark(); render(); loadStats();
   });
 }
 
@@ -176,7 +173,6 @@ async function start() {
   bindProfile(go);
   bindMatch(go);
   bindAdmin();
-  bindOnboard(go, changeLang);
   initPwa();
   // Nouvelle version installée : recharger une fois pour l'utiliser
   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -195,10 +191,6 @@ async function start() {
     // Hors du rappel d'authentification (évite un blocage de supabase-js)
     setTimeout(() => shareSession(s), 0);
     if (changed && s) setTimeout(() => pingApp(true), 0);
-    if (changed && s && !wantsReset) setTimeout(async () => {
-      try { const me = await loadMine(s); if (!me.pub && !['start', 'reset'].includes(currentView())) go('start'); }
-      catch (e) { /* hors ligne */ }
-    }, 0);
     if (!changed && event === 'TOKEN_REFRESHED') return;
     if (event === 'PASSWORD_RECOVERY') go('reset');
     else if (event === 'SIGNED_IN' && changed && ['login', 'signup'].includes(currentView()) && !wantsReset) go('home');
@@ -214,10 +206,6 @@ async function start() {
     history.replaceState(null, '', BASE + (wantsReset && session ? '#/reset' : location.hash));
   }
 
-  // Première visite sans compte : écran d'accueil plein écran
-  // Application installée ouverte sans connexion (iPhone) : se reconnecter une fois
-  if (!session && currentView() === 'home' && !location.hash && isStandalone()) history.replaceState(null, '', BASE + '#/start?s=auth&m=login');
-  else if (!session && currentView() === 'home' && !location.hash && firstVisit()) history.replaceState(null, '', BASE + '#/start');
   window.addEventListener('hashchange', render);
   // Pastille des demandes : mise à jour au retour sur l'onglet et chaque minute
   document.addEventListener('visibilitychange', () => { if (!document.hidden && session) refreshCount(true, session); });

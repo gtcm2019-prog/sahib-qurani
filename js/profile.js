@@ -34,7 +34,7 @@ export async function showProfile(session) {
   let me;
   try { me = await loadMine(session); }
   catch (e) { loading.textContent = t('err.generic'); return; }
-  if (!me.pub) { goTo('start'); return; }
+  if (!me.pub) { goTo('edit'); return; }
   const p = me.pub;
   loading.hidden = true;
 
@@ -148,7 +148,6 @@ export async function showEdit(session) {
   buildForm(f);
   const box = $('.msg', f); box.hidden = true; box.textContent = '';
   const p = me.pub, priv = me.priv || {};
-  if (!p) { goTo('start'); return; }   // nouveau membre : inscription étape par étape
   $('#edit-title').textContent = t(p ? 'edit.title_edit' : 'edit.title_new');
   $('#edit-cancel').hidden = !p;
   f.first_name.value = p?.first_name || '';
@@ -175,7 +174,7 @@ export async function showEdit(session) {
 }
 
 // "+212 6-12 34" ou "00212…" → "+212612…" ; null si vide ; false si invalide
-export function normPhone(v) {
+function normPhone(v) {
   let s = String(v || '').replace(/[\s().-]/g, '');
   if (!s) return null;
   if (s.startsWith('00')) s = '+' + s.slice(2);
