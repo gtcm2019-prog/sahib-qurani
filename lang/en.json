@@ -484,7 +484,7 @@
     "err_avail": "Choose at least one time slot.",
     "err_contact": "Choose a revision mode.",
     "pseudo": "Nickname",
-    "intro": "Sign-up in 9 short steps, about 2 minutes. Right after signing in, you can install the app: its icon will appear on your home screen, and you will complete your profile from the app.",
+    "intro": "Sign-up in 9 short steps, about 2 minutes. Right after signing in, you will install the app: its icon will appear on your home screen, and you will complete your profile from the app.",
     "n_auth": "Account",
     "n_name": "Nickname",
     "n_age": "Age",
@@ -501,6 +501,7 @@
     "inst_menu": "Open your browser's ⋮ menu, then “Install app” or “Add to Home screen”.",
     "inst_done": "Installed! Open Sahib Qurani from your home screen to continue your profile.",
     "here": "Continue here",
-    "relogin": "First time opening the app: sign in once more to continue."
+    "relogin": "First time opening the app: sign in once more to continue.",
+    "cant_install": "I can't install: continue on the website"
   }
 }

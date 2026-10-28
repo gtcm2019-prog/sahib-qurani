@@ -75,9 +75,12 @@ function check(step) {
 const firstMissing = () => PROFILE_STEPS.find(s => check(s)) || 'wa';
 
 // L'installation est proposée une fois par appareil, juste après la connexion
-const offerInstall = () => { try { return canInstall() && !localStorage.getItem('sq_inst_seen'); } catch (e) { return false; } };
-const installSeen = () => { try { localStorage.setItem('sq_inst_seen', '1'); } catch (e) { /* ignore */ } };
+// Installation OBLIGATOIRE sur téléphone avant le profil (le profil se remplit dans l'application).
+// Exception : ordinateur, ou navigateur qui ne permet pas d'installer (lien « Je ne peux pas installer »).
+const skipped = () => { try { return !!localStorage.getItem('sq_inst_skip'); } catch (e) { return false; } };
+const mustInstall = () => !isStandalone() && canInstall() && !skipped();
 let installed = false;   // installation acceptée pendant cet écran
+let tried = false;       // l'utilisateur a touché « Installer » sans succès
 
 /* ---------- Petits éléments ---------- */
 function msg(key, type = 'error') {
@@ -356,7 +359,6 @@ const SCREENS = {
   },
 
   install(body) {
-    installSeen();
     const w = el('div', 'onb-welcome onb-install');
     const logo = el('div', 'onb-logo');
     const img = document.createElement('img');
@@ -371,14 +373,24 @@ const SCREENS = {
       const b = el('button', 'btn btn-gold btn-block', t('pwa.install'));
       b.type = 'button';
       b.addEventListener('click', async () => {
-        if (await installNow()) { installed = true; render(); return; }
+        const ok = await installNow();
+        if (ok) { installed = true; render(); return; }
         // Android sans bouton du navigateur : installation par le menu
         if (!isIPhone && !hasPrompt()) msg('onb.inst_menu', 'ok');
+        if (!tried) { tried = true; $('#onb-cant').hidden = false; }
       });
       // iPhone : se reconnecter une fois dans l'application
       note.textContent = t(isIPhone ? 'onb.inst_ios' : 'onb.inst_android');
       w.append(b, note);
     }
+    // Échappatoire discrète, seulement après un essai
+    const cant = el('button', 'link onb-cant', t('onb.cant_install'));
+    cant.type = 'button'; cant.id = 'onb-cant'; cant.hidden = !tried || installed;
+    cant.addEventListener('click', () => {
+      try { localStorage.setItem('sq_inst_skip', '1'); } catch (e) { /* ignore */ }
+      goStep('name');
+    });
+    w.append(cant);
     body.append(w);
   }
 };
@@ -416,13 +428,14 @@ function render() {
   $('#onb-prog').setAttribute('aria-valuenow', String(i));
   $('#onb-prog').setAttribute('aria-valuemax', String(TOTAL));
   // Retour impossible vers la connexion une fois connecté, et après l'enregistrement
-  $('#onb-back').hidden = step === 'install' || (step === 'name' && (isStandalone() || !canInstall()));
+  $('#onb-back').hidden = step === 'install' || step === 'name';
   // Bouton principal
   const nb = $('#onb-next');
   nb.disabled = false;
   nb.textContent = t(step === 'welcome' ? 'home.cta_start'
     : step === 'auth' ? (authMode === 'new' ? 'auth.signup_btn' : 'auth.login_btn')
-    : step === 'wa' ? 'onb.finish' : step === 'install' ? (installed ? 'onb.here' : 'onb.later') : 'onb.next');
+    : step === 'wa' ? 'onb.finish' : 'onb.next');
+  nb.hidden = step === 'install';   // pas de « Plus tard » : l'installation est obligatoire
   nb.classList.toggle('btn-line', step === 'install');
   nb.classList.toggle('btn-gold', step !== 'install');
   $('#onb-alt').hidden = step !== 'welcome';
@@ -437,7 +450,7 @@ function render() {
 async function next() {
   if (step === 'welcome') { authMode = 'new'; return goStep('auth'); }
   if (step === 'auth') return doAuth();
-  if (step === 'install') return goStep('name');
+  if (step === 'install') return;
   const err = check(step);
   if (err) return msg(err);
   if (step === 'wa') return save();
@@ -505,8 +518,7 @@ export async function showOnboard(s) {
     if (me?.pub) return finish();
     loadDraft(); defaults();
     if (want === 'welcome' || want === 'auth') want = null;   // déjà connecté
-    if (want === 'install' && !isStandalone() && canInstall()) { /* on reste sur l'installation */ }
-    else if (!want && offerInstall()) want = 'install';
+    if (mustInstall()) want = 'install';
     else {
       // On ne saute pas une étape non remplie
       const fm = PROFILE_STEPS.indexOf(firstMissing());
