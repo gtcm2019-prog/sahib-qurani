@@ -9,7 +9,8 @@
     "search": "Buscar",
     "requests": "Solicitudes",
     "profile": "Perfil",
-    "admin": "Admin"
+    "admin": "Admin",
+    "share": "Compartir"
   },
   "home": {
     "title": "El Compañero Coránico",
@@ -363,5 +364,8 @@
     "server": "Servicio de notificaciones no disponible por ahora.",
     "test": "Enviar una notificación de prueba",
     "test_sent": "Notificación de prueba enviada."
+  },
+  "share": {
+    "msg": "Assalamu alaykum 🌿\nTe recomiendo Sahib Qurani: una web y una aplicación gratuitas para encontrar un compañero para memorizar y repasar el Corán.\n👉 {url}\n\n«El mejor de vosotros es quien aprende el Corán y lo enseña.» (Al-Bujari)\n«Quien indica el bien es como quien lo hace.» (At-Tirmidi)"
   }
 }
