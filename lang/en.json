@@ -366,7 +366,20 @@
     "d_weekly": "Departures per week",
     "d_monthly": "Departures per month",
     "d_reason": "Reason for leaving",
-    "d_none": "Not given"
+    "d_none": "Not given",
+    "a_title": "Installed app",
+    "a_installs": "Installs",
+    "a_active": "Active (last 30 days)",
+    "a_inactive": "Inactive for 30 days",
+    "a_inactive_note": "Probably uninstalled or abandoned",
+    "a_members": "Members with the app",
+    "a_weekly": "Installs per week",
+    "a_monthly": "Installs per month",
+    "a_platform": "Device",
+    "p_android": "Android",
+    "p_ios": "iPhone / iPad",
+    "p_desktop": "Computer",
+    "p_other": "Other"
   },
   "pwa": {
     "title": "Install the app",
@@ -396,11 +409,14 @@
     "msg": "Assalamu alaykum 🌿\nI recommend Sahib Qurani: a free website and app to find a partner for memorizing and revising the Quran.\n👉 {url}\n\n“The best of you are those who learn the Quran and teach it.” (Al-Bukhari)\n“The one who guides to good is like the one who does it.” (At-Tirmidhi)"
   },
   "partner": {
-    "title": "My partner",
-    "none": "You don't have an active partner yet.",
     "find": "Find a partner",
-    "since": "Partners since {date}",
-    "profile": "View profile"
+    "profile": "View profile",
+    "title_m": "My partner",
+    "title_f": "My partner",
+    "none_m": "You don't have an active partner yet.",
+    "none_f": "You don't have an active partner yet.",
+    "since_m": "Partners since {date}",
+    "since_f": "Partners since {date}"
   },
   "clock": {
     "me": "My time",

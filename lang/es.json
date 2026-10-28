@@ -366,7 +366,20 @@
     "d_weekly": "Bajas por semana",
     "d_monthly": "Bajas por mes",
     "d_reason": "Motivo de la baja",
-    "d_none": "No indicado"
+    "d_none": "No indicado",
+    "a_title": "Aplicación instalada",
+    "a_installs": "Instalaciones",
+    "a_active": "Activas (últimos 30 días)",
+    "a_inactive": "Inactivas desde hace 30 días",
+    "a_inactive_note": "Probablemente desinstaladas o abandonadas",
+    "a_members": "Miembros con la app",
+    "a_weekly": "Instalaciones por semana",
+    "a_monthly": "Instalaciones por mes",
+    "a_platform": "Dispositivo",
+    "p_android": "Android",
+    "p_ios": "iPhone / iPad",
+    "p_desktop": "Ordenador",
+    "p_other": "Otro"
   },
   "pwa": {
     "title": "Instalar la aplicación",
@@ -396,11 +409,14 @@
     "msg": "Assalamu alaykum 🌿\nTe recomiendo Sahib Qurani: una web y una aplicación gratuitas para encontrar un compañero para memorizar y repasar el Corán.\n👉 {url}\n\n«El mejor de vosotros es quien aprende el Corán y lo enseña.» (Al-Bujari)\n«Quien indica el bien es como quien lo hace.» (At-Tirmidi)"
   },
   "partner": {
-    "title": "Mi compañero",
-    "none": "Todavía no tienes un compañero activo.",
     "find": "Buscar un compañero",
-    "since": "Compañeros desde el {date}",
-    "profile": "Ver ficha"
+    "profile": "Ver ficha",
+    "title_m": "Mi compañero",
+    "title_f": "Mi compañera",
+    "none_m": "Todavía no tienes un compañero activo.",
+    "none_f": "Todavía no tienes una compañera activa.",
+    "since_m": "Compañeros desde el {date}",
+    "since_f": "Compañeras desde el {date}"
   },
   "clock": {
     "me": "Mi hora",

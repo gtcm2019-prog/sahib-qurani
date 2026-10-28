@@ -366,7 +366,20 @@
     "d_weekly": "Départs par semaine",
     "d_monthly": "Départs par mois",
     "d_reason": "Raison du départ",
-    "d_none": "Non précisée"
+    "d_none": "Non précisée",
+    "a_title": "Application installée",
+    "a_installs": "Installations",
+    "a_active": "Actives (30 derniers jours)",
+    "a_inactive": "Inactives depuis 30 jours",
+    "a_inactive_note": "Probablement désinstallées ou abandonnées",
+    "a_members": "Membres avec l'appli",
+    "a_weekly": "Installations par semaine",
+    "a_monthly": "Installations par mois",
+    "a_platform": "Appareil",
+    "p_android": "Android",
+    "p_ios": "iPhone / iPad",
+    "p_desktop": "Ordinateur",
+    "p_other": "Autre"
   },
   "pwa": {
     "title": "Installer l'application",
@@ -396,11 +409,14 @@
     "msg": "Assalamou alaykoum 🌿\nJe te recommande Sahib Qurani : un site et une application gratuits pour trouver un partenaire de mémorisation et de révision du Coran.\n👉 {url}\n\n« Le meilleur d'entre vous est celui qui apprend le Coran et l'enseigne. » (Al-Bukhari)\n« Celui qui indique le bien est comme celui qui le fait. » (At-Tirmidhi)"
   },
   "partner": {
-    "title": "Mon partenaire",
-    "none": "Vous n'avez pas encore de partenaire actif.",
     "find": "Trouver un partenaire",
-    "since": "Partenaires depuis le {date}",
-    "profile": "Voir la fiche"
+    "profile": "Voir la fiche",
+    "title_m": "Mon partenaire",
+    "title_f": "Ma partenaire",
+    "none_m": "Vous n'avez pas encore de partenaire actif.",
+    "none_f": "Vous n'avez pas encore de partenaire active.",
+    "since_m": "Partenaires depuis le {date}",
+    "since_f": "Partenaires depuis le {date}"
   },
   "clock": {
     "me": "Chez moi",

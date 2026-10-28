@@ -3,7 +3,7 @@ import { detectLang, setLang, lang, t } from './i18n.js';
 import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
 import { showProfile, showEdit, bindProfile, resetProfileCache } from './profile.js';
 import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMatch } from './match.js';
-import { initPwa } from './pwa.js';
+import { initPwa, pingApp } from './pwa.js';
 import { disable as disableNotif } from './notify.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 import { captureRef, onSession as shareSession, bindShare } from './share.js';
@@ -190,6 +190,7 @@ async function start() {
     if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); resetTz(); }
     // Hors du rappel d'authentification (évite un blocage de supabase-js)
     setTimeout(() => shareSession(s), 0);
+    if (changed && s) setTimeout(() => pingApp(true), 0);
     if (!changed && event === 'TOKEN_REFRESHED') return;
     if (event === 'PASSWORD_RECOVERY') go('reset');
     else if (event === 'SIGNED_IN' && changed && ['login', 'signup'].includes(currentView()) && !wantsReset) go('home');

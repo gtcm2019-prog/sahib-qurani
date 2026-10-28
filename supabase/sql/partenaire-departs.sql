@@ -184,3 +184,59 @@ revoke execute on function public.set_leave_reason(text), public.delete_my_accou
   public.admin_departure_stats() from public, anon;
 grant execute on function public.set_leave_reason(text), public.delete_my_account(),
   public.admin_departure_stats() to authenticated;
+
+-- 9. Application installée : appareils (anonymes, un identifiant aléatoire par appareil)
+create table if not exists public.app_devices (
+  device_id    uuid primary key,
+  user_id      uuid references auth.users(id) on delete set null,
+  platform     text not null check (platform in ('android', 'ios', 'desktop', 'other')),
+  installed_at timestamptz,
+  first_seen   timestamptz not null default now(),
+  last_seen    timestamptz not null default now(),
+  opens        integer not null default 1
+);
+create index if not exists app_devices_last_idx on public.app_devices (last_seen);
+alter table public.app_devices enable row level security;
+revoke all on public.app_devices from anon, authenticated;
+
+-- Signal envoyé par l'appli installée (au plus une fois toutes les 12 h par appareil)
+create or replace function public.app_ping(p_device uuid, p_platform text, p_install boolean default false) returns void
+language plpgsql security definer set search_path = '' as $$
+begin
+  if p_device is null then return; end if;
+  if p_platform is null or p_platform not in ('android', 'ios', 'desktop', 'other') then p_platform := 'other'; end if;
+  insert into public.app_devices as d (device_id, user_id, platform, installed_at)
+  values (p_device, auth.uid(), p_platform, now())
+  on conflict (device_id) do update set
+    last_seen = now(),
+    opens     = d.opens + 1,
+    user_id   = coalesce(auth.uid(), d.user_id),
+    platform  = excluded.platform,
+    installed_at = case when p_install then now() else coalesce(d.installed_at, now()) end
+  where d.last_seen < now() - interval '1 hour' or p_install or (d.user_id is null and auth.uid() is not null);
+end $$;
+
+create or replace function public.admin_app_stats() returns jsonb
+language plpgsql security definer set search_path = '' as $$
+begin
+  if not private.is_admin() then raise exception 'forbidden'; end if;
+  return jsonb_build_object(
+    'installs',  (select count(*) from public.app_devices),
+    'week',      (select count(*) from public.app_devices where installed_at > now() - interval '7 days'),
+    'active30',  (select count(*) from public.app_devices where last_seen > now() - interval '30 days'),
+    'inactive30',(select count(*) from public.app_devices where last_seen <= now() - interval '30 days'),
+    'members',   (select count(distinct user_id) from public.app_devices where user_id is not null),
+    'weekly', coalesce((select jsonb_agg(jsonb_build_array(w, n) order by w) from (
+        select to_char(date_trunc('week', installed_at), 'YYYY-MM-DD') w, count(*) n
+        from public.app_devices where installed_at > now() - interval '12 weeks' group by 1) x), '[]'::jsonb),
+    'monthly', coalesce((select jsonb_agg(jsonb_build_array(m, n) order by m) from (
+        select to_char(date_trunc('month', installed_at), 'YYYY-MM') m, count(*) n
+        from public.app_devices where installed_at > now() - interval '12 months' group by 1) x), '[]'::jsonb),
+    'by_platform', coalesce((select jsonb_object_agg(platform, n) from (
+        select platform, count(*) n from public.app_devices group by 1) x), '{}'::jsonb)
+  );
+end $$;
+
+revoke execute on function public.app_ping(uuid, text, boolean), public.admin_app_stats() from public, anon;
+grant execute on function public.app_ping(uuid, text, boolean) to anon, authenticated;
+grant execute on function public.admin_app_stats() to authenticated;

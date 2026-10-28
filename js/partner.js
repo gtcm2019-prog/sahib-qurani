@@ -43,14 +43,15 @@ export async function showPartnerCard(session) {
   if (!me) { box.hidden = true; return; } // pas encore de profil
   box.replaceChildren();
   box.hidden = false;
+  const g = k => k + (me.gender === 'f' ? '_f' : '_m');
 
   const head = el('div', 'ph-head');
-  head.append(el('h2', null, t('partner.title')));
+  head.append(el('h2', null, t(g('partner.title'))));
   box.append(head);
 
   if (!r || !other) {
     box.classList.add('empty');
-    box.append(el('p', 'muted', t('partner.none')));
+    box.append(el('p', 'muted', t(g('partner.none'))));
     box.append(clockPair(null, '', { compact: true, solo: true }));
     const a = el('a', 'btn btn-gold', t('partner.find'));
     a.href = '#/search';
@@ -64,7 +65,7 @@ export async function showPartnerCard(session) {
   txt.append(el('b', null, other.first_name));
   const pl = [other.city, other.country ? countryName(other.country) : ''].filter(Boolean).join(lang() === 'ar' ? '، ' : ', ');
   if (pl) txt.append(el('small', 'muted', pl));
-  if (r.responded_at) txt.append(el('small', 'muted', t('partner.since', { date: new Intl.DateTimeFormat(lang(), { dateStyle: 'medium' }).format(new Date(r.responded_at)) })));
+  if (r.responded_at) txt.append(el('small', 'muted', t(g('partner.since'), { date: new Intl.DateTimeFormat(lang(), { dateStyle: 'medium' }).format(new Date(r.responded_at)) })));
   who.append(avatarEl(other.avatar, other.gender, other.first_name, 52), txt);
   box.append(who, clockPair(other.timezone, other.first_name));
 

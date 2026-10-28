@@ -309,6 +309,28 @@ async function renderStats(zone, my) {
   );
   zone.append(grid);
 
+  // Application installée
+  const { data: ap } = await sb.rpc('admin_app_stats');
+  if (my !== seq) return;
+  if (ap) {
+    zone.append(el('h3', 'stat-sec', t('admin.a_title')));
+    const at = el('div', 'stat-tiles');
+    at.append(
+      tile(t('admin.a_installs'), ap.installs, t('admin.sh_week', { n: fmtNum(ap.week) })),
+      tile(t('admin.a_active'), ap.active30),
+      tile(t('admin.a_inactive'), ap.inactive30, t('admin.a_inactive_note')),
+      tile(t('admin.a_members'), ap.members)
+    );
+    zone.append(at);
+    const ag = el('div', 'stat-grid');
+    ag.append(
+      columns(t('admin.a_weekly'), ap.weekly || [], shortDate),
+      columns(t('admin.a_monthly'), ap.monthly || [], shortMonth),
+      bars(t('admin.a_platform'), sorted(ap.by_platform, ['android', 'ios', 'desktop', 'other']), k => t('admin.p_' + k))
+    );
+    zone.append(ag);
+  }
+
   // Départs (comptes supprimés, anonymes)
   const { data: d, error: e2 } = await sb.rpc('admin_departure_stats');
   if (my !== seq || e2 || !d) return;
