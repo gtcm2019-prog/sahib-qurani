@@ -444,7 +444,7 @@
     "cancel": "Cancelar"
   },
   "onb": {
-    "step": "{n}/{t}",
+    "step": "Paso {n} de {t}",
     "back": "Atrás",
     "next": "Siguiente",
     "finish": "Terminar",
@@ -458,8 +458,8 @@
     "mode_new": "Cuenta nueva",
     "mode_login": "Ya estoy registrado",
     "check_email": "Cuenta creada. Abre el enlace recibido por correo: el registro continuará aquí.",
-    "name_title": "¿Cómo te llamas?",
-    "name_sub": "Solo se muestra tu nombre.",
+    "name_title": "Elige un seudónimo",
+    "name_sub": "No hace falta tu nombre real: es el nombre que verán los demás miembros.",
     "gender_note": "El género no se podrá cambiar: solo te pondremos en contacto con miembros del mismo género.",
     "age_title": "Tu franja de edad",
     "age_sub": "Nunca se pide tu edad exacta. Los menores de 18 solo se conectan entre ellos.",
@@ -475,13 +475,24 @@
     "guardian_title": "El contacto de tu tutor",
     "install_title": "Instala la aplicación",
     "done": "✓ ¡Tu perfil está listo!",
-    "err_name": "Escribe tu nombre.",
+    "err_name": "Elige un seudónimo.",
     "err_gender": "Elige tu género.",
     "err_choose": "Elige una opción para continuar.",
     "err_country": "Elige tu país.",
     "err_lang": "Elige al menos un idioma.",
     "err_riwaya": "Elige tu recitación.",
     "err_avail": "Elige al menos un horario.",
-    "err_contact": "Elige un modo de repaso."
+    "err_contact": "Elige un modo de repaso.",
+    "pseudo": "Seudónimo",
+    "intro": "Registro en 9 pasos cortos, unos 2 minutos. Al final podrás instalar la aplicación: su icono aparecerá en tu pantalla de inicio (un toque en Android, una pequeña guía en iPhone).",
+    "n_auth": "Cuenta",
+    "n_name": "Seudónimo",
+    "n_age": "Edad",
+    "n_place": "Lugar",
+    "n_lang": "Idiomas",
+    "n_level": "Nivel",
+    "n_avail": "Disponibilidad",
+    "n_wa": "WhatsApp",
+    "n_install": "Aplicación"
   }
 }

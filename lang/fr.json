@@ -444,7 +444,7 @@
     "cancel": "Annuler"
   },
   "onb": {
-    "step": "{n}/{t}",
+    "step": "Étape {n} sur {t}",
     "back": "Retour",
     "next": "Suivant",
     "finish": "Terminer",
@@ -458,8 +458,8 @@
     "mode_new": "Nouveau compte",
     "mode_login": "Déjà inscrit",
     "check_email": "Compte créé. Ouvrez le lien reçu par e-mail : l'inscription continuera ensuite ici.",
-    "name_title": "Comment vous appelez-vous ?",
-    "name_sub": "Seul votre prénom est affiché.",
+    "name_title": "Choisissez un pseudo",
+    "name_sub": "Pas besoin de votre vrai nom : c'est le nom que verront les autres membres.",
     "gender_note": "Le genre ne pourra plus être modifié : vous ne serez mis en relation qu'avec des membres du même genre.",
     "age_title": "Votre tranche d'âge",
     "age_sub": "Votre âge exact n'est jamais demandé. Les moins de 18 ans sont mis en relation uniquement entre eux.",
@@ -475,13 +475,24 @@
     "guardian_title": "Le contact de votre tuteur",
     "install_title": "Installez l'application",
     "done": "✓ Votre profil est prêt !",
-    "err_name": "Indiquez votre prénom.",
+    "err_name": "Choisissez un pseudo.",
     "err_gender": "Choisissez votre genre.",
     "err_choose": "Faites un choix pour continuer.",
     "err_country": "Choisissez votre pays.",
     "err_lang": "Choisissez au moins une langue.",
     "err_riwaya": "Choisissez votre récitation.",
     "err_avail": "Choisissez au moins un horaire.",
-    "err_contact": "Choisissez un mode de révision."
+    "err_contact": "Choisissez un mode de révision.",
+    "pseudo": "Pseudo",
+    "intro": "Inscription en 9 étapes courtes, environ 2 minutes. À la fin, vous pourrez installer l'application : son icône apparaîtra sur votre écran d'accueil (en un clic sur Android, avec un petit guide sur iPhone).",
+    "n_auth": "Compte",
+    "n_name": "Pseudo",
+    "n_age": "Âge",
+    "n_place": "Lieu",
+    "n_lang": "Langues",
+    "n_level": "Niveau",
+    "n_avail": "Disponibilités",
+    "n_wa": "WhatsApp",
+    "n_install": "Application"
   }
 }

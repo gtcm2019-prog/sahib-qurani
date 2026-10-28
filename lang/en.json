@@ -444,7 +444,7 @@
     "cancel": "Cancel"
   },
   "onb": {
-    "step": "{n}/{t}",
+    "step": "Step {n} of {t}",
     "back": "Back",
     "next": "Next",
     "finish": "Finish",
@@ -458,8 +458,8 @@
     "mode_new": "New account",
     "mode_login": "Already a member",
     "check_email": "Account created. Open the link sent to your e-mail: sign-up will then continue here.",
-    "name_title": "What is your first name?",
-    "name_sub": "Only your first name is shown.",
+    "name_title": "Choose a nickname",
+    "name_sub": "No need for your real name: this is the name other members will see.",
     "gender_note": "Gender cannot be changed later: you will only be matched with members of the same gender.",
     "age_title": "Your age range",
     "age_sub": "Your exact age is never asked. Under-18s are only matched with other under-18s.",
@@ -475,13 +475,24 @@
     "guardian_title": "Your guardian's contact",
     "install_title": "Install the app",
     "done": "✓ Your profile is ready!",
-    "err_name": "Enter your first name.",
+    "err_name": "Choose a nickname.",
     "err_gender": "Choose your gender.",
     "err_choose": "Make a choice to continue.",
     "err_country": "Choose your country.",
     "err_lang": "Choose at least one language.",
     "err_riwaya": "Choose your recitation.",
     "err_avail": "Choose at least one time slot.",
-    "err_contact": "Choose a revision mode."
+    "err_contact": "Choose a revision mode.",
+    "pseudo": "Nickname",
+    "intro": "Sign-up in 9 short steps, about 2 minutes. At the end you can install the app: its icon will appear on your home screen (one tap on Android, a short guide on iPhone).",
+    "n_auth": "Account",
+    "n_name": "Nickname",
+    "n_age": "Age",
+    "n_place": "Location",
+    "n_lang": "Languages",
+    "n_level": "Level",
+    "n_avail": "Availability",
+    "n_wa": "WhatsApp",
+    "n_install": "App"
   }
 }

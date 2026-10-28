@@ -206,7 +206,7 @@ const SCREENS = {
     fig.append(hp);
     if (t('hadith.text')) fig.append(el('p', 'hadith-tr', t('hadith.text')));
     fig.append(el('figcaption', null, t('hadith.src')));
-    w.append(fig, el('p', 'lead', t('home.subtitle')), langSeg());
+    w.append(fig, el('p', 'lead', t('home.subtitle')), el('p', 'note-soft onb-intro', t('onb.intro')), langSeg());
     body.append(w);
   },
 
@@ -254,8 +254,8 @@ const SCREENS = {
 
   name(body) {
     body.append(head('onb.name_title', 'onb.name_sub'));
-    body.append(field('edit.first_name', input('text', draft.first_name, v => set('first_name', v),
-      { maxlength: 50, autocomplete: 'given-name', dir: 'auto', name: 'first_name' })));
+    body.append(field('onb.pseudo', input('text', draft.first_name, v => set('first_name', v),
+      { maxlength: 50, autocomplete: 'nickname', dir: 'auto', name: 'first_name' })));
     body.append(label('edit.gender'));
     body.append(options('gender', [
       ['m', t('gender.m'), { ico: '♂', cls: 'g-m' }],
@@ -391,7 +391,9 @@ function render() {
   const showBar = i > 0;
   $('#onb-top').hidden = !showBar;
   $('#onb-fill').style.width = (i / TOTAL * 100) + '%';
-  $('#onb-count').textContent = t('onb.step', { n: i, t: TOTAL });
+  $('#onb-count').textContent = `${i}/${TOTAL}`;
+  // Intitulé visible : « Étape 3 sur 9 · Âge »
+  if (i > 0) body.prepend(el('p', 'onb-eyebrow', t('onb.step', { n: i, t: TOTAL }) + ' · ' + t('onb.n_' + step)));
   $('#onb-prog').setAttribute('aria-valuenow', String(i));
   $('#onb-prog').setAttribute('aria-valuemax', String(TOTAL));
   // Retour impossible vers la connexion une fois connecté, et après l'enregistrement
