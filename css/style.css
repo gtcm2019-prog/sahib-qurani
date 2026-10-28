@@ -463,3 +463,13 @@ body.has-tabs { padding-bottom: 76px; }
   .bar .lang-seg { order: 3; width: 100%; justify-content: center; gap: 10px; margin: 0; }
   .hadith-top .hadith-ar { font-size: 1.45rem; }
 }
+
+/* ---------- Admin : classement des partages ---------- */
+.rank-row { display: grid; grid-template-columns: 26px minmax(0, 1fr) 62px 62px 62px; gap: 6px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .9rem; text-align: center; }
+.rank-head { font-size: .64rem; font-weight: 700; color: var(--muted); padding-top: 0; white-space: nowrap; }
+.rank-who { display: grid; justify-items: start; gap: 2px; text-align: start; min-width: 0; overflow: hidden; }
+.rank-who .tag { display: none; }
+.rank-who small { padding-inline-start: 40px; }
+.rank-n { color: var(--gold); }
+.rank-sign { color: var(--green); font-size: 1rem; }
+@media (max-width: 480px) { .rank-row { grid-template-columns: 18px minmax(0, 1fr) 52px 46px 50px; font-size: .82rem; } .rank-who small { padding-inline-start: 0; } }
