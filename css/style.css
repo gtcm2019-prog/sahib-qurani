@@ -341,8 +341,8 @@ textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px
   padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
   box-shadow: 0 -6px 20px -12px rgba(15,46,44,.4);
 }
-.tabs a { position: relative; flex: 1; max-width: 160px; display: grid; justify-items: center; gap: 1px; padding: 4px; text-decoration: none; color: var(--muted); font-size: .75rem; font-weight: 600; border-radius: 10px; }
-.tabs a .ico { display: grid; place-items: center; height: 24px; }
+.tabs a, .tabs button { background: none; border: 0; font-family: inherit; cursor: pointer; position: relative; flex: 1; max-width: 160px; display: grid; justify-items: center; gap: 1px; padding: 4px; text-decoration: none; color: var(--muted); font-size: .75rem; font-weight: 600; border-radius: 10px; }
+.tabs a .ico, .tabs button .ico { display: grid; place-items: center; height: 24px; }
 .tabs a.on { color: var(--green); background: rgba(196,154,40,.12); }
 .tabs .count { position: absolute; top: 0; inset-inline-end: calc(50% - 26px); }
 body.has-tabs { padding-bottom: 76px; }

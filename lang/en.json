@@ -9,7 +9,8 @@
     "search": "Search",
     "requests": "Requests",
     "profile": "Profile",
-    "admin": "Admin"
+    "admin": "Admin",
+    "share": "Share"
   },
   "home": {
     "title": "The Quran Companion",
@@ -363,5 +364,8 @@
     "server": "Notification service unavailable at the moment.",
     "test": "Send a test notification",
     "test_sent": "Test notification sent."
+  },
+  "share": {
+    "msg": "Assalamu alaykum 🌿\nI recommend Sahib Qurani: a free website and app to find a partner for memorizing and revising the Quran.\n👉 {url}\n\n“The best of you are those who learn the Quran and teach it.” (Al-Bukhari)\n“The one who guides to good is like the one who does it.” (At-Tirmidhi)"
   }
 }

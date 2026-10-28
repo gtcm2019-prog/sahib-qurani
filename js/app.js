@@ -143,6 +143,14 @@ function bindLang() {
   });
 }
 
+/* ---------- Partager l'application via WhatsApp ---------- */
+function bindShare() {
+  $('#tab-share').addEventListener('click', () => {
+    const text = t('share.msg', { url: 'https://sahibqurani.com' });
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  });
+}
+
 /* ---------- Statistiques publiques ---------- */
 async function loadStats() {
   const box = $('#stats');
@@ -164,6 +172,7 @@ async function loadStats() {
 async function start() {
   await setLang(detectLang());
   bindLang();
+  bindShare();
   bindForms();
   bindProfile(go);
   bindMatch(go);
