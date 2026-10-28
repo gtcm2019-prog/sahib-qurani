@@ -625,3 +625,8 @@ body.onb-on main { padding: 0; }
 .onb-intro { font-size: .85rem; line-height: 1.5; }
 .onb-s-welcome { gap: 0; padding-top: 0; }
 .onb-cant { margin-top: 10px; font-size: .85rem; color: var(--muted); }
+/* V3 : pages connexion / installation */
+.onb-login, .onb-install { min-height: 70vh; align-content: center; gap: 18px; }
+.onb-big { width: 100%; padding: 18px 20px; font-size: 1.15rem; border-radius: 16px; }
+.btn-google.onb-big { box-shadow: var(--shadow); }
+.onb-big-note { margin: 0; color: var(--muted); font-size: 1rem; max-width: 420px; }

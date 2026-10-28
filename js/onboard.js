@@ -1,25 +1,26 @@
-// Inscription plein écran, une question par écran (style application).
-// Étapes : accueil → connexion → prénom/genre → âge → pays/ville → langues/récitation
-//          (installation de l'appli juste après la connexion) → niveau/hizb → disponibilités/contact → WhatsApp → accueil.
+// V3 – Inscription simple, style application Play Store.
+// 1) « Veuillez vous connecter » : Google uniquement (une seule fois).
+// 2) Android : grand bouton « Installer l'application », puis ouvrir l'icône.
+// 3) Dans l'application : 7 pages simples (pseudo, âge, lieu, langues, niveau, disponibilités, WhatsApp).
+// iPhone et ordinateur : pas d'installation demandée pour l'instant, les 7 pages se font dans le navigateur.
 import { sb } from './sb.js';
 import { t, lang } from './i18n.js';
-import { $, errKey, EMAIL_RE, pwOk } from './ui.js';
+import { $, errKey } from './ui.js';
 import * as D from './data.js';
 import { el, countryName, languageName, fmtPct } from './card.js';
 import { loadMine, resetProfileCache, normPhone } from './profile.js';
-import { canInstall, installNow, isStandalone, isIPhone, hasPrompt } from './pwa.js';
+import { installNow, isStandalone, isAndroid, hasPrompt } from './pwa.js';
 
 const BASE = location.origin + location.pathname;
-const STEPS = ['welcome', 'auth', 'install', 'name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
+const STEPS = ['auth', 'install', 'name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
 const PROFILE_STEPS = ['name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
-const TOTAL = STEPS.length - 1;          // l'écran d'accueil n'est pas compté
+const TOTAL = PROFILE_STEPS.length;      // la numérotation ne concerne que les pages du profil
 
 let goTo = () => {};
 let onLang = () => {};
 let session = null;
 let draft = {};
 let owner = null;        // à qui appartient le brouillon en mémoire
-let authMode = 'new';
 let seq = 0;
 
 /* ---------- Brouillon (sur l'appareil, sans le numéro) ---------- */
@@ -74,11 +75,10 @@ function check(step) {
 }
 const firstMissing = () => PROFILE_STEPS.find(s => check(s)) || 'wa';
 
-// L'installation est proposée une fois par appareil, juste après la connexion
-// Installation OBLIGATOIRE sur téléphone avant le profil (le profil se remplit dans l'application).
-// Exception : ordinateur, ou navigateur qui ne permet pas d'installer (lien « Je ne peux pas installer »).
+// Android : installation OBLIGATOIRE avant le profil (le profil se remplit dans l'application).
+// Exception : navigateur qui ne permet pas d'installer (lien discret, après un essai).
 const skipped = () => { try { return !!localStorage.getItem('sq_inst_skip'); } catch (e) { return false; } };
-const mustInstall = () => !isStandalone() && canInstall() && !skipped();
+const mustInstall = () => isAndroid && !isStandalone() && !skipped();
 let installed = false;   // installation acceptée pendant cet écran
 let tried = false;       // l'utilisateur a touché « Installer » sans succès
 
@@ -199,66 +199,22 @@ function liveRing() {
 const collator = () => new Intl.Collator(lang());
 
 const SCREENS = {
-  welcome(body) {
-    const w = el('div', 'onb-welcome');
-    w.append(el('div', 'bismillah', 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ'));
+  auth(body) {
+    const w = el('div', 'onb-welcome onb-login');
     const logo = el('div', 'onb-logo');
     const img = document.createElement('img');
     img.src = 'icons/icon-192.png'; img.alt = ''; img.width = 96; img.height = 96;
     logo.append(img);
-    w.append(logo, el('h1', null, t('home.title')));
-    const ar = el('p', 'onb-name-ar', 'الصاحب القرآني'); ar.lang = 'ar'; ar.dir = 'rtl';
-    if (lang() !== 'ar') w.append(ar);
-    const fig = el('figure', 'hadith-top onb-hadith');
-    const hp = el('p', 'hadith-ar', '«خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ»'); hp.lang = 'ar'; hp.dir = 'rtl';
-    fig.append(hp);
-    if (t('hadith.text')) fig.append(el('p', 'hadith-tr', t('hadith.text')));
-    fig.append(el('figcaption', null, t('hadith.src')));
-    w.append(fig, el('p', 'lead', t('home.subtitle')), el('p', 'note-soft onb-intro', t('onb.intro')), langSeg());
-    body.append(w);
-  },
-
-  auth(body) {
-    body.append(head(authMode === 'new' ? 'onb.auth_title' : 'onb.login_title',
-      isStandalone() && authMode === 'login' ? 'onb.relogin' : 'onb.auth_sub'));
-    const g = el('button', 'btn btn-google');
+    const g = el('button', 'btn btn-google onb-big');
     g.type = 'button';
     g.append(el('span', 'g', 'G'), el('span', null, t('auth.google')));
     g.addEventListener('click', async () => {
+      g.disabled = true;
       const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: BASE } });
-      if (error) msg(errKey(error));
+      if (error) { g.disabled = false; msg(errKey(error)); }
     });
-    const or = el('div', 'or'); or.append(el('span', null, t('auth.or')));
-    const seg = el('div', 'seg seg-full');
-    for (const m of ['new', 'login']) {
-      const b = el('button', m === authMode ? 'on' : '', t(m === 'new' ? 'onb.mode_new' : 'onb.mode_login'));
-      b.type = 'button';
-      b.addEventListener('click', () => { if (authMode !== m) { authMode = m; render(); } });
-      seg.append(b);
-    }
-    const f = document.createElement('form');
-    f.id = 'onb-auth'; f.className = 'onb-auth'; f.noValidate = true;
-    const email = input('email', draft._email, v => { draft._email = v; }, { dir: 'ltr', autocomplete: 'email', name: 'email' });
-    const pw = input('password', '', () => {}, { dir: 'ltr', name: 'password', autocomplete: authMode === 'new' ? 'new-password' : 'current-password' });
-    const pwBox = el('span', 'pw');
-    const eye = el('button', 'pw-toggle', '👁'); eye.type = 'button'; eye.setAttribute('aria-label', '👁');
-    eye.addEventListener('click', () => { pw.type = pw.type === 'password' ? 'text' : 'password'; });
-    pwBox.append(pw, eye);
-    f.append(field('auth.email', email), field('auth.password', pwBox, authMode === 'new' ? 'auth.pw_rule' : null));
-    const links = el('p', 'links');
-    if (authMode === 'login') {
-      const a = el('a', null, t('auth.forgot_link')); a.href = '#/forgot';
-      links.append(a);
-    }
-    const resend = el('button', 'link', t('auth.resend')); resend.type = 'button'; resend.hidden = true;
-    resend.addEventListener('click', async () => {
-      const { error } = await sb.auth.resend({ type: 'signup', email: email.value.trim(), options: { emailRedirectTo: BASE } });
-      msg(error ? errKey(error) : 'auth.resent', error ? 'error' : 'ok');
-    });
-    links.append(resend);
-    f.append(links);
-    f.addEventListener('submit', e => { e.preventDefault(); next(); });
-    body.append(g, or, seg, f);
+    w.append(logo, el('h1', null, t('onb.please_login')), g, langSeg());
+    body.append(w);
   },
 
   name(body) {
@@ -364,26 +320,19 @@ const SCREENS = {
     const img = document.createElement('img');
     img.src = 'icons/icon-192.png'; img.alt = ''; img.width = 96; img.height = 96;
     logo.append(img);
-    w.append(el('p', 'onb-done', t('onb.connected')), logo, el('h1', null, t('onb.install_title')), el('p', 'lead', t('onb.install_sub')));
-    const note = el('p', 'note-soft onb-intro');
+    w.append(logo);
     if (installed) {
-      note.textContent = t('onb.inst_done');
-      w.append(note);
+      w.append(el('h1', null, t('onb.inst_ok')), el('p', 'onb-big-note', t('onb.inst_open')));
     } else {
-      const b = el('button', 'btn btn-gold btn-block', t('pwa.install'));
+      const b = el('button', 'btn btn-gold onb-big', t('onb.inst_btn'));
       b.type = 'button';
       b.addEventListener('click', async () => {
-        const ok = await installNow();
-        if (ok) { installed = true; render(); return; }
-        // Android sans bouton du navigateur : installation par le menu
-        if (!isIPhone && !hasPrompt()) msg('onb.inst_menu', 'ok');
+        if (await installNow()) { installed = true; render(); return; }
+        if (!hasPrompt()) msg('onb.inst_menu', 'ok');   // navigateur sans bouton : passer par le menu ⋮
         if (!tried) { tried = true; $('#onb-cant').hidden = false; }
       });
-      // iPhone : se reconnecter une fois dans l'application
-      note.textContent = t(isIPhone ? 'onb.inst_ios' : 'onb.inst_android');
-      w.append(b, note);
+      w.append(b, el('p', 'onb-big-note', t('onb.inst_then')));
     }
-    // Échappatoire discrète, seulement après un essai
     const cant = el('button', 'link onb-cant', t('onb.cant_install'));
     cant.type = 'button'; cant.id = 'onb-cant'; cant.hidden = !tried || installed;
     cant.addEventListener('click', () => {
@@ -412,70 +361,38 @@ let step = 'welcome';
 
 function render() {
   const root = $('#onb');
-  const i = STEPS.indexOf(step);
   const body = $('#onb-body');
   body.replaceChildren();
   body.className = 'onb-body onb-s-' + step;
   msg(null);
   SCREENS[step](body);
-  // En-tête : retour + progression
-  const showBar = i > 0;
-  $('#onb-top').hidden = !showBar;
-  $('#onb-fill').style.width = (i / TOTAL * 100) + '%';
-  $('#onb-count').textContent = `${i}/${TOTAL}`;
-  // Intitulé visible : « Étape 3 sur 9 · Âge »
-  if (i > 0) body.prepend(el('p', 'onb-eyebrow', t('onb.step', { n: i, t: TOTAL }) + ' · ' + t('onb.n_' + step)));
-  $('#onb-prog').setAttribute('aria-valuenow', String(i));
+  // Barre et numéro seulement sur les pages du profil : « Étape 3 sur 7 · Lieu »
+  const pi = PROFILE_STEPS.indexOf(step) + 1;
+  $('#onb-top').hidden = !pi;
+  $('#onb-fill').style.width = (pi / TOTAL * 100) + '%';
+  $('#onb-count').textContent = `${pi}/${TOTAL}`;
+  if (pi) body.prepend(el('p', 'onb-eyebrow', t('onb.step', { n: pi, t: TOTAL }) + ' · ' + t('onb.n_' + step)));
+  $('#onb-prog').setAttribute('aria-valuenow', String(pi));
   $('#onb-prog').setAttribute('aria-valuemax', String(TOTAL));
-  // Retour impossible vers la connexion une fois connecté, et après l'enregistrement
-  $('#onb-back').hidden = step === 'install' || step === 'name';
-  // Bouton principal
+  $('#onb-back').hidden = pi <= 1;
   const nb = $('#onb-next');
   nb.disabled = false;
-  nb.textContent = t(step === 'welcome' ? 'home.cta_start'
-    : step === 'auth' ? (authMode === 'new' ? 'auth.signup_btn' : 'auth.login_btn')
-    : step === 'wa' ? 'onb.finish' : 'onb.next');
-  nb.hidden = step === 'install';   // pas de « Plus tard » : l'installation est obligatoire
-  nb.classList.toggle('btn-line', step === 'install');
-  nb.classList.toggle('btn-gold', step !== 'install');
-  $('#onb-alt').hidden = step !== 'welcome';
-  $('#onb-skip').hidden = step !== 'welcome' || !!session;
+  nb.hidden = !pi;                     // connexion et installation : un seul grand bouton dans la page
+  nb.textContent = t(step === 'wa' ? 'onb.finish' : 'onb.next');
+  $('#onb-alt').hidden = true;
+  $('#onb-skip').hidden = true;
   root.dataset.step = step;
   root.scrollTo(0, 0);
-  // Mettre le curseur dans le premier champ texte
-  const first = body.querySelector('input[type=text], input[type=email], input[type=tel]');
+  const first = body.querySelector('input[type=text], input[type=tel]');
   if (first && !first.value && matchMedia('(pointer: fine)').matches) first.focus();
 }
 
 async function next() {
-  if (step === 'welcome') { authMode = 'new'; return goStep('auth'); }
-  if (step === 'auth') return doAuth();
-  if (step === 'install') return;
+  if (!PROFILE_STEPS.includes(step)) return;
   const err = check(step);
   if (err) return msg(err);
   if (step === 'wa') return save();
   goStep(STEPS[STEPS.indexOf(step) + 1]);
-}
-
-async function doAuth() {
-  const f = $('#onb-auth');
-  const email = f.email.value.trim(), pw = f.password.value;
-  if (!EMAIL_RE.test(email)) return msg('err.invalid_email');
-  if (authMode === 'new' && !pwOk(pw)) return msg('err.pw_rule');
-  const nb = $('#onb-next'); nb.disabled = true;
-  const r = authMode === 'new'
-    ? await sb.auth.signUp({ email, password: pw, options: { emailRedirectTo: BASE } })
-    : await sb.auth.signInWithPassword({ email, password: pw });
-  nb.disabled = false;
-  if (r.error) {
-    const k = errKey(r.error);
-    msg(k);
-    const rs = f.querySelector('.link'); if (rs) rs.hidden = k !== 'err.not_confirmed';
-    return;
-  }
-  f.password.value = '';
-  // Nouveau compte : confirmation par e-mail (la suite reprend au retour sur le site)
-  if (authMode === 'new' && !r.data.session) msg('onb.check_email', 'ok');
 }
 
 async function save() {
@@ -509,15 +426,14 @@ export async function showOnboard(s) {
   session = s;
   let want = stepFromHash();
   if (!s) {
-    if (!['welcome', 'auth'].includes(want)) want = 'welcome';
-    if (want === 'auth' && new URLSearchParams(location.hash.split('?')[1] || '').get('m') === 'login') authMode = 'login';
+    want = 'auth';                       // non connecté : uniquement « Veuillez vous connecter »
   } else {
     let me = null;
     try { me = await loadMine(s); } catch (e) { /* hors ligne : on continue */ }
     if (my !== seq) return;
     if (me?.pub) return finish();
     loadDraft(); defaults();
-    if (want === 'welcome' || want === 'auth') want = null;   // déjà connecté
+    if (want === 'auth') want = null;    // déjà connecté : on ne redemande jamais la connexion
     if (mustInstall()) want = 'install';
     else {
       // On ne saute pas une étape non remplie
@@ -538,10 +454,9 @@ export function bindOnboard(go, changeLang) {
     const i = STEPS.indexOf(step);
     if (i > 0) goStep(STEPS[i - 1]);
   });
-  $('#onb-alt').addEventListener('click', () => { authMode = 'login'; goTo('start?s=auth&m=login'); });
   // Entrée dans un champ = Suivant
   $('#onb-body').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && e.target.matches('input') && step !== 'auth') { e.preventDefault(); next(); }
+    if (e.key === 'Enter' && e.target.matches('input')) { e.preventDefault(); next(); }
   });
 }
 

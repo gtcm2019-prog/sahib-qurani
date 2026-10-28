@@ -502,6 +502,11 @@
     "inst_done": "C'est installé ! Ouvrez Sahib Qurani depuis votre écran d'accueil pour continuer votre profil.",
     "here": "Continuer ici",
     "relogin": "Première ouverture de l'application : reconnectez-vous une fois pour continuer.",
-    "cant_install": "Je ne peux pas installer : continuer sur le site"
+    "cant_install": "Je ne peux pas installer : continuer sur le site",
+    "please_login": "Veuillez vous connecter",
+    "inst_btn": "Installer l'application",
+    "inst_then": "Ensuite, fermez le navigateur et ouvrez l'icône Sahib Qurani sur votre écran d'accueil.",
+    "inst_ok": "Application installée",
+    "inst_open": "Fermez le navigateur et ouvrez l'icône Sahib Qurani pour continuer."
   }
 }
