@@ -7,7 +7,7 @@ let deferred = null;   // événement d'installation (Android / Chrome / Edge)
 const ua = navigator.userAgent;
 const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
-const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+export const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
 /* ---------- Statistiques d'installation (identifiant aléatoire, anonyme) ---------- */
 const platform = () => /android/i.test(ua) ? 'android' : isIOS ? 'ios' : /Windows|Macintosh|Linux|CrOS/.test(ua) ? 'desktop' : 'other';
@@ -37,6 +37,24 @@ function refresh() {
   const canShow = !installed && (deferred || isIOS);
   $$('[data-install]').forEach(el => { el.hidden = !canShow; });
   $$('[data-installed]').forEach(el => { el.hidden = !installed; });
+}
+
+// Pour l'inscription : installation possible maintenant ?
+export const isAndroid = /android/i.test(ua);
+export const isIPhone = isIOS;
+// Proposer l'installation ? (Android : même si le navigateur n'a pas encore donné le bouton)
+export const canInstall = () => !isStandalone() && (!!deferred || isIOS || isAndroid);
+export const hasPrompt = () => !!deferred;
+// Lance l'installation ; vrai si c'est fait (Android / ordinateur). Sur iPhone : ouvre le guide.
+export async function installNow() {
+  if (deferred) {
+    deferred.prompt();
+    const c = await deferred.userChoice.catch(() => null);
+    deferred = null; refresh();
+    return c?.outcome === 'accepted';
+  }
+  if (isIOS) { $('#ios-guide-other').hidden = isSafari; $('#ios-guide').showModal(); }
+  return false;
 }
 
 async function onInstallClick() {
