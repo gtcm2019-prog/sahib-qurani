@@ -1,5 +1,5 @@
 // Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
-const VERSION = 'sq-v6';
+const VERSION = 'sq-v7';
 const SHELL = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',

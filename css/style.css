@@ -452,7 +452,7 @@ body.has-tabs { padding-bottom: 76px; }
 .error-text { color: var(--red); }
 
 /* ---------- Drapeaux des langues ---------- */
-.lang-seg { display: inline-flex; gap: 4px; margin-inline-start: auto; }
+.lang-seg { display: inline-flex; gap: 4px; margin-inline-start: auto; direction: ltr; }
 .lang-seg button { background: none; border: 2px solid transparent; border-radius: 7px; padding: 3px; cursor: pointer; line-height: 0; opacity: .6; transition: opacity .15s; }
 .lang-seg button:hover, .lang-seg button:focus-visible { opacity: 1; }
 .lang-seg img { width: 26px; height: 18px; object-fit: cover; border-radius: 3px; box-shadow: 0 0 0 1px rgba(255,255,255,.35); }
