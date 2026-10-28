@@ -448,7 +448,7 @@
     "back": "Retour",
     "next": "Suivant",
     "finish": "Terminer",
-    "later": "Plus tard",
+    "later": "Plus tard, continuer ici",
     "saving": "Enregistrement…",
     "discover": "Découvrir le site d'abord",
     "multi": "Plusieurs choix possibles.",
@@ -484,7 +484,7 @@
     "err_avail": "Choisissez au moins un horaire.",
     "err_contact": "Choisissez un mode de révision.",
     "pseudo": "Pseudo",
-    "intro": "Inscription en 9 étapes courtes, environ 2 minutes. À la fin, vous pourrez installer l'application : son icône apparaîtra sur votre écran d'accueil (en un clic sur Android, avec un petit guide sur iPhone).",
+    "intro": "Inscription en 9 étapes courtes, environ 2 minutes. Juste après la connexion, vous pourrez installer l'application : son icône apparaîtra sur votre écran d'accueil, et vous compléterez votre profil depuis l'application.",
     "n_auth": "Compte",
     "n_name": "Pseudo",
     "n_age": "Âge",
@@ -493,6 +493,14 @@
     "n_level": "Niveau",
     "n_avail": "Disponibilités",
     "n_wa": "WhatsApp",
-    "n_install": "Application"
+    "n_install": "Application",
+    "connected": "✓ Vous êtes connecté",
+    "install_sub": "Ajoutez Sahib Qurani à votre écran d'accueil, puis complétez votre profil depuis l'application.",
+    "inst_android": "Touchez « Installer » puis confirmez. L'icône apparaît sur votre écran d'accueil ; ouvrez-la pour continuer.",
+    "inst_ios": "Sur iPhone, un petit guide s'affiche (bouton Partager de Safari). Ouvrez ensuite l'application depuis l'icône et reconnectez-vous une fois : avec Google, un seul clic.",
+    "inst_menu": "Ouvrez le menu ⋮ de votre navigateur, puis « Installer l'application » ou « Ajouter à l'écran d'accueil ».",
+    "inst_done": "C'est installé ! Ouvrez Sahib Qurani depuis votre écran d'accueil pour continuer votre profil.",
+    "here": "Continuer ici",
+    "relogin": "Première ouverture de l'application : reconnectez-vous une fois pour continuer."
   }
 }

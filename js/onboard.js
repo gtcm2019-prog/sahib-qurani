@@ -1,16 +1,16 @@
 // Inscription plein écran, une question par écran (style application).
 // Étapes : accueil → connexion → prénom/genre → âge → pays/ville → langues/récitation
-//          → niveau/hizb → disponibilités/contact → WhatsApp → installation → accueil.
+//          (installation de l'appli juste après la connexion) → niveau/hizb → disponibilités/contact → WhatsApp → accueil.
 import { sb } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $, errKey, EMAIL_RE, pwOk } from './ui.js';
 import * as D from './data.js';
 import { el, countryName, languageName, fmtPct } from './card.js';
 import { loadMine, resetProfileCache, normPhone } from './profile.js';
-import { canInstall, installNow, isStandalone } from './pwa.js';
+import { canInstall, installNow, isStandalone, isIPhone, hasPrompt } from './pwa.js';
 
 const BASE = location.origin + location.pathname;
-const STEPS = ['welcome', 'auth', 'name', 'age', 'place', 'lang', 'level', 'avail', 'wa', 'install'];
+const STEPS = ['welcome', 'auth', 'install', 'name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
 const PROFILE_STEPS = ['name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
 const TOTAL = STEPS.length - 1;          // l'écran d'accueil n'est pas compté
 
@@ -73,6 +73,11 @@ function check(step) {
   return null;
 }
 const firstMissing = () => PROFILE_STEPS.find(s => check(s)) || 'wa';
+
+// L'installation est proposée une fois par appareil, juste après la connexion
+const offerInstall = () => { try { return canInstall() && !localStorage.getItem('sq_inst_seen'); } catch (e) { return false; } };
+const installSeen = () => { try { localStorage.setItem('sq_inst_seen', '1'); } catch (e) { /* ignore */ } };
+let installed = false;   // installation acceptée pendant cet écran
 
 /* ---------- Petits éléments ---------- */
 function msg(key, type = 'error') {
@@ -211,7 +216,8 @@ const SCREENS = {
   },
 
   auth(body) {
-    body.append(head(authMode === 'new' ? 'onb.auth_title' : 'onb.login_title', 'onb.auth_sub'));
+    body.append(head(authMode === 'new' ? 'onb.auth_title' : 'onb.login_title',
+      isStandalone() && authMode === 'login' ? 'onb.relogin' : 'onb.auth_sub'));
     const g = el('button', 'btn btn-google');
     g.type = 'button';
     g.append(el('span', 'g', 'G'), el('span', null, t('auth.google')));
@@ -350,16 +356,29 @@ const SCREENS = {
   },
 
   install(body) {
+    installSeen();
     const w = el('div', 'onb-welcome onb-install');
     const logo = el('div', 'onb-logo');
     const img = document.createElement('img');
     img.src = 'icons/icon-192.png'; img.alt = ''; img.width = 96; img.height = 96;
     logo.append(img);
-    w.append(el('p', 'onb-done', t('onb.done')), logo, el('h1', null, t('onb.install_title')), el('p', 'lead', t('pwa.text')));
-    const b = el('button', 'btn btn-gold btn-block', t('pwa.install'));
-    b.type = 'button';
-    b.addEventListener('click', async () => { if (await installNow()) finish(); });
-    w.append(b);
+    w.append(el('p', 'onb-done', t('onb.connected')), logo, el('h1', null, t('onb.install_title')), el('p', 'lead', t('onb.install_sub')));
+    const note = el('p', 'note-soft onb-intro');
+    if (installed) {
+      note.textContent = t('onb.inst_done');
+      w.append(note);
+    } else {
+      const b = el('button', 'btn btn-gold btn-block', t('pwa.install'));
+      b.type = 'button';
+      b.addEventListener('click', async () => {
+        if (await installNow()) { installed = true; render(); return; }
+        // Android sans bouton du navigateur : installation par le menu
+        if (!isIPhone && !hasPrompt()) msg('onb.inst_menu', 'ok');
+      });
+      // iPhone : se reconnecter une fois dans l'application
+      note.textContent = t(isIPhone ? 'onb.inst_ios' : 'onb.inst_android');
+      w.append(b, note);
+    }
     body.append(w);
   }
 };
@@ -397,13 +416,13 @@ function render() {
   $('#onb-prog').setAttribute('aria-valuenow', String(i));
   $('#onb-prog').setAttribute('aria-valuemax', String(TOTAL));
   // Retour impossible vers la connexion une fois connecté, et après l'enregistrement
-  $('#onb-back').hidden = step === 'name' || step === 'install';
+  $('#onb-back').hidden = step === 'install' || (step === 'name' && (isStandalone() || !canInstall()));
   // Bouton principal
   const nb = $('#onb-next');
   nb.disabled = false;
   nb.textContent = t(step === 'welcome' ? 'home.cta_start'
     : step === 'auth' ? (authMode === 'new' ? 'auth.signup_btn' : 'auth.login_btn')
-    : step === 'wa' ? 'onb.finish' : step === 'install' ? 'onb.later' : 'onb.next');
+    : step === 'wa' ? 'onb.finish' : step === 'install' ? (installed ? 'onb.here' : 'onb.later') : 'onb.next');
   nb.classList.toggle('btn-line', step === 'install');
   nb.classList.toggle('btn-gold', step !== 'install');
   $('#onb-alt').hidden = step !== 'welcome';
@@ -418,7 +437,7 @@ function render() {
 async function next() {
   if (step === 'welcome') { authMode = 'new'; return goStep('auth'); }
   if (step === 'auth') return doAuth();
-  if (step === 'install') return finish();
+  if (step === 'install') return goStep('name');
   const err = check(step);
   if (err) return msg(err);
   if (step === 'wa') return save();
@@ -468,9 +487,7 @@ async function save() {
   }
   if (r.error) { console.warn(r.error); nb.disabled = false; nb.textContent = t('onb.finish'); return msg('err.generic'); }
   resetProfileCache();
-  try { localStorage.removeItem(dkey()); } catch (e) { /* ignore */ }
-  if (isStandalone() || !canInstall()) return finish();
-  goStep('install');
+  finish();
 }
 
 /* ---------- Entrée ---------- */
@@ -485,10 +502,12 @@ export async function showOnboard(s) {
     let me = null;
     try { me = await loadMine(s); } catch (e) { /* hors ligne : on continue */ }
     if (my !== seq) return;
-    if (me?.pub) {
-      if (want !== 'install' || isStandalone() || !canInstall()) return finish();
-    } else {
-      loadDraft(); defaults();
+    if (me?.pub) return finish();
+    loadDraft(); defaults();
+    if (want === 'welcome' || want === 'auth') want = null;   // déjà connecté
+    if (want === 'install' && !isStandalone() && canInstall()) { /* on reste sur l'installation */ }
+    else if (!want && offerInstall()) want = 'install';
+    else {
       // On ne saute pas une étape non remplie
       const fm = PROFILE_STEPS.indexOf(firstMissing());
       const wi = PROFILE_STEPS.indexOf(want);

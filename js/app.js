@@ -4,7 +4,7 @@ import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
 import { showProfile, showEdit, bindProfile, resetProfileCache, loadMine } from './profile.js';
 import { showOnboard, bindOnboard, firstVisit } from './onboard.js';
 import { showSearch, showMember, showRequests, bindMatch, refreshCount, resetMatch } from './match.js';
-import { initPwa, pingApp } from './pwa.js';
+import { initPwa, pingApp, isStandalone } from './pwa.js';
 import { disable as disableNotif } from './notify.js';
 import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from './admin.js';
 import { captureRef, onSession as shareSession, bindShare } from './share.js';
@@ -215,7 +215,9 @@ async function start() {
   }
 
   // Première visite sans compte : écran d'accueil plein écran
-  if (!session && currentView() === 'home' && !location.hash && firstVisit()) history.replaceState(null, '', BASE + '#/start');
+  // Application installée ouverte sans connexion (iPhone) : se reconnecter une fois
+  if (!session && currentView() === 'home' && !location.hash && isStandalone()) history.replaceState(null, '', BASE + '#/start?s=auth&m=login');
+  else if (!session && currentView() === 'home' && !location.hash && firstVisit()) history.replaceState(null, '', BASE + '#/start');
   window.addEventListener('hashchange', render);
   // Pastille des demandes : mise à jour au retour sur l'onglet et chaque minute
   document.addEventListener('visibilitychange', () => { if (!document.hidden && session) refreshCount(true, session); });

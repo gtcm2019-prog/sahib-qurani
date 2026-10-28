@@ -40,7 +40,11 @@ function refresh() {
 }
 
 // Pour l'inscription : installation possible maintenant ?
-export const canInstall = () => !isStandalone() && (!!deferred || isIOS);
+export const isAndroid = /android/i.test(ua);
+export const isIPhone = isIOS;
+// Proposer l'installation ? (Android : même si le navigateur n'a pas encore donné le bouton)
+export const canInstall = () => !isStandalone() && (!!deferred || isIOS || isAndroid);
+export const hasPrompt = () => !!deferred;
 // Lance l'installation ; vrai si c'est fait (Android / ordinateur). Sur iPhone : ouvre le guide.
 export async function installNow() {
   if (deferred) {
