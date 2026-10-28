@@ -1,12 +1,13 @@
 // Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
-const VERSION = 'sq-v5';
+const VERSION = 'sq-v6';
 const SHELL = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',
   'js/avatar.js', 'js/profile.js', 'js/match.js', 'js/trust.js', 'js/admin.js', 'js/pwa.js', 'js/notify.js',
   'js/vendor/supabase.js',
   'lang/ar.json', 'lang/fr.json', 'lang/en.json', 'lang/es.json',
-  'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-32.png'
+  'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-32.png',
+  'icons/flags/ar.svg', 'icons/flags/fr.svg', 'icons/flags/en.svg', 'icons/flags/es.svg'
 ];
 
 self.addEventListener('install', e => {
@@ -57,6 +58,7 @@ self.addEventListener('push', e => {
     body: d.body || '',
     icon: 'icons/icon-192.png',
     badge: 'icons/favicon-32.png',
+  'icons/flags/ar.svg', 'icons/flags/fr.svg', 'icons/flags/en.svg', 'icons/flags/es.svg',
     tag: d.tag || 'sq',
     renotify: true,
     data: { url: d.url || '' }

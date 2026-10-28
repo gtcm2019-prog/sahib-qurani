@@ -66,7 +66,7 @@ const TEXT: Record<string, Record<Lang, [string, string]>> = {
     fr: ['Sahib Qurani', 'Les notifications fonctionnent ✅'],
     en: ['Sahib Qurani', 'Notifications are working ✅'],
     es: ['Sahib Qurani', 'Las notificaciones funcionan ✅'],
-    ar: ['صاحب القرآن', 'الإشعارات تعمل ✅']
+    ar: ['الصاحب القرآني', 'الإشعارات تعمل ✅']
   }
 };
 const REASONS: Record<string, Record<Lang, string>> = {

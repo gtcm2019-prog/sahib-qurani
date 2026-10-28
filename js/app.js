@@ -133,9 +133,14 @@ function bindForms() {
 
 /* ---------- Langue ---------- */
 function bindLang() {
-  const sel = $('#lang-select');
-  sel.value = lang();
-  sel.addEventListener('change', async () => { await setLang(sel.value); render(); loadStats(); });
+  const seg = $('#lang-seg');
+  const mark = () => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang())));
+  mark();
+  seg.addEventListener('click', async e => {
+    const b = e.target.closest('button[data-lang]');
+    if (!b || b.dataset.lang === lang()) return;
+    await setLang(b.dataset.lang); mark(); render(); loadStats();
+  });
 }
 
 /* ---------- Statistiques publiques ---------- */
