@@ -71,7 +71,20 @@ async function onInstallClick() {
   }
 }
 
+// Appli installée sur Android : plein écran (sans barre de l'heure) au premier appui,
+// redemandé après un retour dans l'appli. Sans effet sur iPhone et dans le navigateur.
+function keepFullscreen() {
+  const el = document.documentElement;
+  if (!isStandalone() || !el.requestFullscreen || !/Android/i.test(navigator.userAgent)) return;
+  const go = () => {
+    if (document.fullscreenElement) return;
+    el.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
+  };
+  document.addEventListener('click', go, { capture: true });
+}
+
 export function initPwa() {
+  keepFullscreen();
   if ('serviceWorker' in navigator) {
     const reg = () => navigator.serviceWorker.register('sw.js').catch(err => console.warn('sw', err));
     if (document.readyState === 'complete') reg(); else window.addEventListener('load', reg);
