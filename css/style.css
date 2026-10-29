@@ -443,7 +443,7 @@ body.has-tabs { padding-bottom: 76px; }
 .ios-guide h2 { margin: 0 0 12px; font-size: 1.4rem; }
 .ios-steps { grid-template-columns: 1fr !important; }
 .ios-ico { vertical-align: -4px; color: #0A84FF; }
-@media (display-mode: standalone) { .top { padding-top: env(safe-area-inset-top); } }
+@media (display-mode: standalone), (display-mode: fullscreen) { .top { padding-top: env(safe-area-inset-top); } }
 
 /* ---------- Notifications ---------- */
 .notif-row { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
