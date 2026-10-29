@@ -7,7 +7,7 @@ let deferred = null;   // événement d'installation (Android / Chrome / Edge)
 const ua = navigator.userAgent;
 const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
-export const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
+export const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
 /* ---------- Statistiques d'installation (identifiant aléatoire, anonyme) ---------- */
 const platform = () => /android/i.test(ua) ? 'android' : isIOS ? 'ios' : /Windows|Macintosh|Linux|CrOS/.test(ua) ? 'desktop' : 'other';
@@ -71,20 +71,7 @@ async function onInstallClick() {
   }
 }
 
-// Appli installée sur Android : plein écran (sans barre de l'heure) au premier appui,
-// redemandé après un retour dans l'appli. Sans effet sur iPhone et dans le navigateur.
-function keepFullscreen() {
-  const el = document.documentElement;
-  if (!isStandalone() || !el.requestFullscreen || !/Android/i.test(navigator.userAgent)) return;
-  const go = () => {
-    if (document.fullscreenElement) return;
-    el.requestFullscreen({ navigationUI: 'hide' }).catch(() => {});
-  };
-  document.addEventListener('click', go, { capture: true });
-}
-
 export function initPwa() {
-  keepFullscreen();
   if ('serviceWorker' in navigator) {
     const reg = () => navigator.serviceWorker.register('sw.js').catch(err => console.warn('sw', err));
     if (document.readyState === 'complete') reg(); else window.addEventListener('load', reg);
