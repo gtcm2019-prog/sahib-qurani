@@ -11,7 +11,7 @@ import { notify } from './notify.js';
 import { clockPair, clockChip } from './clock.js';
 import { endPartnership } from './partner.js';
 
-const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at, timezone';
+const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at, timezone, assiduity, assiduity_rate';
 const PAGE = 20;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

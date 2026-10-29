@@ -641,3 +641,45 @@ body.onb-on main { padding: 0; }
 .onb-pick-btn:hover, .onb-pick-btn:focus-visible { border-color: var(--gold); }
 .onb-pick-btn img { width: 42px; height: 28px; object-fit: cover; border-radius: 4px; box-shadow: 0 0 0 1px rgba(0,0,0,.12); flex: none; }
 .onb-pick-btn[lang=ar] b { font-family: var(--arabic); }
+
+/* ---------- V4 : programme de révision ---------- */
+.plan-home { border-top: 3px solid var(--green); display: grid; gap: 12px; }
+.plan-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.plan-home .plan-head h2 { margin: 0; color: var(--green); font-family: var(--display); font-size: 1.6rem; }
+[dir="rtl"] .plan-home .plan-head h2 { font-family: var(--arabic); font-size: 1.35rem; }
+.plan-day { display: grid; gap: 8px; padding-top: 10px; border-top: 1px solid var(--line); }
+.plan-day h3, .plan-cal-t { margin: 0; font-size: .95rem; color: var(--muted); font-weight: 600; }
+.plan-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.plan-line b { font-size: 1.1rem; color: var(--green-dark); }
+.plan-stats { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: .88rem; color: var(--muted); }
+.plan-streak { color: #A86A00; font-weight: 600; }
+.plan-hint { margin: 0; color: var(--ok); font-weight: 600; }
+.btn-done { font-size: 1.05rem; padding-inline: 22px; }
+.plan-st-done { color: var(--ok); border-color: #C3E2D2; background: #E8F4EE; }
+.plan-st-missed { color: var(--red); border-color: #F0C9C9; background: #FBEAEA; }
+.plan-st-planned { color: #A86A00; border-color: #F0DDB0; background: #FFF6DF; }
+.plan-form { display: grid; gap: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+.plan-lbl { font-size: .82rem; font-weight: 600; color: var(--muted); }
+.plan-units { display: flex; flex-wrap: wrap; gap: 6px; }
+.plan-units button { font: inherit; font-size: .9rem; padding: 7px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; color: var(--green-dark); cursor: pointer; }
+.plan-units button.on { border-color: var(--gold); background: rgba(196,154,40,.12); font-weight: 600; }
+.plan-range { display: grid; gap: 6px; }
+.plan-point { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.plan-point select, .plan-point input { padding: 9px 10px; font: inherit; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; }
+.plan-point input { width: 6.5em; }
+.plan-point select { max-width: 100%; }
+.plan-cal { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 3px; }
+.pc { display: grid; justify-items: center; gap: 1px; padding: 4px 0; border-radius: 8px; background: #F6F1E6; font-size: .7rem; color: var(--muted); }
+.pc b { font-size: .9rem; line-height: 1.1; }
+.pc-done { background: #E8F4EE; color: var(--ok); }
+.pc-missed { background: #FBEAEA; color: var(--red); }
+.pc-planned { background: #FFF6DF; color: #A86A00; }
+.pc-today { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.plan-partner { display: grid; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.plan-partner h3 { margin: 0; font-size: 1rem; color: var(--green); }
+.assid-top { color: var(--ok); border-color: #C3E2D2; background: #E8F4EE; }
+.assid-good { color: var(--green); border-color: rgba(27,77,74,.3); background: rgba(27,77,74,.06); }
+.assid-low { color: #A86A00; border-color: #F0DDB0; background: #FFF6DF; }
+.assid-new { color: var(--muted); background: #F1ECE2; }
+.m-top .assid-top, .m-top .assid-good, .m-top .assid-low { font-size: .68rem; padding: 1px 7px; }
+@media (max-width: 380px) { .pc small:first-child { display: none; } }

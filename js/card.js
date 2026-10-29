@@ -61,11 +61,21 @@ export function ring(p, size = 132) {
   return wrap;
 }
 
+// Évaluation d'assiduité (programme de révision) : new, top, good, low
+export function assidTag(p) {
+  const a = p.assiduity || 'new';
+  const g = p.gender === 'f' ? 'f' : 'm';
+  const s = el('span', 'tag assid-' + a, t('assid.' + a + '_' + g));
+  if (a !== 'new' && p.assiduity_rate !== null && p.assiduity_rate !== undefined) s.title = t('plan.rate', { p: fmtPct(p.assiduity_rate) });
+  return s;
+}
+
 export function tags(p) {
   const box = el('p', 'p-tags');
   box.append(el('span', 'tag tag-' + p.gender, t('gender.' + p.gender)));
   box.append(el('span', 'tag tag-status-' + p.status, t('status.' + p.status)));
   if (p.badge) box.append(el('span', 'tag badge-' + p.badge, t('badge.' + p.badge)));
+  if (p.assiduity) box.append(assidTag(p));
   if (p.is_paused) box.append(el('span', 'tag tag-pause', t('profile.paused_tag')));
   return box;
 }
@@ -110,6 +120,7 @@ export function memberRow(p, href) {
   const top = el('div', 'm-top');
   top.append(el('b', null, p.first_name));
   if (p.badge === 'reliable') top.append(el('span', 'tag badge-reliable', t('badge.reliable')));
+  if (p.assiduity && p.assiduity !== 'new') top.append(assidTag(p));
   info.append(top, el('small', 'muted', place(p)),
     el('small', 'm-meta', [t('level.' + p.level), t('riwaya.' + p.riwaya), t('contact.' + p.contact_mode)].join(' · ')));
   const side = el('div', 'm-side');

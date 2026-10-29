@@ -9,7 +9,7 @@ import { el, profileCard, countryName, place, languageName } from './card.js';
 import { avatarEl } from './avatar.js';
 import { starsEl, loadRatings } from './trust.js';
 
-const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at';
+const COLS = 'id, first_name, gender, country, city, age_range, languages, level, riwaya, surah_from, surah_to, hizb_memorized, availability, contact_mode, status, badge, avatar, is_paused, created_at, assiduity, assiduity_rate';
 let isAdminUser = null;
 let tab = 'reports';
 let meId = null;
@@ -329,6 +329,31 @@ async function renderStats(zone, my) {
       bars(t('admin.a_platform'), sorted(ap.by_platform, ['android', 'ios', 'desktop', 'other']), k => t('admin.p_' + k))
     );
     zone.append(ag);
+  }
+
+  // Programmes de révision (totaux seulement)
+  const { data: rv } = await sb.rpc('admin_revision_stats');
+  if (my !== seq) return;
+  if (rv) {
+    zone.append(el('h3', 'stat-sec', t('admin.r_title')));
+    const rt = el('div', 'stat-tiles');
+    rt.append(
+      tile(t('admin.r_plans'), rv.plans),
+      tile(t('admin.r_done'), rv.done, rv.rate30 !== null ? t('admin.r_rate', { p: fmtNum(rv.rate30) }) : null),
+      tile(t('admin.r_missed'), rv.missed),
+      tile(t('admin.r_active'), rv.active7, t('admin.r_active30', { n: fmtNum(rv.active30) }))
+    );
+    zone.append(rt);
+    const dayLbl = k => new Intl.DateTimeFormat(lang(), { day: 'numeric' }).format(new Date(k + 'T00:00:00'));
+    const rg = el('div', 'stat-grid');
+    rg.append(
+      columns(t('admin.r_daily'), (rv.daily || []).map(([d, , k]) => [d, k]), dayLbl),
+      columns(t('admin.r_weekly'), (rv.weekly || []).map(([w, n]) => [w, n]), shortDate),
+      columns(t('admin.r_monthly'), (rv.monthly || []).map(([m, , k]) => [m, k]), shortMonth),
+      bars(t('admin.r_unit'), sorted(rv.by_unit, ['hizb', 'nisf', 'rub', 'thumn', 'surah', 'page']), k => t('plan.u_' + k)),
+      bars(t('admin.r_assid'), sorted(rv.by_assiduity, ['top', 'good', 'low', 'new']), k => t('assid.' + k + '_m'))
+    );
+    zone.append(rg);
   }
 
   // Départs (comptes supprimés, anonymes)
