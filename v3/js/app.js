@@ -127,8 +127,10 @@ function bindForms() {
   }));
 
   $('#btn-logout').addEventListener('click', async () => {
-    await disableNotif().catch(() => {});   // cet appareil ne reçoit plus les notifications du compte
-    await sb.auth.signOut();
+    // La déconnexion ne doit jamais rester bloquée : notifications au plus 4 s
+    await Promise.race([disableNotif().catch(() => {}), new Promise(r => setTimeout(r, 4000))]);
+    const { error } = await sb.auth.signOut();
+    if (error) await sb.auth.signOut({ scope: 'local' });   // hors ligne : on déconnecte au moins cet appareil
     go('home');
   });
 
