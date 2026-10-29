@@ -507,6 +507,9 @@
     "inst_btn": "Installer l'application",
     "inst_then": "Ensuite, fermez le navigateur et ouvrez l'icône Sahib Qurani sur votre écran d'accueil.",
     "inst_ok": "Application installée",
-    "inst_open": "Fermez le navigateur et ouvrez l'icône Sahib Qurani pour continuer."
+    "inst_open": "Fermez le navigateur et ouvrez l'icône Sahib Qurani pour continuer.",
+    "gender_title": "Vous êtes…",
+    "n_gender": "Genre",
+    "n_mode": "Mode de révision"
   }
 }

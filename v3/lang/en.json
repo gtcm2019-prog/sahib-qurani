@@ -507,6 +507,9 @@
     "inst_btn": "Install the app",
     "inst_then": "Then close the browser and open the Sahib Qurani icon on your home screen.",
     "inst_ok": "App installed",
-    "inst_open": "Close the browser and open the Sahib Qurani icon to continue."
+    "inst_open": "Close the browser and open the Sahib Qurani icon to continue.",
+    "gender_title": "You are…",
+    "n_gender": "Gender",
+    "n_mode": "Revision mode"
   }
 }
