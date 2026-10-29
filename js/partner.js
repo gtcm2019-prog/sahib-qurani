@@ -6,6 +6,7 @@ import * as D from './data.js';
 import { el, countryName } from './card.js';
 import { avatarEl } from './avatar.js';
 import { clockPair } from './clock.js';
+import { showPlanCard, partnerPlanEl } from './plan.js';
 
 const COLS = 'id, first_name, gender, country, city, age_range, avatar, timezone';
 let seq = 0;
@@ -28,7 +29,7 @@ export function endPartnership(id) {
 export async function showPartnerCard(session) {
   const box = $('#partner-home');
   const my = ++seq;
-  if (!session) { box.hidden = true; box.replaceChildren(); return; }
+  if (!session) { box.hidden = true; box.replaceChildren(); showPlanCard(null); return; }
   const uid = session.user.id;
   let r, other = null, me = null, priv = null;
   try {
@@ -40,7 +41,8 @@ export async function showPartnerCard(session) {
     if (other) ({ data: priv } = await sb.from('profiles_private').select('whatsapp, guardian_name, guardian_whatsapp').eq('id', other.id).maybeSingle());
   } catch (e) { console.warn(e); if (my === seq) box.hidden = true; return; }
   if (my !== seq) return;
-  if (!me) { box.hidden = true; return; } // pas encore de profil
+  if (!me) { box.hidden = true; showPlanCard(null); return; } // pas encore de profil
+  showPlanCard(session, me.gender);
   box.replaceChildren();
   box.hidden = false;
   const g = k => k + (me.gender === 'f' ? '_f' : '_m');
@@ -67,7 +69,7 @@ export async function showPartnerCard(session) {
   if (pl) txt.append(el('small', 'muted', pl));
   if (r.responded_at) txt.append(el('small', 'muted', t(g('partner.since'), { date: new Intl.DateTimeFormat(lang(), { dateStyle: 'medium' }).format(new Date(r.responded_at)) })));
   who.append(avatarEl(other.avatar, other.gender, other.first_name, 52), txt);
-  box.append(who, clockPair(other.timezone, other.first_name));
+  box.append(who, clockPair(other.timezone, other.first_name), partnerPlanEl(other));
 
   const actions = el('div', 'p-actions');
   const theyMinor = D.MINOR_AGES.includes(other.age_range);
