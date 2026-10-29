@@ -341,7 +341,8 @@ async function renderStats(zone, my) {
       tile(t('admin.r_plans'), rv.plans),
       tile(t('admin.r_done'), rv.done, rv.rate30 !== null ? t('admin.r_rate', { p: fmtNum(rv.rate30) }) : null),
       tile(t('admin.r_missed'), rv.missed),
-      tile(t('admin.r_active'), rv.active7, t('admin.r_active30', { n: fmtNum(rv.active30) }))
+      tile(t('admin.r_active'), rv.active7, t('admin.r_active30', { n: fmtNum(rv.active30) })),
+      tile(t('admin.r_pages'), rv.pages_learned)
     );
     zone.append(rt);
     const dayLbl = k => new Intl.DateTimeFormat(lang(), { day: 'numeric' }).format(new Date(k + 'T00:00:00'));
@@ -350,7 +351,8 @@ async function renderStats(zone, my) {
       columns(t('admin.r_daily'), (rv.daily || []).map(([d, , k]) => [d, k]), dayLbl),
       columns(t('admin.r_weekly'), (rv.weekly || []).map(([w, n]) => [w, n]), shortDate),
       columns(t('admin.r_monthly'), (rv.monthly || []).map(([m, , k]) => [m, k]), shortMonth),
-      bars(t('admin.r_unit'), sorted(rv.by_unit, ['hizb', 'nisf', 'rub', 'thumn', 'surah', 'page']), k => t('plan.u_' + k)),
+      bars(t('admin.r_kind'), sorted(rv.by_kind, ['hifz', 'muraja']), k => t('plan.k_' + k)),
+      bars(t('admin.r_unit'), sorted(rv.by_unit, ['page', 'thumn', 'surah', 'hizb', 'juz']), k => t('plan.u_' + k)),
       bars(t('admin.r_assid'), sorted(rv.by_assiduity, ['top', 'good', 'low', 'new']), k => t('assid.' + k + '_m'))
     );
     zone.append(rg);
