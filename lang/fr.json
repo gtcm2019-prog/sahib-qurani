@@ -11,7 +11,8 @@
     "profile": "Profil",
     "admin": "Admin",
     "share": "Partager",
-    "home": "Accueil"
+    "home": "Accueil",
+    "stats": "Stats"
   },
   "home": {
     "title": "Le Compagnon Coranique",
@@ -592,5 +593,29 @@
     "good_f": "Assidue",
     "low_m": "À encourager",
     "low_f": "À encourager"
+  },
+  "stat": {
+    "title": "Mes statistiques",
+    "p_w": "7 jours",
+    "p_m": "30 jours",
+    "p_y": "12 mois",
+    "rate": "Assiduité",
+    "rate_sub": "Accomplis : {d} · Manqués : {m}",
+    "streak": "Jours d'affilée",
+    "streak_sub": "tout accompli",
+    "learn": "Apprentissage",
+    "learn_unit": "pages apprises",
+    "plus_thumn": "+ {n} thumn",
+    "rev": "Révision",
+    "rev_unit": "hizb révisés",
+    "plus_surah": "+ {n} sourates",
+    "chart": "Programmes accomplis",
+    "leg_hifz": "Apprentissage",
+    "leg_muraja": "Révision",
+    "leg_missed": "Non accompli",
+    "quran": "Coran appris",
+    "quran_sub": "{p} pages sur 604 · {h} hizb complets",
+    "empty": "Pas encore d'activité. Fixez votre premier programme sur l'accueil.",
+    "go_home": "Fixer mon programme"
   }
 }

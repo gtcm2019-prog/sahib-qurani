@@ -11,7 +11,8 @@
     "profile": "Profile",
     "admin": "Admin",
     "share": "Share",
-    "home": "Home"
+    "home": "Home",
+    "stats": "Stats"
   },
   "home": {
     "title": "The Quran Companion",
@@ -592,5 +593,29 @@
     "good_f": "Consistent",
     "low_m": "Needs encouragement",
     "low_f": "Needs encouragement"
+  },
+  "stat": {
+    "title": "My statistics",
+    "p_w": "7 days",
+    "p_m": "30 days",
+    "p_y": "12 months",
+    "rate": "Consistency",
+    "rate_sub": "Done: {d} · Missed: {m}",
+    "streak": "Day streak",
+    "streak_sub": "all done",
+    "learn": "Memorization",
+    "learn_unit": "pages learned",
+    "plus_thumn": "+ {n} thumn",
+    "rev": "Revision",
+    "rev_unit": "hizb revised",
+    "plus_surah": "+ {n} surahs",
+    "chart": "Completed plans",
+    "leg_hifz": "Memorization",
+    "leg_muraja": "Revision",
+    "leg_missed": "Missed",
+    "quran": "Quran learned",
+    "quran_sub": "{p} of 604 pages · {h} full hizb",
+    "empty": "No activity yet. Set your first plan on the home page.",
+    "go_home": "Set my plan"
   }
 }

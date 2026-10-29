@@ -10,6 +10,7 @@ import { showAdmin, bindAdmin, checkAdmin, resetAdmin, refreshAdminCount } from 
 import { captureRef, onSession as shareSession, bindShare } from './share.js';
 import { showPartnerCard } from './partner.js';
 import { syncTz, resetTz } from './clock.js';
+import { showStats, resetStats } from './stats.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
 
@@ -17,7 +18,7 @@ let session = null;
 
 /* ---------- Navigation ---------- */
 const PUBLIC_VIEWS = ['home', 'start', 'login', 'signup', 'forgot'];
-const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests', 'admin'];
+const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests', 'stats', 'admin'];
 
 function currentView() {
   const v = (location.hash.replace(/^#\/?/, '').split('?')[0]) || 'home';
@@ -43,6 +44,7 @@ function render() {
   if (v === 'member') showMember(session);
   if (v === 'requests') showRequests(session);
   if (v === 'admin') showAdmin(session);
+  if (v === 'stats') showStats(session);
   if (v === 'home') showPartnerCard(session);
   const tab = v === 'member' ? 'search' : v === 'edit' ? 'profile' : v;
   $$('.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
@@ -193,7 +195,7 @@ async function start() {
   sb.auth.onAuthStateChange((event, s) => {
     const changed = (session?.user?.id || null) !== (s?.user?.id || null);
     session = s;
-    if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); resetTz(); }
+    if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); resetTz(); resetStats(); }
     // Hors du rappel d'authentification (évite un blocage de supabase-js)
     setTimeout(() => shareSession(s), 0);
     if (changed && s) setTimeout(() => pingApp(true), 0);

@@ -17,8 +17,6 @@ const arrow = () => (lang() === 'ar' ? ' ← ' : ' → ');
 
 /* ---------- Dates (AAAA-MM-JJ, jour local du membre donné par la base) ---------- */
 const addDays = (d, n) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
-const dayNum = d => new Intl.DateTimeFormat(lang(), { day: 'numeric', timeZone: 'UTC' }).format(new Date(d + 'T00:00:00Z'));
-const dayName = d => new Intl.DateTimeFormat(lang(), { weekday: 'narrow', timeZone: 'UTC' }).format(new Date(d + 'T00:00:00Z'));
 
 /* ---------- Libellés ---------- */
 export function partLabel(unit, n) {
@@ -44,7 +42,7 @@ function errText(error) {
 }
 
 /* ---------- Ce qui est déjà appris (pour colorer en vert) ---------- */
-function learnedSets(map) {
+export function learnedSets(map) {
   const pages = new Set(map?.pages || []), thumns = new Set(map?.thumns || []), hizbs = new Set(map?.hizbs || []);
   const hp = hizbPages(map?.riwaya);
   for (const h of hizbs) for (let p = hp.start[h - 1]; p <= hp.last[h - 1]; p++) pages.add(p);
@@ -240,22 +238,6 @@ function nextAfter(p, kind, map) {
   return null;
 }
 
-/* ---------- Calendrier des 14 derniers jours ---------- */
-function calendar(days, today) {
-  const by = Object.fromEntries((days || []).map(x => [x.d, x.s]));
-  const wrap = el('div', 'plan-cal');
-  wrap.setAttribute('aria-label', t('plan.last_days'));
-  for (let i = 13; i >= 0; i--) {
-    const d = addDays(today, -i);
-    const s = by[d] || 'none';
-    const c = el('div', 'pc pc-' + s + (d === today ? ' pc-today' : ''));
-    c.title = d + ' · ' + (s === 'done' ? t('plan.done') : s === 'missed' ? t('plan.missed') : s === 'planned' ? t('plan.pending') : '—');
-    c.append(el('small', null, dayName(d)), el('b', null, s === 'done' ? '✔' : s === 'missed' ? '✖' : '·'), el('small', null, dayNum(d)));
-    wrap.append(c);
-  }
-  return wrap;
-}
-
 function statsLine(kind, k, map) {
   const p = el('p', 'plan-stats');
   if (k?.streak > 0) p.append(el('span', 'plan-streak', '🔥 ' + t('plan.streak', { n: fmtNum(k.streak) })));
@@ -359,7 +341,6 @@ export async function showPlanCard(session, gender) {
     body.append(sToday);
 
     if (pToday?.status === 'done') body.append(el('p', 'plan-hint', t('plan.done_hint_' + g)));
-    body.append(el('h3', 'plan-cal-t', t('plan.last_days')), calendar(k.days, today));
   }
   drawKind();
 }
