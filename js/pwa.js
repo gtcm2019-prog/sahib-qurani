@@ -7,7 +7,7 @@ let deferred = null;   // événement d'installation (Android / Chrome / Edge)
 const ua = navigator.userAgent;
 const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
-export const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+export const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || navigator.standalone === true;
 
 /* ---------- Statistiques d'installation (identifiant aléatoire, anonyme) ---------- */
 const platform = () => /android/i.test(ua) ? 'android' : isIOS ? 'ios' : /Windows|Macintosh|Linux|CrOS/.test(ua) ? 'desktop' : 'other';
