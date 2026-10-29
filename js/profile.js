@@ -33,7 +33,7 @@ export async function showProfile(session) {
   card.hidden = true; loading.hidden = false; $('#account-card').hidden = true;
   let me;
   try { me = await loadMine(session); }
-  catch (e) { loading.textContent = t('err.generic'); return; }
+  catch (e) { console.warn(e); loading.textContent = t('err.generic') + ' [' + [e?.code, e?.status, String(e?.message || e || '').slice(0, 120)].filter(Boolean).join(' · ') + ']'; return; }
   if (!me.pub) { goTo('start'); return; }
   const p = me.pub;
   loading.hidden = true;
