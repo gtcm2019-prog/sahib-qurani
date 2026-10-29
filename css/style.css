@@ -683,3 +683,47 @@ body.onb-on main { padding: 0; }
 .assid-new { color: var(--muted); background: #F1ECE2; }
 .m-top .assid-top, .m-top .assid-good, .m-top .assid-low { font-size: .68rem; padding: 1px 7px; }
 @media (max-width: 380px) { .pc small:first-child { display: none; } }
+
+/* ---------- V4 : suivi Apprentissage / Révision, choix par disques ---------- */
+.plan-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #F1ECE2; padding: 4px; border-radius: 12px; }
+.plan-tabs button { position: relative; font: inherit; border: 0; border-radius: 9px; padding: 9px 6px; background: transparent; color: var(--muted); cursor: pointer; display: grid; gap: 1px; }
+.plan-tabs button b { font-weight: 600; }
+.plan-tabs button small { font-size: .72rem; }
+.plan-tabs button.on { background: #fff; color: var(--green); box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+.plan-tab-ok { position: absolute; top: 4px; inset-inline-end: 8px; color: var(--ok); font-weight: 700; }
+.plan-body { display: grid; gap: 12px; }
+.plan-pline { font-size: .92rem; }
+.pk { display: grid; gap: 8px; }
+.pk-help { margin: 0; font-size: .85rem; color: var(--muted); text-align: center; }
+.pk-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pk-nav b { color: var(--green-dark); }
+.pk-arrow { font: inherit; font-size: 1.2rem; width: 40px; height: 36px; border: 1.5px solid var(--line); background: #fff; border-radius: 10px; color: var(--green); cursor: pointer; }
+.pk-grid { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+.pk-g6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.pk-swipe { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain; }
+.pk-swipe::-webkit-scrollbar { display: none; }
+.pk-panel { flex: 0 0 100%; scroll-snap-align: start; align-content: start; padding: 2px; }
+.pk-dots { display: flex; justify-content: center; gap: 5px; }
+.pk-dots button { width: 7px; height: 7px; border-radius: 50%; border: 0; padding: 0; background: var(--line); cursor: pointer; }
+.pk-dots button.on { background: var(--gold); width: 18px; border-radius: 4px; }
+.disc { aspect-ratio: 1; border-radius: 50%; border: 0; padding: 0; display: grid; place-items: center; font: 600 .82rem var(--latin); color: #fff; background: #2F5D8C; cursor: pointer; }
+.disc.learned { background: var(--ok); }
+.disc.half { background: linear-gradient(90deg, var(--ok) 50%, #2F5D8C 50%); }
+.disc.sel { background: var(--gold); box-shadow: 0 0 0 3px rgba(196,154,40,.3); }
+.disc.end { background: #A97F12; box-shadow: 0 0 0 3px rgba(196,154,40,.3); }
+.disc.open { outline: 3px solid var(--gold); outline-offset: 2px; }
+.pk-bubble { grid-column: 1 / -1; position: relative; background: #fff; border: 1.5px solid var(--gold); border-radius: 14px; padding: 10px; margin: 6px 0 4px; box-shadow: 0 8px 20px -10px rgba(0,0,0,.3); }
+.pk-bubble::before { content: ""; position: absolute; top: -8px; left: var(--x); width: 14px; height: 14px; background: #fff; border-left: 1.5px solid var(--gold); border-top: 1.5px solid var(--gold); transform: translateX(-50%) rotate(45deg); }
+.pk-bub-t { font-size: .8rem; font-weight: 600; color: var(--green); margin-bottom: 8px; }
+.pk-surahs { display: grid; gap: 5px; max-height: 280px; overflow: auto; padding: 2px; }
+.pk-surah { display: flex; align-items: center; gap: 10px; font: inherit; text-align: start; border: 1.5px solid var(--line); background: #fff; border-radius: 12px; padding: 6px 10px; cursor: pointer; color: var(--ink); }
+.pk-surah .n { width: 30px; height: 30px; border-radius: 50%; background: #2F5D8C; color: #fff; display: grid; place-items: center; font-size: .78rem; font-weight: 600; flex: none; }
+.pk-surah.sel { border-color: var(--gold); background: rgba(196,154,40,.08); }
+.pk-surah.sel .n { background: var(--gold); }
+.pk-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: .75rem; color: var(--muted); }
+.pk-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -2px; margin-inline-end: 4px; }
+.lg-learned { background: var(--ok); } .lg-todo { background: #2F5D8C; } .lg-sel { background: var(--gold); }
+.pk-sum { padding: 10px 12px; border-radius: 12px; background: var(--cream); border: 1px solid var(--line); display: grid; gap: 2px; }
+.pk-sum b { color: var(--green-dark); }
+.pk-sum small { color: var(--muted); }
+[dir="rtl"] .pk-surah span:last-child { font-family: var(--arabic); }
