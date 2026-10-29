@@ -637,7 +637,7 @@ body.onb-on main { padding: 0; }
 .onb-pick-title span:first-child { font-family: var(--arabic); font-size: 1.5rem; }
 .onb-pick-title span:not(:first-child) { font-size: 1.05rem; color: var(--green); font-weight: 500; }
 .onb-pick-list { display: grid; gap: 10px; width: 100%; max-width: 340px; }
-.onb-pick-btn { display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 18px; border: 1.5px solid rgba(27,77,74,.18); border-radius: 14px; background: #fff; cursor: pointer; font: inherit; font-size: 1.1rem; color: var(--green-dark); text-align: start; }
+.onb-pick-btn { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; padding: 14px 18px; border: 1.5px solid rgba(27,77,74,.18); border-radius: 14px; background: #fff; cursor: pointer; font: inherit; font-size: 1.1rem; color: var(--green-dark); text-align: center; }
 .onb-pick-btn:hover, .onb-pick-btn:focus-visible { border-color: var(--gold); }
 .onb-pick-btn img { width: 42px; height: 28px; object-fit: cover; border-radius: 4px; box-shadow: 0 0 0 1px rgba(0,0,0,.12); flex: none; }
 .onb-pick-btn[lang=ar] b { font-family: var(--arabic); }
