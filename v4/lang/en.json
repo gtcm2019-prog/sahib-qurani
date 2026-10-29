@@ -579,7 +579,9 @@
     "cnt_hizb": "{n} hizb",
     "cnt_juz": "{n} juz",
     "learned": "Pages learned: {n} ({p}) · complete hizb: {h}",
-    "unit": "Unit"
+    "unit": "Unit",
+    "done_hint_m": "Well done! See you tomorrow, in shā’ Allāh.",
+    "done_hint_f": "Well done! See you tomorrow, in shā’ Allāh."
   },
   "assid": {
     "new_m": "New",

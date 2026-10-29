@@ -579,7 +579,9 @@
     "cnt_hizb": "{n} hizb",
     "cnt_juz": "{n} juz",
     "learned": "Pages apprises : {n} ({p}) · hizb complets : {h}",
-    "unit": "Unité"
+    "unit": "Unité",
+    "done_hint_m": "Bravo ! À demain, in shâ’ Allah.",
+    "done_hint_f": "Bravo ! À demain, in shâ’ Allah."
   },
   "assid": {
     "new_m": "Nouveau",
