@@ -11,7 +11,8 @@
     "profile": "Perfil",
     "admin": "Admin",
     "share": "Compartir",
-    "home": "Inicio"
+    "home": "Inicio",
+    "stats": "Stats"
   },
   "home": {
     "title": "El Compañero Coránico",
@@ -592,5 +593,29 @@
     "good_f": "Constante",
     "low_m": "Necesita ánimo",
     "low_f": "Necesita ánimo"
+  },
+  "stat": {
+    "title": "Mis estadísticas",
+    "p_w": "7 días",
+    "p_m": "30 días",
+    "p_y": "12 meses",
+    "rate": "Constancia",
+    "rate_sub": "Cumplidos: {d} · Sin cumplir: {m}",
+    "streak": "Días seguidos",
+    "streak_sub": "todo cumplido",
+    "learn": "Memorización",
+    "learn_unit": "páginas aprendidas",
+    "plus_thumn": "+ {n} thumn",
+    "rev": "Repaso",
+    "rev_unit": "hizb repasados",
+    "plus_surah": "+ {n} suras",
+    "chart": "Programas cumplidos",
+    "leg_hifz": "Memorización",
+    "leg_muraja": "Repaso",
+    "leg_missed": "Sin cumplir",
+    "quran": "Corán aprendido",
+    "quran_sub": "{p} de 604 páginas · {h} hizb completos",
+    "empty": "Aún no hay actividad. Fija tu primer programa en el inicio.",
+    "go_home": "Fijar mi programa"
   }
 }
