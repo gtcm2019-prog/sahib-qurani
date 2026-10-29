@@ -18,8 +18,12 @@ export function notify(type, id) {
   sb.functions.invoke('notify', { body: { type, id } }).catch(() => {});
 }
 
+// Ne jamais attendre indéfiniment le service worker (sinon des boutons restent bloqués)
 async function currentSub() {
-  const reg = await navigator.serviceWorker.ready;
+  const reg = await Promise.race([
+    navigator.serviceWorker.ready,
+    new Promise((_, no) => setTimeout(() => no(new Error('sw timeout')), 3000))
+  ]);
   return reg.pushManager.getSubscription();
 }
 
@@ -68,7 +72,7 @@ export async function disable() {
   if (!supported()) return;
   const sub = await currentSub().catch(() => null);
   if (sub) {
-    await sb.from('push_subscriptions').delete().eq('endpoint', sub.endpoint);
+    await sb.from('push_subscriptions').delete().eq('endpoint', sub.endpoint).then(() => {}, () => {});
     await sub.unsubscribe().catch(() => {});
   }
 }
