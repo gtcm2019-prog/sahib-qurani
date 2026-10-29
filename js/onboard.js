@@ -12,8 +12,8 @@ import { loadMine, resetProfileCache, normPhone } from './profile.js';
 import { installNow, isStandalone, isAndroid, hasPrompt } from './pwa.js';
 
 const BASE = location.origin + location.pathname;
-const STEPS = ['auth', 'install', 'name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
-const PROFILE_STEPS = ['name', 'age', 'place', 'lang', 'level', 'avail', 'wa'];
+const STEPS = ['pick', 'auth', 'install', 'name', 'gender', 'age', 'place', 'lang', 'level', 'avail', 'mode', 'wa'];
+const PROFILE_STEPS = ['name', 'gender', 'age', 'place', 'lang', 'level', 'avail', 'mode', 'wa'];
 const TOTAL = PROFILE_STEPS.length;      // la numérotation ne concerne que les pages du profil
 
 let goTo = () => {};
@@ -56,12 +56,14 @@ const isMinor = () => D.MINOR_AGES.includes(draft.age_range);
 function check(step) {
   const d = draft;
   switch (step) {
-    case 'name': return !String(d.first_name || '').trim() ? 'onb.err_name' : !d.gender ? 'onb.err_gender' : null;
+    case 'name': return String(d.first_name || '').trim() ? null : 'onb.err_name';
+    case 'gender': return d.gender ? null : 'onb.err_gender';
     case 'age': return d.age_range ? null : 'onb.err_choose';
     case 'place': return d.country ? null : 'onb.err_country';
     case 'lang': return !d.languages?.length ? 'onb.err_lang' : !d.riwaya ? 'onb.err_riwaya' : null;
     case 'level': return d.level ? null : 'onb.err_choose';
-    case 'avail': return !d.availability?.length ? 'onb.err_avail' : !d.contact_mode ? 'onb.err_contact' : null;
+    case 'avail': return d.availability?.length ? null : 'onb.err_avail';
+    case 'mode': return d.contact_mode ? null : 'onb.err_contact';
     case 'wa': {
       if (isMinor()) {
         const w = normPhone(d.guardian_whatsapp);
@@ -77,6 +79,8 @@ const firstMissing = () => PROFILE_STEPS.find(s => check(s)) || 'wa';
 
 // Android : installation OBLIGATOIRE avant le profil (le profil se remplit dans l'application).
 // Exception : navigateur qui ne permet pas d'installer (lien discret, après un essai).
+// Langue choisie explicitement (page « Choisir la langue », une seule fois).
+const langPicked = () => { try { return !!localStorage.getItem('sq_lang_pick'); } catch (e) { return true; } };
 const skipped = () => { try { return !!localStorage.getItem('sq_inst_skip'); } catch (e) { return false; } };
 const mustInstall = () => isAndroid && !isStandalone() && !skipped();
 let installed = false;   // installation acceptée pendant cet écran
@@ -217,11 +221,44 @@ const SCREENS = {
     body.append(w);
   },
 
+  pick(body) {
+    const w = el('div', 'onb-welcome onb-pick');
+    const logo = el('div', 'onb-logo');
+    const img = document.createElement('img');
+    img.src = 'icons/icon-192.png'; img.alt = ''; img.width = 96; img.height = 96;
+    logo.append(img);
+    // Titre dans les 4 langues : la langue n'est pas encore choisie
+    const h = el('h1', 'onb-pick-title');
+    h.append(el('span', null, 'اختر لغتك'), el('span', null, 'Choisissez votre langue'),
+      el('span', null, 'Choose your language'), el('span', null, 'Elige tu idioma'));
+    h.setAttribute('dir', 'auto');
+    const box = el('div', 'onb-pick-list');
+    for (const [c, n] of [['ar', 'العربية'], ['fr', 'Français'], ['en', 'English'], ['es', 'Español']]) {
+      const b = el('button', 'onb-pick-btn');
+      b.type = 'button'; b.lang = c;
+      if (c === 'ar') b.dir = 'rtl';
+      const f = document.createElement('img');
+      f.src = `icons/flags/${c}.svg`; f.alt = ''; f.width = 42; f.height = 28;
+      b.append(f, el('b', null, n));
+      b.addEventListener('click', async () => {
+        try { localStorage.setItem('sq_lang_pick', '1'); } catch (e) { /* ignore */ }
+        if (c !== lang()) await onLang(c);
+        goStep('auth');
+      });
+      box.append(b);
+    }
+    w.append(logo, h, box);
+    body.append(w);
+  },
+
   name(body) {
     body.append(head('onb.name_title', 'onb.name_sub'));
     body.append(field('onb.pseudo', input('text', draft.first_name, v => set('first_name', v),
       { maxlength: 50, autocomplete: 'nickname', dir: 'auto', name: 'first_name' })));
-    body.append(label('edit.gender'));
+  },
+
+  gender(body) {
+    body.append(head('onb.gender_title'));
     body.append(options('gender', [
       ['m', t('gender.m'), { ico: '♂', cls: 'g-m' }],
       ['f', t('gender.f'), { ico: '♀', cls: 'g-f' }]
@@ -292,7 +329,10 @@ const SCREENS = {
     body.append(head('onb.avail_title', 'onb.multi'));
     body.append(chips('availability', D.AVAILABILITY.map(a => [a, t('avail.' + a)]), draft.availability,
       v => set('availability', v)));
-    body.append(label('onb.contact_q'));
+  },
+
+  mode(body) {
+    body.append(head('onb.contact_q'));
     const ico = { online: '💻', in_person: '🕌', both: '🔁' };
     body.append(options('contact', D.CONTACT_MODES.map(c => [c, t('contact.' + c), { ico: ico[c] }]),
       draft.contact_mode, v => set('contact_mode', v)));
@@ -426,14 +466,15 @@ export async function showOnboard(s) {
   session = s;
   let want = stepFromHash();
   if (!s) {
-    want = 'auth';                       // non connecté : uniquement « Veuillez vous connecter »
+    // non connecté : choix de la langue (une fois), puis « Veuillez vous connecter »
+    want = langPicked() ? 'auth' : 'pick';
   } else {
     let me = null;
     try { me = await loadMine(s); } catch (e) { /* hors ligne : on continue */ }
     if (my !== seq) return;
     if (me?.pub) return finish();
     loadDraft(); defaults();
-    if (want === 'auth') want = null;    // déjà connecté : on ne redemande jamais la connexion
+    if (want === 'auth' || want === 'pick') want = null;    // déjà connecté : on ne redemande jamais la connexion
     if (mustInstall()) want = 'install';
     else {
       // On ne saute pas une étape non remplie
