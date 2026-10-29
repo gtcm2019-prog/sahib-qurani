@@ -579,7 +579,9 @@
     "cnt_hizb": "{n} hizb",
     "cnt_juz": "{n} yuz",
     "learned": "Páginas aprendidas: {n} ({p}) · hizb completos: {h}",
-    "unit": "Unidad"
+    "unit": "Unidad",
+    "done_hint_m": "¡Bien hecho! Hasta mañana, in sha’ Allah.",
+    "done_hint_f": "¡Bien hecho! Hasta mañana, in sha’ Allah."
   },
   "assid": {
     "new_m": "Nuevo",

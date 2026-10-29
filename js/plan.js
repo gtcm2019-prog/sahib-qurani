@@ -316,10 +316,9 @@ export async function showPlanCard(session, gender) {
 
   function drawKind() {
     const kind = tab, k = st[kind] || {};
-    const today = st.today, tomorrow = addDays(today, 1);
+    const today = st.today;
     const mine = rows.filter(r => r.kind === kind);
     const pToday = mine.find(r => r.plan_date === today) || null;
-    const pTomorrow = mine.find(r => r.plan_date === tomorrow) || null;
     const last = mine.find(r => r.plan_date < today && r.status === 'done') || mine.find(r => r.plan_date < today) || null;
     body.replaceChildren(statsLine(kind, k, st.map));
 
@@ -359,28 +358,7 @@ export async function showPlanCard(session, gender) {
     }
     body.append(sToday);
 
-    /* Demain */
-    const sTom = el('div', 'plan-day');
-    sTom.append(el('h3', null, t('plan.tomorrow')));
-    if (pTomorrow) {
-      const line = el('div', 'plan-line');
-      line.append(el('b', null, planLabel(pTomorrow)), statusTag('planned'));
-      const act = el('div', 'p-actions');
-      const edit = el('button', 'btn btn-line btn-sm', t('plan.edit')); edit.type = 'button';
-      edit.addEventListener('click', () => { act.remove(); sTom.append(planForm(kind, tomorrow, pTomorrow, st.map, reload, reload)); });
-      const del = el('button', 'btn btn-line btn-sm', t('plan.delete')); del.type = 'button';
-      del.addEventListener('click', async () => { del.disabled = true; await sb.rpc('delete_revision_plan', { p_kind: kind, p_date: tomorrow }); reload(); });
-      act.append(edit, del);
-      sTom.append(line, act);
-    } else if (pToday?.status === 'done') {
-      sTom.append(el('p', 'plan-hint', t('plan.tomorrow_hint_' + g)));
-      sTom.append(planForm(kind, tomorrow, nextAfter(pToday, kind, st.map), st.map, reload));
-    } else {
-      const x = el('button', 'btn btn-line', t('plan.set_tomorrow')); x.type = 'button';
-      x.addEventListener('click', () => { x.remove(); sTom.append(planForm(kind, tomorrow, nextAfter(pToday || last, kind, st.map), st.map, reload, reload)); });
-      sTom.append(x);
-    }
-    body.append(sTom);
+    if (pToday?.status === 'done') body.append(el('p', 'plan-hint', t('plan.done_hint_' + g)));
     body.append(el('h3', 'plan-cal-t', t('plan.last_days')), calendar(k.days, today));
   }
   drawKind();
