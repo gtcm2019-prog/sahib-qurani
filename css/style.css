@@ -727,3 +727,7 @@ body.onb-on main { padding: 0; }
 .pk-sum b { color: var(--green-dark); }
 .pk-sum small { color: var(--muted); }
 [dir="rtl"] .pk-surah span:last-child { font-family: var(--arabic); }
+/* Correctif : les grilles du suivi ne doivent jamais dépasser la largeur de l'écran (carrousel des pages) */
+.plan-home, .plan-body, .plan-day, .plan-form, .pk, .pk-zone, .plan-partner { grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.pk-zone { display: grid; gap: 8px; }
+.pk-swipe { width: 100%; min-width: 0; }
