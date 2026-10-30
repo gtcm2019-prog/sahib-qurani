@@ -1,5 +1,5 @@
 // Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
-const VERSION = 'sq5-v3';   // test V5 : caches séparés du site principal
+const VERSION = 'sq5-v4';   // test V5 : caches séparés du site principal
 const SHELL = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',

@@ -14,7 +14,7 @@ export async function checkPseudo(name) {
 }
 
 // Doublon refusé par la base au moment d'enregistrer
-export const isPseudoTaken = error => String(error?.message || '').includes('profiles_pseudo_unique');
+export const isPseudoTaken = error => error?.code === '23505' || /pseudo_unique|duplicate key/i.test(String(error?.message || ''));
 
 // Pastilles cliquables « Propositions : … » ; onPick(pseudo) remplit le champ
 export function suggestBox(list, onPick) {
