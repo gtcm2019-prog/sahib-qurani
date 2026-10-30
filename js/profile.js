@@ -6,6 +6,7 @@ import { AVATARS, avatarEl } from './avatar.js';
 import { countryName, languageName, surahName, profileCard } from './card.js';
 import { renderMyReviews, renderMyBlocks, deleteAccount } from './trust.js';
 import { renderNotif, bindNotif } from './notify.js';
+import { checkPseudo, isPseudoTaken, suggestBox } from './pseudo.js';
 
 let cache = null;      // { uid, pub, priv }
 let goTo = () => {};
@@ -182,6 +183,15 @@ export function normPhone(v) {
   return /^\+[0-9]{8,15}$/.test(s) ? s : false;
 }
 
+// Pseudo déjà pris : message + propositions cliquables sous le champ
+function pseudoTaken(f, list) {
+  showMsg(f, 'pseudo.taken');
+  f.querySelector('.pseudo-sug')?.remove();
+  const box = suggestBox(list, v => { f.first_name.value = v; box.remove(); $('.msg', f).hidden = true; buildAvatars(f); });
+  f.first_name.closest('label').after(box);
+  f.first_name.focus();
+}
+
 async function saveProfile(e) {
   e.preventDefault();
   const f = e.target;
@@ -220,6 +230,11 @@ async function saveProfile(e) {
   const priv = { whatsapp: wa, guardian_name: gName, guardian_whatsapp: gWa };
 
   busy(f, true);
+  // Pseudo changé : vérifier qu'il est libre
+  if (first.toLowerCase() !== String(cache.pub?.first_name || '').trim().toLowerCase()) {
+    const c = await checkPseudo(first);
+    if (c && !c.free) { busy(f, false); return pseudoTaken(f, c.suggestions); }
+  }
   const uid = cache.uid;
   let r = cache.pub
     ? await sb.from('profiles').update(pub).eq('id', uid)
@@ -230,7 +245,11 @@ async function saveProfile(e) {
       : await sb.from('profiles_private').insert({ id: uid, ...priv });
   }
   busy(f, false);
-  if (r.error) { console.warn(r.error); return showMsg(f, 'err.generic'); }
+  if (r.error) {
+    console.warn(r.error);
+    if (isPseudoTaken(r.error)) { const c = await checkPseudo(first); return pseudoTaken(f, c?.suggestions); }
+    return showMsg(f, 'err.generic');
+  }
   cache = null;
   goTo('profile');
 }
@@ -244,7 +263,7 @@ export function bindProfile(go) {
   f.addEventListener('submit', saveProfile);
   f.age_range.addEventListener('change', () => toggleGuardian(f));
   $('#f-gender').addEventListener('change', () => buildAvatars(f));
-  f.first_name.addEventListener('input', () => buildAvatars(f));
+  f.first_name.addEventListener('input', () => { buildAvatars(f); f.querySelector('.pseudo-sug')?.remove(); });
   f.hizb_memorized.addEventListener('input', () => { $('#hizb-out').textContent = f.hizb_memorized.value; });
 
   $$('#seg-status button').forEach(btn => btn.addEventListener('click', async () => {

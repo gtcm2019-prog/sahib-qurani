@@ -622,5 +622,9 @@
     "text": "Une mise à jour est disponible.",
     "btn": "Mettre à jour",
     "later": "Plus tard"
+  },
+  "pseudo": {
+    "taken": "Ce pseudo est déjà pris. Choisissez-en un autre.",
+    "suggest": "Propositions :"
   }
 }
