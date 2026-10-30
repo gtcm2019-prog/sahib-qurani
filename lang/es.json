@@ -617,5 +617,10 @@
     "quran_sub": "{p} de 604 páginas · {h} hizb completos",
     "empty": "Aún no hay actividad. Fija tu primer programa en el inicio.",
     "go_home": "Fijar mi programa"
+  },
+  "update": {
+    "text": "Hay una actualización disponible.",
+    "btn": "Actualizar",
+    "later": "Más tarde"
   }
 }

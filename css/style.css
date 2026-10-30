@@ -774,3 +774,11 @@ body.onb-on main { padding: 0; }
 .st-prog i { display: block; height: 100%; background: linear-gradient(90deg, var(--green), var(--gold)); border-radius: 999px; }
 [dir="rtl"] .st-prog i { background: linear-gradient(270deg, var(--green), var(--gold)); }
 .st-empty { margin: 8px 0; }
+
+/* Bandeau « Mise à jour disponible » */
+.update-bar:not([hidden]) { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 1000;
+  display: flex; align-items: center; gap: 10px; max-width: 520px; margin: 0 auto; padding: 10px 12px;
+  background: var(--green-dark); color: #fff; border: 2px solid var(--gold); border-radius: 14px; box-shadow: 0 10px 28px -10px rgba(0,0,0,.5); }
+.update-bar span { flex: 1; font-weight: 600; }
+.update-bar .btn { white-space: nowrap; }
+.update-close { background: none; border: 0; color: var(--gold-soft); font-size: 18px; cursor: pointer; padding: 4px 6px; }
