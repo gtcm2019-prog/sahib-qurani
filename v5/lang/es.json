@@ -622,5 +622,9 @@
     "text": "Hay una actualización disponible.",
     "btn": "Actualizar",
     "later": "Más tarde"
+  },
+  "pseudo": {
+    "taken": "Este apodo ya está en uso. Elige otro.",
+    "suggest": "Sugerencias:"
   }
 }

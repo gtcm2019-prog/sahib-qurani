@@ -622,5 +622,9 @@
     "text": "An update is available.",
     "btn": "Update",
     "later": "Later"
+  },
+  "pseudo": {
+    "taken": "This nickname is already taken. Please choose another one.",
+    "suggest": "Suggestions:"
   }
 }
