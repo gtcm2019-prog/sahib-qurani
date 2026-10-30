@@ -10,6 +10,7 @@ import * as D from './data.js';
 import { el, countryName, languageName, fmtPct } from './card.js';
 import { loadMine, resetProfileCache, normPhone } from './profile.js';
 import { installNow, isStandalone, isAndroid, hasPrompt } from './pwa.js';
+import { checkPseudo, isPseudoTaken, suggestBox } from './pseudo.js';
 
 const BASE = location.origin + location.pathname;
 const STEPS = ['pick', 'auth', 'install', 'name', 'gender', 'age', 'place', 'lang', 'level', 'avail', 'mode', 'wa'];
@@ -255,6 +256,7 @@ const SCREENS = {
     body.append(head('onb.name_title', 'onb.name_sub'));
     body.append(field('onb.pseudo', input('text', draft.first_name, v => set('first_name', v),
       { maxlength: 50, autocomplete: 'nickname', dir: 'auto', name: 'first_name' })));
+    const sug = el('div', null); sug.id = 'onb-sug'; body.append(sug);
   },
 
   gender(body) {
@@ -398,6 +400,7 @@ function finish() {
 }
 
 let step = 'welcome';
+let pendingTaken = null;   // pseudo refusé à l'enregistrement : propositions à afficher
 
 function render() {
   const root = $('#onb');
@@ -406,6 +409,7 @@ function render() {
   body.className = 'onb-body onb-s-' + step;
   msg(null);
   SCREENS[step](body);
+  if (step === 'name' && pendingTaken) { pseudoTaken(pendingTaken); pendingTaken = null; }
   // Barre et numéro seulement sur les pages du profil : « Étape 3 sur 7 · Lieu »
   const pi = PROFILE_STEPS.indexOf(step) + 1;
   $('#onb-top').hidden = !pi;
@@ -431,8 +435,27 @@ async function next() {
   if (!PROFILE_STEPS.includes(step)) return;
   const err = check(step);
   if (err) return msg(err);
+  if (step === 'name') {
+    const nb = $('#onb-next'); nb.disabled = true;
+    const r = await checkPseudo(draft.first_name);
+    nb.disabled = false;
+    if (r && !r.free) return pseudoTaken(r.suggestions);
+  }
   if (step === 'wa') return save();
   goStep(STEPS[STEPS.indexOf(step) + 1]);
+}
+
+// Pseudo déjà pris : message + propositions cliquables
+function pseudoTaken(list) {
+  msg('pseudo.taken');
+  const box = $('#onb-sug');
+  if (!box) return;
+  box.replaceChildren(suggestBox(list, v => {
+    set('first_name', v);
+    const i = $('#onb-body input[name=first_name]');
+    if (i) i.value = v;
+    box.replaceChildren(); msg(null);
+  }));
 }
 
 async function save() {
@@ -455,7 +478,11 @@ async function save() {
       ? await sb.from('profiles_private').update(priv).eq('id', uid)
       : await sb.from('profiles_private').insert({ id: uid, ...priv });
   }
-  if (r.error) { console.warn(r.error); nb.disabled = false; nb.textContent = t('onb.finish'); return msg('err.generic'); }
+  if (r.error) {
+    console.warn(r.error); nb.disabled = false; nb.textContent = t('onb.finish');
+    if (isPseudoTaken(r.error)) { const c = await checkPseudo(d.first_name); pendingTaken = c?.suggestions || []; return goStep('name'); }
+    return msg('err.generic');
+  }
   resetProfileCache();
   finish();
 }
