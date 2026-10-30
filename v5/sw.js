@@ -1,5 +1,5 @@
 // Service worker Sahib Qurani : site disponible hors ligne (coquille), données toujours en direct.
-const VERSION = 'sq5-v1';   // test V5 : caches séparés du site principal
+const VERSION = 'sq5-v2';   // test V5 : caches séparés du site principal
 const SHELL = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'js/app.js', 'js/sb.js', 'js/ui.js', 'js/i18n.js', 'js/config.js', 'js/data.js', 'js/card.js',
@@ -11,8 +11,12 @@ const SHELL = [
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })))));
+  // Pas d'activation immédiate : la page affiche le bandeau « Mise à jour disponible »
 });
+
+// Bouton « Mettre à jour » : activer la nouvelle version
+self.addEventListener('message', e => { if (e.data === 'skip-waiting') self.skipWaiting(); });
 
 self.addEventListener('activate', e => {
   e.waitUntil(

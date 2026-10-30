@@ -71,9 +71,28 @@ async function onInstallClick() {
   }
 }
 
+/* ---------- Mise à jour : bandeau « Une mise à jour est disponible » ---------- */
+function showUpdate(worker) {
+  const bar = $('#update-bar');
+  if (!bar || !navigator.serviceWorker.controller) return;   // première installation : pas de bandeau
+  bar.hidden = false;
+  $('#update-btn').onclick = () => { $('#update-btn').disabled = true; worker.postMessage('skip-waiting'); };
+}
+function watchUpdates(r) {
+  if (!r) return;
+  if (r.waiting) showUpdate(r.waiting);
+  r.addEventListener('updatefound', () => {
+    const w = r.installing;
+    if (w) w.addEventListener('statechange', () => { if (w.state === 'installed') showUpdate(w); });
+  });
+  const check = () => r.update().catch(() => {});
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') check(); });
+  setInterval(check, 30 * 60 * 1000);
+}
+
 export function initPwa() {
   if ('serviceWorker' in navigator) {
-    const reg = () => navigator.serviceWorker.register('sw.js').catch(err => console.warn('sw', err));
+    const reg = () => navigator.serviceWorker.register('sw.js').then(watchUpdates).catch(err => console.warn('sw', err));
     if (document.readyState === 'complete') reg(); else window.addEventListener('load', reg);
   }
   window.addEventListener('beforeinstallprompt', e => {
@@ -83,6 +102,7 @@ export function initPwa() {
   });
   window.addEventListener('appinstalled', () => { deferred = null; refresh(); pingApp(true, true); });
   $$('.btn-install').forEach(b => b.addEventListener('click', onInstallClick));
+  $('#update-close')?.addEventListener('click', () => { $('#update-bar').hidden = true; });
   $('#ios-guide-close').addEventListener('click', () => $('#ios-guide').close());
   $('#ios-guide').addEventListener('click', e => { if (e.target.id === 'ios-guide') e.target.close(); });
   refresh();

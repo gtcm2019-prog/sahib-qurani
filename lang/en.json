@@ -617,5 +617,10 @@
     "quran_sub": "{p} of 604 pages · {h} full hizb",
     "empty": "No activity yet. Set your first plan on the home page.",
     "go_home": "Set my plan"
+  },
+  "update": {
+    "text": "An update is available.",
+    "btn": "Update",
+    "later": "Later"
   }
 }

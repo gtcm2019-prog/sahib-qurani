@@ -617,5 +617,10 @@
     "quran_sub": "{p} pages sur 604 · {h} hizb complets",
     "empty": "Pas encore d'activité. Fixez votre premier programme sur l'accueil.",
     "go_home": "Fixer mon programme"
+  },
+  "update": {
+    "text": "Une mise à jour est disponible.",
+    "btn": "Mettre à jour",
+    "later": "Plus tard"
   }
 }
