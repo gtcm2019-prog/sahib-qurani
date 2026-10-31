@@ -294,9 +294,9 @@ select:disabled { opacity: .5; }
 .m-row[data-gender="f"] { border-inline-start: 4px solid var(--rose); }
 .m-row[data-gender="m"] { border-inline-start: 4px solid var(--red); }
 .m-info { flex: 1; min-width: 0; display: grid; }
-.m-top { display: flex; align-items: center; gap: 6px; }
+.m-top { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; }
 .m-top b { color: var(--green-dark); font-size: 1.05rem; }
-.m-top .tag { font-size: .68rem; padding: 1px 7px; }
+.m-top .tag { font-size: .68rem; padding: 1px 7px; white-space: nowrap; }
 .m-info small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .m-meta { color: var(--green); font-size: .8rem; }
 .m-side { display: grid; justify-items: end; gap: 4px; }
