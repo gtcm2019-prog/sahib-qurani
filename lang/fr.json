@@ -477,7 +477,7 @@
     "name_sub": "Pas besoin de votre vrai nom : c'est le nom que verront les autres membres.",
     "gender_note": "Le genre ne pourra plus être modifié : vous ne serez mis en relation qu'avec des membres du même genre.",
     "age_title": "Votre tranche d'âge",
-    "age_sub": "Votre âge exact n'est jamais demandé. Les moins de 18 ans sont mis en relation uniquement entre eux.",
+    "age_sub": "Votre âge exact n'est jamais demandé. Les moins de 18 ans sont mis en relation uniquement entre eux. L'application est réservée aux 13 ans et plus.",
     "place_title": "Où vivez-vous ?",
     "place_sub": "Seuls la ville et le pays sont affichés, jamais votre adresse.",
     "lang_title": "Quelles langues parlez-vous ?",

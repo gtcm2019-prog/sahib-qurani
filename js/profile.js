@@ -95,7 +95,7 @@ function chipGroup(box, name, items, type) {
 function buildForm(f) {
   const choose = t('edit.choose');
   chipGroup($('#f-gender'), 'gender', D.GENDERS.map(g => [g, t('gender.' + g)]), 'radio');
-  fillSelect(f.age_range, D.AGE_RANGES.map(a => [a, t('age.' + a)]), choose);
+  fillSelect(f.age_range, D.OPEN_AGES.map(a => [a, t('age.' + a)]), choose);
   const countries = D.COUNTRIES.map(c => [c, countryName(c)]).sort((a, b) => collator().compare(a[1], b[1]));
   fillSelect(f.country, countries, choose);
   const langs = D.LANGUAGES.filter(l => l !== 'other').map(l => [l, languageName(l)])

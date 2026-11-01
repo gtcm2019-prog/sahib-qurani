@@ -16,6 +16,8 @@ export const LANGUAGES = [
 export const GENDERS = ['m', 'f'];
 export const AGE_RANGES = ['lt8', '8-12', '13-17', '18-24', '25-34', '35-44', '45-54', '55+'];
 export const MINOR_AGES = ['lt8', '8-12', '13-17'];
+// Âges proposés à l'inscription : 13 ans et plus (règles Google Play). Les anciens codes restent lisibles.
+export const OPEN_AGES = AGE_RANGES.filter(a => !['lt8', '8-12'].includes(a));
 export const LEVELS = ['beginner', 'intermediate', 'advanced', 'hafiz'];
 export const RIWAYAT = ['hafs', 'warsh'];
 export const AVAILABILITY = ['morning', 'afternoon', 'evening', 'flexible'];
