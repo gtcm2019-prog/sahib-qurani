@@ -477,7 +477,7 @@
     "name_sub": "No need for your real name: this is the name other members will see.",
     "gender_note": "Gender cannot be changed later: you will only be matched with members of the same gender.",
     "age_title": "Your age range",
-    "age_sub": "Your exact age is never asked. Under-18s are only matched with other under-18s. The app is for ages 13 and up.",
+    "age_sub": "Your exact age is never asked. Under-18s are only matched with other under-18s.",
     "place_title": "Where do you live?",
     "place_sub": "Only your city and country are shown, never your address.",
     "lang_title": "Which languages do you speak?",
