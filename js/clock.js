@@ -33,7 +33,8 @@ export async function syncTz(session) {
   if (!session || !validTz(MY_TZ) || synced === session.user.id) return;
   synced = session.user.id;
   const { data } = await sb.from('profiles').select('timezone').eq('id', session.user.id).maybeSingle();
-  if (data && data.timezone !== MY_TZ) await sb.from('profiles').update({ timezone: MY_TZ }).eq('id', session.user.id);
+  // Même appareil pour toute la famille : le fuseau de tous mes profils
+  if (data && data.timezone !== MY_TZ) await sb.from('profiles').update({ timezone: MY_TZ }).eq('owner_id', session.user.id);
   if (!data) synced = null; // profil pas encore créé : réessayer plus tard
 }
 export function resetTz() { synced = null; }

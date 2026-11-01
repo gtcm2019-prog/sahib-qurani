@@ -1,7 +1,7 @@
 // Statistiques personnelles du membre (V5) : onglet « Statistiques » de la barre du bas.
 // Résumé simple : période (7 jours / 30 jours / 12 mois), 4 chiffres clés,
 // un graphique en barres (programmes accomplis) et la part du Coran apprise.
-import { sb } from './sb.js';
+import { sb, meId } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $ } from './ui.js';
 import { el, fmtPct } from './card.js';
@@ -154,7 +154,7 @@ export async function showStats(session) {
   const box = $('#stats-box');
   const my = ++seq;
   if (!session) { box.replaceChildren(); return; }
-  const uid = session.user.id;
+  const uid = meId(session);
   if (cache?.uid === uid) draw(box, cache.st, cache.rows);
   else box.replaceChildren(el('p', 'muted center', t('common.loading')));
   try {

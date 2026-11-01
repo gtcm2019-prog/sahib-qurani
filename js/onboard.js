@@ -3,7 +3,7 @@
 // 2) Android : grand bouton « Installer l'application », puis ouvrir l'icône.
 // 3) Dans l'application : 7 pages simples (pseudo, âge, lieu, langues, niveau, disponibilités, WhatsApp).
 // iPhone et ordinateur : pas d'installation demandée pour l'instant, les 7 pages se font dans le navigateur.
-import { sb } from './sb.js';
+import { sb, setActiveProfile } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $, errKey } from './ui.js';
 import * as D from './data.js';
@@ -23,9 +23,11 @@ let session = null;
 let draft = {};
 let owner = null;        // à qui appartient le brouillon en mémoire
 let seq = 0;
+let family = false;      // V6 : création d'un profil de la famille (compte déjà créé)
+let ownerInfo = {};      // profil principal : prénom et WhatsApp, pour préremplir le contact
 
 /* ---------- Brouillon (sur l'appareil, sans le numéro) ---------- */
-const dkey = () => 'sq_onb_' + (session?.user?.id || 'anon');
+const dkey = () => (family ? 'sq_onb_fam_' : 'sq_onb_') + (session?.user?.id || 'anon');
 function loadDraft() {
   if (owner === dkey()) return;     // déjà en mémoire (changement de langue, retour…)
   owner = dkey();
@@ -50,7 +52,13 @@ function defaults() {
   if (draft.country === undefined) draft.country = guessCountry();
   if (draft.hizb_memorized === undefined) draft.hizb_memorized = 0;
   if (!draft.availability) draft.availability = [];
+  if (family && draft.guardian_name === undefined) draft.guardian_name = ownerInfo.first_name || '';
+  if (family && !draft.guardian_whatsapp) draft.guardian_whatsapp = ownerInfo.whatsapp || '';
+  if (family && !draft.whatsapp) draft.whatsapp = ownerInfo.whatsapp || '';
 }
+// Le compte est réservé aux adultes ; les enfants sont ajoutés ensuite comme profils de la famille
+const ageChoices = () => family ? D.AGE_RANGES : D.AGE_RANGES.filter(a => !D.MINOR_AGES.includes(a));
+const MY_TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || null; } catch (e) { return null; } })();
 
 /* ---------- Validation ---------- */
 const isMinor = () => D.MINOR_AGES.includes(draft.age_range);
@@ -59,7 +67,7 @@ function check(step) {
   switch (step) {
     case 'name': return String(d.first_name || '').trim() ? null : 'onb.err_name';
     case 'gender': return d.gender ? null : 'onb.err_gender';
-    case 'age': return d.age_range ? null : 'onb.err_choose';
+    case 'age': return ageChoices().includes(d.age_range) ? null : 'onb.err_choose';
     case 'place': return d.country ? null : 'onb.err_country';
     case 'lang': return !d.languages?.length ? 'onb.err_lang' : !d.riwaya ? 'onb.err_riwaya' : null;
     case 'level': return d.level ? null : 'onb.err_choose';
@@ -269,8 +277,8 @@ const SCREENS = {
   },
 
   age(body) {
-    body.append(head('onb.age_title', 'onb.age_sub'));
-    body.append(options('age', D.AGE_RANGES.map(a => [a, t('age.' + a)]), draft.age_range,
+    body.append(head('onb.age_title', family ? 'onb.age_sub' : 'onb.age_sub_main'));
+    body.append(options('age', ageChoices().map(a => [a, t('age.' + a)]), draft.age_range,
       v => set('age_range', v), 'onb-opts-grid'));
   },
 
@@ -345,6 +353,7 @@ const SCREENS = {
     body.append(head(minor ? 'onb.guardian_title' : 'onb.wa_title', minor ? 'edit.guardian_note' : null));
     const tel = k => input('tel', draft[k], v => { draft[k] = v; },
       { dir: 'ltr', inputmode: 'tel', placeholder: '+212 6 12 34 56 78', autocomplete: 'tel', name: k });
+    if (family) body.append(el('p', 'note-soft', t(minor ? 'fam.wa_minor' : 'fam.wa_adult')));
     if (minor) {
       body.append(field('edit.guardian_name', input('text', draft.guardian_name, v => set('guardian_name', v), { maxlength: 80, dir: 'auto' })));
       body.append(field('edit.guardian_whatsapp', tel('guardian_whatsapp')));
@@ -391,11 +400,13 @@ function stepFromHash() {
   const s = new URLSearchParams(location.hash.split('?')[1] || '').get('s');
   return STEPS.includes(s) ? s : null;
 }
-const goStep = s => goTo('start?s=' + s);
+const famFromHash = () => new URLSearchParams(location.hash.split('?')[1] || '').get('f') === '1';
+const goStep = s => goTo('start?s=' + s + (family ? '&f=1' : ''));
 
 function finish() {
   try { localStorage.removeItem(dkey()); } catch (e) { /* ignore */ }
   draft = {}; owner = null;
+  if (family) { family = false; location.hash = '#/'; location.reload(); return; }
   goTo('home');
 }
 
@@ -416,9 +427,10 @@ function render() {
   $('#onb-fill').style.width = (pi / TOTAL * 100) + '%';
   $('#onb-count').textContent = `${pi}/${TOTAL}`;
   if (pi) body.prepend(el('p', 'onb-eyebrow', t('onb.step', { n: pi, t: TOTAL }) + ' · ' + t('onb.n_' + step)));
+  if (pi && family) body.prepend(el('p', 'onb-fam', '👪 ' + t('fam.new_title')));
   $('#onb-prog').setAttribute('aria-valuenow', String(pi));
   $('#onb-prog').setAttribute('aria-valuemax', String(TOTAL));
-  $('#onb-back').hidden = pi <= 1;
+  $('#onb-back').hidden = pi < 1 || (pi === 1 && !family);
   const nb = $('#onb-next');
   nb.disabled = false;
   nb.hidden = !pi;                     // connexion et installation : un seul grand bouton dans la page
@@ -437,7 +449,7 @@ async function next() {
   if (err) return msg(err);
   if (step === 'name') {
     const nb = $('#onb-next'); nb.disabled = true;
-    const r = await checkPseudo(draft.first_name);
+    const r = await checkPseudo(draft.first_name, family);
     nb.disabled = false;
     if (r && !r.free) return pseudoTaken(r.suggestions);
   }
@@ -470,6 +482,8 @@ async function save() {
     ? { whatsapp: null, guardian_name: d.guardian_name.trim(), guardian_whatsapp: normPhone(d.guardian_whatsapp) }
     : { whatsapp: normPhone(d.whatsapp), guardian_name: null, guardian_whatsapp: null };
   const nb = $('#onb-next'); nb.disabled = true; nb.textContent = t('onb.saving');
+  if (MY_TZ && /^[A-Za-z0-9_+\/-]{1,64}$/.test(MY_TZ)) pub.timezone = MY_TZ;
+  if (family) return saveFamily(pub, priv, nb);
   const uid = session.user.id;
   let r = await sb.from('profiles').insert({ id: uid, ...pub });
   if (!r.error) {
@@ -481,8 +495,27 @@ async function save() {
   if (r.error) {
     console.warn(r.error); nb.disabled = false; nb.textContent = t('onb.finish');
     if (isPseudoTaken(r.error)) { const c = await checkPseudo(d.first_name); pendingTaken = c?.suggestions || []; return goStep('name'); }
+    if (/account_adult_only/.test(r.error.message || '')) { msg('fam.err_adult'); return goStep('age'); }
     return msg('err.generic');
   }
+  resetProfileCache();
+  finish();
+}
+
+// Nouveau profil de la famille : identifiant créé par la base, puis on bascule dessus
+async function saveFamily(pub, priv, nb) {
+  const fail = async e => {
+    console.warn(e); nb.disabled = false; nb.textContent = t('onb.finish');
+    if (isPseudoTaken(e)) { const c = await checkPseudo(draft.first_name, true); pendingTaken = c?.suggestions || []; return goStep('name'); }
+    if (/too_many_profiles/.test(e?.message || '')) return msg('fam.max');
+    return msg('err.generic');
+  };
+  const r = await sb.from('profiles').insert(pub).select('id').single();
+  if (r.error) return fail(r.error);
+  const id = r.data.id;
+  const r2 = await sb.from('profiles_private').insert({ id, ...priv });
+  if (r2.error) { await sb.rpc('delete_family_profile', { p_profile: id }); return fail(r2.error); }
+  setActiveProfile(id);
   resetProfileCache();
   finish();
 }
@@ -492,10 +525,27 @@ export async function showOnboard(s) {
   const my = ++seq;
   session = s;
   let want = stepFromHash();
+  if (!s) family = false;
   if (!s) {
     // non connecté : choix de la langue (une fois), puis « Veuillez vous connecter »
     want = langPicked() ? 'auth' : 'pick';
+  } else if (famFromHash()) {
+    // Ajout d'un profil de la famille (le compte et son profil principal existent déjà)
+    family = true;
+    const uid = s.user.id;
+    const [pp, pv] = await Promise.all([
+      sb.from('profiles').select('first_name').eq('id', uid).maybeSingle(),
+      sb.from('profiles_private').select('whatsapp').eq('id', uid).maybeSingle()
+    ]);
+    if (my !== seq) return;
+    if (!pp.data) { family = false; return goTo('start'); }
+    ownerInfo = { first_name: pp.data.first_name, whatsapp: pv.data?.whatsapp || '' };
+    loadDraft(); defaults();
+    const fm = PROFILE_STEPS.indexOf(firstMissing());
+    const wi = PROFILE_STEPS.indexOf(want);
+    want = wi === -1 ? 'name' : PROFILE_STEPS[Math.min(wi, fm)];
   } else {
+    family = false;
     let me = null;
     try { me = await loadMine(s); } catch (e) { /* hors ligne : on continue */ }
     if (my !== seq) return;
@@ -519,6 +569,7 @@ export function bindOnboard(go, changeLang) {
   goTo = go; onLang = changeLang;
   $('#onb-next').addEventListener('click', next);
   $('#onb-back').addEventListener('click', () => {
+    if (family && step === 'name') { goTo('home'); return; }
     const i = STEPS.indexOf(step);
     if (i > 0) goStep(STEPS[i - 1]);
   });

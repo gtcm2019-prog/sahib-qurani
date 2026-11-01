@@ -1,5 +1,5 @@
 // Carte « Mon partenaire » sur l'accueil : un seul partenaire actif, deux horloges, WhatsApp.
-import { sb } from './sb.js';
+import { sb, meId } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $ } from './ui.js';
 import * as D from './data.js';
@@ -30,7 +30,7 @@ export async function showPartnerCard(session) {
   const box = $('#partner-home');
   const my = ++seq;
   if (!session) { box.hidden = true; box.replaceChildren(); showPlanCard(null); return; }
-  const uid = session.user.id;
+  const uid = meId(session);
   let r, other = null, me = null, priv = null;
   try {
     r = await activePartnership(uid);

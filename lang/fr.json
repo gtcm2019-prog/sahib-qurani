@@ -525,7 +525,8 @@
     "inst_open": "Fermez le navigateur et ouvrez l'icône Sahib Qurani pour continuer.",
     "gender_title": "Vous êtes…",
     "n_gender": "Genre",
-    "n_mode": "Mode de révision"
+    "n_mode": "Mode de révision",
+    "age_sub_main": "Le compte est réservé aux adultes. Pour un enfant, créez d'abord votre compte, puis ajoutez-le comme membre de la famille."
   },
   "plan": {
     "title": "Mon suivi",
@@ -626,5 +627,25 @@
   "pseudo": {
     "taken": "Ce pseudo est déjà pris. Choisissez-en un autre.",
     "suggest": "Propositions :"
+  },
+  "fam": {
+    "switch_title": "Profils de la famille",
+    "main": "Profil principal",
+    "add": "Ajouter un membre de la famille",
+    "count": "{n} profil(s) sur {max}",
+    "acting": "Vous utilisez le profil de {name}",
+    "change": "Changer",
+    "new_title": "Nouveau profil de la famille",
+    "intro": "Ajoutez vos enfants ou d'autres membres de votre famille : chacun a son propre suivi. Pour un enfant, c'est vous qui gérez ses demandes, et le contact passe par votre WhatsApp.",
+    "manage": "Voir et ajouter des profils",
+    "delete_title": "Supprimer ce profil",
+    "delete_btn": "Supprimer ce profil",
+    "delete_text": "Le profil de {name}, son suivi, ses demandes et ses avis seront supprimés. Votre compte et vos autres profils restent.",
+    "delete_confirm": "Supprimer définitivement le profil de {name} ?",
+    "deleted": "Profil supprimé.",
+    "max": "Vous avez atteint le maximum de 20 profils.",
+    "wa_minor": "Pour un enfant, le contact passe par vous : votre nom et votre WhatsApp sont déjà remplis.",
+    "wa_adult": "Numéro WhatsApp de ce membre (le vôtre est proposé).",
+    "err_adult": "Le compte est réservé aux adultes. Ajoutez les enfants ensuite comme profils de la famille."
   }
 }

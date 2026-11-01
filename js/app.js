@@ -1,4 +1,5 @@
-import { sb } from './sb.js';
+import { sb, setAccount } from './sb.js';
+import { bindFamily, renderFamilyBar, resetFamily, applyProfileFromHash } from './family.js';
 import { detectLang, setLang, lang, t } from './i18n.js';
 import { $, $$, showMsg, errKey, busy, EMAIL_RE, pwOk } from './ui.js';
 import { showProfile, showEdit, bindProfile, resetProfileCache, loadMine } from './profile.js';
@@ -28,6 +29,8 @@ function currentView() {
 export function go(view) { location.hash = '#/' + view; }
 
 function render() {
+  // Lien de notification ouvert alors que l'appli tournait déjà : basculer sur le bon profil
+  if (session && /[?&]p=/.test(location.hash) && applyProfileFromHash(session)) { location.reload(); return; }
   let v = currentView();
   if (PRIVATE_VIEWS.includes(v) && !session) v = 'login';
   if (['login', 'signup'].includes(v) && session) v = 'profile';
@@ -49,6 +52,7 @@ function render() {
   const tab = v === 'member' ? 'search' : v === 'edit' ? 'profile' : v;
   $$('.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
   document.body.classList.toggle('has-tabs', !!session);
+  renderFamilyBar(session);
   if (session) { syncTz(session); refreshCount(false, session); checkAdmin(session).then(a => { if (a) refreshAdminCount(); }); }
 }
 
@@ -181,6 +185,7 @@ async function start() {
   bindMatch(go);
   bindAdmin();
   bindOnboard(go, changeLang);
+  bindFamily(go);
   initPwa();
   // Nouvelle version installée : recharger une fois pour l'utiliser
   if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -195,7 +200,11 @@ async function start() {
   sb.auth.onAuthStateChange((event, s) => {
     const changed = (session?.user?.id || null) !== (s?.user?.id || null);
     session = s;
-    if (changed) { resetProfileCache(); resetMatch(); resetAdmin(); resetTz(); resetStats(); }
+    if (changed) {
+      setAccount(s?.user?.id || null);        // profil de la famille mémorisé pour ce compte
+      applyProfileFromHash(s);                // lien de notification « ?p=<profil> »
+      resetProfileCache(); resetMatch(); resetAdmin(); resetTz(); resetStats(); resetFamily();
+    }
     // Hors du rappel d'authentification (évite un blocage de supabase-js)
     setTimeout(() => shareSession(s), 0);
     if (changed && s) setTimeout(() => pingApp(true), 0);
@@ -211,6 +220,8 @@ async function start() {
 
   const { data } = await sb.auth.getSession();
   session = data.session;
+  setAccount(session?.user?.id || null);
+  if (applyProfileFromHash(session)) resetProfileCache();
 
   // Nettoyer l'adresse après un lien e-mail ou Google (?code=…)
   if (params.has('code') || wantsReset || params.has('error')) {

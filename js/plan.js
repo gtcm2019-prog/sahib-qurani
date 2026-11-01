@@ -2,7 +2,7 @@
 //   hifz   = apprentissage (nouveau) : page (1–604) ou thumn (1–480, « thumn f du hizb h »)
 //   muraja = révision : sourate (1–114), hizb (1–60) ou juz (1–30), plusieurs à la suite
 // Choix au doigt : disques numérotés (1er appui = début, 2e = fin). Pages : carrousel à glisser.
-import { sb } from './sb.js';
+import { sb, meId } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $ } from './ui.js';
 import { el, surahName, fmtPct, assidTag } from './card.js';
@@ -257,7 +257,7 @@ export async function showPlanCard(session, gender) {
   const box = $('#plan-home');
   const my = ++seq;
   if (!session) { box.hidden = true; box.replaceChildren(); return; }
-  const uid = session.user.id;
+  const uid = meId(session);
   let st, rows;
   try {
     const r1 = await sb.rpc('revision_stats');

@@ -787,3 +787,26 @@ body.onb-on main { padding: 0; }
 .pseudo-sug { display: grid; gap: 6px; margin: 6px 0 10px; }
 .chip-btn { padding: 7px 14px; border: 1.5px solid var(--gold); border-radius: 999px; background: #fff; color: var(--green); font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer; }
 .chip-btn:hover { background: var(--cream); }
+
+/* ---------- V6 : profils de la famille ---------- */
+.pf-chip { display: inline-flex; align-items: center; gap: 6px; max-width: 46vw; padding: 3px 10px 3px 4px; border: 1px solid rgba(227,199,116,.55); border-radius: 999px; background: rgba(255,255,255,.08); color: #fff; font: inherit; font-size: .9rem; cursor: pointer; position: relative; }
+.pf-chip .avatar { flex-shrink: 0; }
+.pf-chip .pf-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; unicode-bidi: plaintext; }
+.pf-chip .pf-caret { opacity: .75; font-size: .75rem; }
+.pf-chip .pf-dot { position: absolute; top: -6px; inset-inline-end: -6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #C0392B; color: #fff; font-size: .7rem; line-height: 18px; text-align: center; }
+.fam-banner { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 4px 12px; margin: 10px auto 0; max-width: 760px; padding: 8px 14px; border-radius: 12px; background: #FFF6DE; border: 1px solid rgba(196,154,40,.45); color: var(--green-dark, #0F2E2C); font-size: .92rem; }
+.fam-banner .link { font-weight: 600; }
+.fam-sheet { max-width: 460px; }
+.fam-sheet h2 { margin: 0 0 4px; color: var(--green, #1B4D4A); }
+.fam-list { display: grid; gap: 8px; margin: 12px 0 16px; max-height: 55vh; overflow-y: auto; }
+.fam-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border: 1px solid var(--line, #e6dccb); border-radius: 14px; background: #fff; font: inherit; text-align: start; cursor: pointer; }
+.fam-row.on { border-color: var(--gold, #C49A28); box-shadow: 0 0 0 2px rgba(196,154,40,.25); background: #FFFBF0; }
+.fam-row[data-gender="f"] { border-inline-start: 4px solid #E58AAB; }
+.fam-row[data-gender="m"] { border-inline-start: 4px solid #CC5555; }
+.fam-txt { flex: 1; min-width: 0; display: grid; }
+.fam-txt b { unicode-bidi: plaintext; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fam-row .count { position: static; }
+.fam-tick { color: var(--gold, #C49A28); font-weight: 700; font-size: 1.1rem; }
+.fam-box { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line, #e6dccb); }
+.fam-box h3 { margin: 0 0 4px; }
+.onb-fam { display: inline-block; margin: 0 0 6px; padding: 3px 10px; border-radius: 999px; background: #FFF6DE; color: #8A6A12; font-size: .85rem; font-weight: 600; }

@@ -525,7 +525,8 @@
     "inst_open": "Close the browser and open the Sahib Qurani icon to continue.",
     "gender_title": "You are…",
     "n_gender": "Gender",
-    "n_mode": "Revision mode"
+    "n_mode": "Revision mode",
+    "age_sub_main": "The account is for adults. For a child, first create your account, then add them as a family member."
   },
   "plan": {
     "title": "My follow-up",
@@ -626,5 +627,25 @@
   "pseudo": {
     "taken": "This nickname is already taken. Please choose another one.",
     "suggest": "Suggestions:"
+  },
+  "fam": {
+    "switch_title": "Family profiles",
+    "main": "Main profile",
+    "add": "Add a family member",
+    "count": "{n} of {max} profiles",
+    "acting": "You are using {name}'s profile",
+    "change": "Switch",
+    "new_title": "New family profile",
+    "intro": "Add your children or other family members: each one has their own tracking. For a child, you manage their requests and contact goes through your WhatsApp.",
+    "manage": "View and add profiles",
+    "delete_title": "Delete this profile",
+    "delete_btn": "Delete this profile",
+    "delete_text": "{name}'s profile, tracking, requests and reviews will be deleted. Your account and other profiles stay.",
+    "delete_confirm": "Permanently delete {name}'s profile?",
+    "deleted": "Profile deleted.",
+    "max": "You have reached the maximum of 20 profiles.",
+    "wa_minor": "For a child, contact goes through you: your name and WhatsApp are already filled in.",
+    "wa_adult": "This member's WhatsApp number (yours is suggested).",
+    "err_adult": "The account is for adults only. Add children afterwards as family profiles."
   }
 }

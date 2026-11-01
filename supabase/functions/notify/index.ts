@@ -80,6 +80,12 @@ const REASONS: Record<string, Record<Lang, string>> = {
 
 const db = createClient(URL_, SERVICE, { auth: { persistSession: false } });
 
+// V6 : un compte peut avoir plusieurs profils (famille). Les notifications vont au COMPTE propriétaire.
+async function ownerOf(profileId: string): Promise<string | null> {
+  const { data } = await db.from('profiles').select('owner_id').eq('id', profileId).maybeSingle();
+  return data?.owner_id ?? null;
+}
+
 async function langOf(uid: string): Promise<Lang> {
   const { data } = await db.from('profiles').select('ui_language').eq('id', uid).maybeSingle();
   const l = data?.ui_language;
@@ -142,18 +148,23 @@ Deno.serve(async req => {
   if (type === 'request' || type === 'accepted') {
     const { data: r } = await db.from('requests').select('sender_id, receiver_id, status').eq('id', id).maybeSingle();
     if (!r) return json({ error: 'not_found' }, 404);
-    if (type === 'request' && (r.sender_id !== me || r.status !== 'pending')) return json({ error: 'forbidden' }, 403);
-    if (type === 'accepted' && (r.receiver_id !== me || r.status !== 'accepted')) return json({ error: 'forbidden' }, 403);
-    const { data: p } = await db.from('profiles').select('first_name').eq('id', me).maybeSingle();
+    const actor = type === 'request' ? r.sender_id : r.receiver_id;       // profil qui agit (le mien)
+    const other = type === 'request' ? r.receiver_id : r.sender_id;       // profil prévenu
+    if (await ownerOf(actor) !== me) return json({ error: 'forbidden' }, 403);
+    if (type === 'request' && r.status !== 'pending') return json({ error: 'forbidden' }, 403);
+    if (type === 'accepted' && r.status !== 'accepted') return json({ error: 'forbidden' }, 403);
+    const { data: p } = await db.from('profiles').select('first_name').eq('id', actor).maybeSingle();
     const name = p?.first_name ?? '';
-    const target = type === 'request' ? r.receiver_id : r.sender_id;
-    const url = type === 'request' ? '#/requests' : `#/member?id=${me}`;
+    const target = await ownerOf(other);
+    if (!target) return json({ sent: 0 });
+    // ?p= : l'appli ouvre directement le bon profil de la famille
+    const url = type === 'request' ? `#/requests?p=${other}` : `#/member?id=${actor}&p=${other}`;
     return json({ sent: await pushTo(target, type, { name }, url) });
   }
 
   if (type === 'report') {
     const { data: rep } = await db.from('reports').select('reporter_id, reason, created_at').eq('id', id).maybeSingle();
-    if (!rep || rep.reporter_id !== me) return json({ error: 'forbidden' }, 403);
+    if (!rep || !rep.reporter_id || await ownerOf(rep.reporter_id) !== me) return json({ error: 'forbidden' }, 403);
     if (Date.now() - new Date(rep.created_at).getTime() > 10 * 60 * 1000) return json({ error: 'too_old' }, 403);
     const { data: admins } = await db.from('admins').select('user_id');
     const kind = rep.reason === 'inappropriate' ? 'urgent' : 'report';
