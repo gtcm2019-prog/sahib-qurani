@@ -59,7 +59,7 @@ function check(step) {
   switch (step) {
     case 'name': return String(d.first_name || '').trim() ? null : 'onb.err_name';
     case 'gender': return d.gender ? null : 'onb.err_gender';
-    case 'age': return D.OPEN_AGES.includes(d.age_range) ? null : 'onb.err_choose';
+    case 'age': return d.age_range ? null : 'onb.err_choose';
     case 'place': return d.country ? null : 'onb.err_country';
     case 'lang': return !d.languages?.length ? 'onb.err_lang' : !d.riwaya ? 'onb.err_riwaya' : null;
     case 'level': return d.level ? null : 'onb.err_choose';
@@ -270,7 +270,7 @@ const SCREENS = {
 
   age(body) {
     body.append(head('onb.age_title', 'onb.age_sub'));
-    body.append(options('age', D.OPEN_AGES.map(a => [a, t('age.' + a)]), draft.age_range,
+    body.append(options('age', D.AGE_RANGES.map(a => [a, t('age.' + a)]), draft.age_range,
       v => set('age_range', v), 'onb-opts-grid'));
   },
 

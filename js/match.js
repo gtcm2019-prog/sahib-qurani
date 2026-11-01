@@ -54,7 +54,7 @@ function fill(sel, items, anyLabel) {
 function buildFilters(f) {
   const any = t('search.any');
   const coll = new Intl.Collator(lang());
-  fill(f.age_range, D.OPEN_AGES.filter(a => minor(me) === D.MINOR_AGES.includes(a)).map(a => [a, t('age.' + a)]), any);
+  fill(f.age_range, D.AGE_RANGES.filter(a => minor(me) === D.MINOR_AGES.includes(a)).map(a => [a, t('age.' + a)]), any);
   fill(f.level, D.LEVELS.map(l => [l, t('level.' + l)]), any);
   fill(f.riwaya, D.RIWAYAT.map(r => [r, t('riwaya.' + r)]), any);
   fill(f.hizb_min, [5, 10, 15, 20, 30, 40, 50, 60].map(n => [String(n), t('search.hizb_n', { n })]), any);
