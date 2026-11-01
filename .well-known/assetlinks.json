@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sahibqurani.app",
+      "sha256_cert_fingerprints": [
+        "6D:06:99:38:C3:04:85:C4:65:C9:0A:51:E9:D9:FC:F5:37:C2:58:DB:14:8F:FE:89:25:D2:38:C8:09:B5:4D:53"
+      ]
+    }
+  }
+]
