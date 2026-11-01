@@ -810,3 +810,6 @@ body.onb-on main { padding: 0; }
 .fam-box { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line, #e6dccb); }
 .fam-box h3 { margin: 0 0 4px; }
 .onb-fam { display: inline-block; margin: 0 0 6px; padding: 3px 10px; border-radius: 999px; background: #FFF6DE; color: #8A6A12; font-size: .85rem; font-weight: 600; }
+
+.tag-age { color: var(--green); background: #F1ECE2; border-color: rgba(27,77,74,.18); white-space: nowrap; }
+.tag-minor { color: #1F5E8C; background: #E6F1FA; border-color: rgba(31,94,140,.3); }

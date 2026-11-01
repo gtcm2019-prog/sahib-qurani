@@ -119,6 +119,11 @@ export function memberRow(p, href) {
   const info = el('div', 'm-info');
   const top = el('div', 'm-top');
   top.append(el('b', null, p.first_name));
+  // Tranche d'âge bien visible (enfants : pastille bleue)
+  if (p.age_range) {
+    const minor = ['lt8', '8-12', '13-17'].includes(p.age_range);
+    top.append(el('span', 'tag tag-age' + (minor ? ' tag-minor' : ''), (minor ? '🧒 ' : '') + t('age.' + p.age_range)));
+  }
   if (p.badge === 'reliable') top.append(el('span', 'tag badge-reliable', t('badge.reliable')));
   if (p.assiduity && p.assiduity !== 'new') top.append(assidTag(p));
   info.append(top, el('small', 'muted', place(p)),
