@@ -12,6 +12,7 @@ import { captureRef, onSession as shareSession, bindShare } from './share.js';
 import { showPartnerCard } from './partner.js';
 import { syncTz, resetTz } from './clock.js';
 import { showStats, resetStats } from './stats.js';
+import { showRhythm } from './rhythm.js';
 // Adresse de base du site (fonctionne aussi dans un sous-dossier).
 const BASE = location.origin + location.pathname;
 
@@ -19,7 +20,7 @@ let session = null;
 
 /* ---------- Navigation ---------- */
 const PUBLIC_VIEWS = ['home', 'start', 'login', 'signup', 'forgot'];
-const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests', 'stats', 'admin'];
+const PRIVATE_VIEWS = ['profile', 'edit', 'reset', 'search', 'member', 'requests', 'stats', 'admin', 'rythme'];
 
 function currentView() {
   const v = (location.hash.replace(/^#\/?/, '').split('?')[0]) || 'home';
@@ -48,8 +49,9 @@ function render() {
   if (v === 'requests') showRequests(session);
   if (v === 'admin') showAdmin(session);
   if (v === 'stats') showStats(session);
+  if (v === 'rythme') showRhythm(session);
   if (v === 'home') showPartnerCard(session);
-  const tab = v === 'member' ? 'search' : v === 'edit' ? 'profile' : v;
+  const tab = v === 'member' ? 'search' : v === 'edit' ? 'profile' : v === 'rythme' ? 'home' : v;
   $$('.tabs a').forEach(a => a.classList.toggle('on', a.dataset.tab === tab));
   document.body.classList.toggle('has-tabs', !!session);
   renderFamilyBar(session);
