@@ -5,7 +5,7 @@ import { sb, meId } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $ } from './ui.js';
 import { el, fmtPct } from './card.js';
-import { learnedSets } from './plan.js';
+import { quranCard } from './acquis.js';
 
 const fmtNum = n => Number(n || 0).toLocaleString(lang());
 const addDays = (d, n) => { const x = new Date(d + 'T00:00:00Z'); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
@@ -118,7 +118,7 @@ function draw(box, st, rows) {
     card.append(el('p', 'muted center st-empty', t('stat.empty')));
     const a = el('a', 'btn btn-gold', t('stat.go_home')); a.href = '#/';
     const c = el('div', 'center'); c.append(a); card.append(c);
-    box.append(card);
+    box.append(card, quranCard(st, onAcquis));
     return;
   }
 
@@ -136,19 +136,12 @@ function draw(box, st, rows) {
   card.append(el('h3', 'st-h3', t('stat.chart')), chart(buckets(inP, today)));
   box.append(card);
 
-  // Part du Coran apprise (depuis le début)
-  const L = learnedSets(st.map);
-  const pct = Math.round(L.pages.size / 604 * 100);
-  const q = el('div', 'card st-card');
-  q.append(el('h3', 'st-h3', t('stat.quran')));
-  const line = el('div', 'st-prog');
-  const fill = el('i'); fill.style.width = Math.min(100, L.pages.size / 604 * 100) + '%';
-  line.append(fill);
-  const big = el('p', 'st-big');
-  big.append(el('b', null, fmtPct(pct)));
-  q.append(big, line, el('p', 'muted small center', t('stat.quran_sub', { p: fmtNum(L.pages.size), h: fmtNum(st.hizb_memorized ?? L.hizbs.size) })));
-  box.append(q);
+  // Coran mémorisé : acquis + suivi (sourates, hizb, juz)
+  box.append(quranCard(st, onAcquis));
 }
+
+// Acquis enregistrés : la carte se met à jour seule ; on garde la nouvelle carte en mémoire
+function onAcquis(map) { if (cache?.st) cache.st.map = map; }
 
 export async function showStats(session) {
   const box = $('#stats-box');

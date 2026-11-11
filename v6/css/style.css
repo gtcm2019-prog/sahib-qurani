@@ -837,3 +837,15 @@ body.onb-on main { padding: 0; }
 .rh-bar { height: 7px; border-radius: 4px; background: #E6DECB; overflow: hidden; }
 .rh-bar i { display: block; height: 100%; border-radius: 4px; background: var(--ok); }
 .rh-note { margin: 0; font-size: .82rem; color: var(--muted); }
+
+/* ---------- V6 : Coran mémorisé (acquis + suivi) ---------- */
+.q-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.q-pct { font-size: 1.8rem; color: var(--green); line-height: 1; }
+.q-card > .muted { margin: 0; }
+.q-help { margin: 0; font-size: .85rem; color: #7A5300; font-weight: 600; }
+.q-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; }
+.q-grid.q-s { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; }
+.q-d { aspect-ratio: 1; min-width: 0; border-radius: 50%; border: 0; display: grid; place-items: center; font: inherit; font-size: .82rem; font-weight: 600; background: #2F5D8C; color: #fff; padding: 0; cursor: default; font-family: var(--latin); }
+.q-s .q-d { font-size: .7rem; }
+.q-d.on { background: var(--ok); }
+.q-card:has(.q-help) .q-d { cursor: pointer; box-shadow: 0 0 0 2px rgba(196,154,40,.55); }

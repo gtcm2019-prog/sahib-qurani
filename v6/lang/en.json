@@ -614,7 +614,7 @@
     "leg_hifz": "Memorization",
     "leg_muraja": "Revision",
     "leg_missed": "Missed",
-    "quran": "Quran learned",
+    "quran": "Quran memorized",
     "quran_sub": "{p} of 604 pages · {h} full hizb",
     "empty": "No activity yet. Set your first plan on the home page.",
     "go_home": "Set my plan"
@@ -684,5 +684,18 @@
     "per_2days": "these 2 days",
     "per_week": "this week",
     "kept": "Commitment kept over 30 days: {p}"
+  },
+  "acq": {
+    "sub": "{h} hizb of 60 · {j} juz · {s} surahs · {r} hizb left",
+    "v_s": "Surahs",
+    "v_h": "Hizb",
+    "v_j": "Juz",
+    "help_h": "Tap the hizb you already know.",
+    "help_j": "Tap the juz you already know.",
+    "help_s": "Tap the surahs you already know.",
+    "lg_done": "Memorized",
+    "lg_todo": "Still to learn",
+    "edit": "Edit what I know",
+    "save": "Save what I know"
   }
 }
