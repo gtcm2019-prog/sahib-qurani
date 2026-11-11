@@ -8,6 +8,7 @@ import { $ } from './ui.js';
 import { el, surahName, fmtPct, assidTag } from './card.js';
 import * as D from './data.js';
 import { hizbPages } from './hizbpages.js';
+import { loadRhythm, rhythmSummary } from './rhythm.js';
 
 export const KINDS = ['hifz', 'muraja'];
 const UNITS = { hifz: ['page', 'thumn'], muraja: ['surah', 'hizb', 'juz'] };
@@ -60,9 +61,10 @@ export function learnedSets(map) {
 }
 
 /* ---------- Sélecteur à disques ---------- */
-function picker(kind, initial, map) {
+function picker(kind, initial, map, pref) {
   const L = kind === 'hifz' ? learnedSets(map) : null;
-  let unit = initial?.unit && UNITS[kind].includes(initial.unit) ? initial.unit : UNITS[kind][0];
+  let unit = initial?.unit && UNITS[kind].includes(initial.unit) ? initial.unit
+    : UNITS[kind].includes(pref) ? pref : UNITS[kind][0];
   let a = initial?.start_no || null, b = initial?.end_no || null;
   let panel = null, openHizb = 0;
   const root = el('div', 'pk');
@@ -201,9 +203,9 @@ function picker(kind, initial, map) {
   return { root, get: () => (a ? { unit, start_no: a, end_no: b || a } : null) };
 }
 
-function planForm(kind, dateStr, initial, map, onSaved, onCancel) {
+function planForm(kind, dateStr, initial, map, onSaved, onCancel, pref) {
   const form = el('form', 'plan-form');
-  const pk = picker(kind, initial, map);
+  const pk = picker(kind, initial, map, pref);
   const msg = el('p', 'msg error'); msg.hidden = true;
   const actions = el('div', 'p-actions');
   const save = el('button', 'btn btn-gold', t('plan.save')); save.type = 'submit';
@@ -225,7 +227,7 @@ function planForm(kind, dateStr, initial, map, onSaved, onCancel) {
 
 // Proposition par défaut : juste après le dernier programme (même unité, même longueur) ;
 // apprentissage sans historique : première page pas encore apprise.
-function nextAfter(p, kind, map) {
+function nextAfter(p, kind, map, pref) {
   if (p) {
     const len = p.end_no - p.start_no;
     const s = p.end_no + 1 > MAX[p.unit] ? 1 : p.end_no + 1;
@@ -233,6 +235,7 @@ function nextAfter(p, kind, map) {
   }
   if (kind === 'hifz') {
     const L = learnedSets(map);
+    if (pref === 'thumn') { for (let n = 1; n <= 480; n++) if (!L.thumns.has(n)) return { unit: 'thumn', start_no: n, end_no: n }; }
     for (let n = 1; n <= 604; n++) if (!L.pages.has(n)) return { unit: 'page', start_no: n, end_no: n };
   }
   return null;
@@ -258,7 +261,8 @@ export async function showPlanCard(session, gender) {
   const my = ++seq;
   if (!session) { box.hidden = true; box.replaceChildren(); return; }
   const uid = meId(session);
-  let st, rows;
+  let st, rows, rs = null;
+  const rsP = loadRhythm().catch(e => { console.warn(e); return null; });
   try {
     const r1 = await sb.rpc('revision_stats');
     if (r1.error) throw r1.error;
@@ -268,6 +272,7 @@ export async function showPlanCard(session, gender) {
       .eq('user_id', uid).gte('plan_date', addDays(st.today, -60)).order('plan_date', { ascending: false }).limit(60);
     if (r2.error) throw r2.error;
     rows = r2.data || [];
+    rs = await rsP;
   } catch (e) { console.warn(e); if (my === seq) box.hidden = true; return; }
   if (my !== seq) return;
 
@@ -294,7 +299,8 @@ export async function showPlanCard(session, gender) {
     });
     tabs.append(x);
   }
-  box.append(head, tabs, body);
+  const pref = { hifz: rs?.rhythm?.hifz_unit, muraja: rs?.rhythm?.muraja_unit };
+  box.append(head, rhythmSummary(rs), tabs, body);
 
   function drawKind() {
     const kind = tab, k = st[kind] || {};
@@ -309,7 +315,7 @@ export async function showPlanCard(session, gender) {
     sToday.append(el('h3', null, t('plan.today')));
     if (!pToday) {
       sToday.append(el('p', 'muted', t('plan.none_today_' + kind)));
-      sToday.append(planForm(kind, today, nextAfter(last, kind, st.map), st.map, reload));
+      sToday.append(planForm(kind, today, nextAfter(last, kind, st.map, pref[kind]), st.map, reload, null, pref[kind]));
     } else {
       const line = el('div', 'plan-line');
       line.append(el('b', null, planLabel(pToday)), statusTag(pToday.status));
@@ -324,7 +330,7 @@ export async function showPlanCard(session, gender) {
           reload();
         });
         const edit = el('button', 'btn btn-line', t('plan.edit')); edit.type = 'button';
-        edit.addEventListener('click', () => { act.remove(); sToday.append(planForm(kind, today, pToday, st.map, reload, reload)); });
+        edit.addEventListener('click', () => { act.remove(); sToday.append(planForm(kind, today, pToday, st.map, reload, reload, pref[kind])); });
         act.append(done, edit);
       } else if (pToday.status === 'done') {
         const undo = el('button', 'btn btn-line btn-sm', t('plan.undo')); undo.type = 'button';
