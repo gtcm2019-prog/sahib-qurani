@@ -1,5 +1,5 @@
 // Recherche, fiche d'un membre et demandes de mise en relation.
-import { sb } from './sb.js';
+import { sb, meId } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $, $$, showMsg, busy } from './ui.js';
 import * as D from './data.js';
@@ -74,7 +74,7 @@ async function runSearch(reset) {
   busy(f, true); more.hidden = true;
 
   let q = sb.from('profiles').select(COLS, { count: 'exact' })
-    .neq('id', me.id).eq('is_paused', false).or('badge.is.null,badge.neq.banned');
+    .neq('id', me.id).neq('owner_id', me.owner_id || me.id).eq('is_paused', false).or('badge.is.null,badge.neq.banned');
   q = q.eq('gender', me.gender);   // même genre obligatoire (aussi verrouillé dans la base)
   if (f.age_range.value) q = q.eq('age_range', f.age_range.value);
   if (f.level.value) q = q.eq('level', f.level.value);
@@ -324,7 +324,7 @@ export async function refreshCount(force, sess) {
   if (!force && Date.now() - lastCheck < 30000) return;
   lastCheck = Date.now();
   const { count } = await sb.from('requests').select('id', { count: 'exact', head: true })
-    .eq('receiver_id', s.user.id).eq('status', 'pending');
+    .eq('receiver_id', meId(s)).eq('status', 'pending');
   lastCount = count || 0;
   for (const id of ['#tab-count', '#count-in']) {
     const b = $(id);

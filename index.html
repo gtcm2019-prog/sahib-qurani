@@ -36,12 +36,13 @@
     <div class="bar-actions">
       <a href="#/login" class="btn btn-ghost" data-auth="out" data-i18n="nav.login"></a>
       <a href="#/admin" class="btn btn-ghost btn-admin" data-admin hidden><span data-i18n="nav.admin"></span> <span class="count adm-count" hidden></span></a>
-      <a href="#/profile" class="btn btn-ghost" data-auth="in" data-i18n="nav.account" hidden></a>
+      <button type="button" id="pf-chip" class="pf-chip" hidden></button>
     </div>
   </nav>
 </header>
 
 <main>
+  <div id="fam-banner" class="fam-banner" role="status" hidden></div>
 
   <!-- ACCUEIL -->
   <section data-view="home">
@@ -213,10 +214,20 @@
       </div>
       <h3 data-i18n="safe.blocked_title"></h3>
       <div id="p-blocks" class="block-list"></div>
-      <div class="danger">
+      <div class="fam-box" id="fam-box">
+        <h3 data-i18n="fam.switch_title"></h3>
+        <p class="muted small" data-i18n="fam.intro"></p>
+        <button type="button" id="btn-family" class="btn btn-line" data-i18n="fam.manage"></button>
+      </div>
+      <div class="danger" id="acct-delete-box">
         <h3 data-i18n="acct.delete_title"></h3>
         <p class="muted" data-i18n="acct.delete_text"></p>
         <button type="button" id="btn-delete" class="btn btn-danger" data-i18n="acct.delete_btn"></button>
+      </div>
+      <div class="danger" id="fam-delete-box" hidden>
+        <h3 data-i18n="fam.delete_title"></h3>
+        <p class="muted" id="fam-delete-text"></p>
+        <button type="button" id="btn-fam-delete" class="btn btn-danger" data-i18n="fam.delete_btn"></button>
       </div>
     </div>
   </section>
@@ -392,6 +403,14 @@
   <a href="#/profile" data-tab="profile"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span data-i18n="nav.profile"></span></a>
   <button type="button" id="tab-share"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg></span><span data-i18n="nav.share"></span></button>
 </nav>
+
+<dialog id="fam-sheet" class="adm-dialog fam-sheet">
+  <button type="button" id="fam-close" class="dlg-close" aria-label="×">×</button>
+  <h2 data-i18n="fam.switch_title"></h2>
+  <p class="muted small" id="fam-count"></p>
+  <div id="fam-list" class="fam-list"></div>
+  <button type="button" id="fam-add" class="btn btn-gold btn-block">＋ <span data-i18n="fam.add"></span></button>
+</dialog>
 
 <dialog id="leave-dialog" class="adm-dialog leave-dialog">
   <h2 data-i18n="leave.title"></h2>

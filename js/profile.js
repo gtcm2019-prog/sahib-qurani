@@ -1,4 +1,4 @@
-import { sb } from './sb.js';
+import { sb, meId, isMainProfile, setActiveProfile } from './sb.js';
 import { t, lang } from './i18n.js';
 import { $, $$, showMsg, busy } from './ui.js';
 import * as D from './data.js';
@@ -7,6 +7,7 @@ import { countryName, languageName, surahName, profileCard } from './card.js';
 import { renderMyReviews, renderMyBlocks, deleteAccount } from './trust.js';
 import { renderNotif, bindNotif } from './notify.js';
 import { checkPseudo, isPseudoTaken, suggestBox } from './pseudo.js';
+import { openSheet, deleteFamilyProfile } from './family.js';
 
 let cache = null;      // { uid, pub, priv }
 let goTo = () => {};
@@ -17,13 +18,15 @@ const collator = () => new Intl.Collator(lang());
 
 /* ---------- Données ---------- */
 export async function loadMine(session) {
-  const uid = session.user.id;
+  const uid = meId(session);
   if (cache && cache.uid === uid) return cache;
   const [pub, priv] = await Promise.all([
     sb.from('profiles').select('*').eq('id', uid).maybeSingle(),
     sb.from('profiles_private').select('whatsapp, guardian_name, guardian_whatsapp').eq('id', uid).maybeSingle()
   ]);
   if (pub.error) throw pub.error;
+  // Profil de la famille introuvable (supprimé ailleurs) : retour au profil principal
+  if (!pub.data && !isMainProfile()) { setActiveProfile(null); return loadMine(session); }
   cache = { uid, pub: pub.data, priv: priv.data };
   return cache;
 }
@@ -55,6 +58,11 @@ export async function showProfile(session) {
 
   card.hidden = false;
   $('#account-card').hidden = false;
+  // Profil de la famille : on supprime ce profil seulement (le compte reste)
+  const main = isMainProfile();
+  $('#acct-delete-box').hidden = !main;
+  $('#fam-delete-box').hidden = main;
+  if (!main) $('#fam-delete-text').textContent = t('fam.delete_text', { name: p.first_name });
   renderMyReviews(p);
   renderMyBlocks(p);
   renderNotif();
@@ -259,6 +267,8 @@ export function bindProfile(go) {
   goTo = go;
   bindNotif();
   $('#btn-delete').addEventListener('click', () => deleteAccount(() => { cache = null; goTo('home'); }));
+  $('#btn-family').addEventListener('click', openSheet);
+  $('#btn-fam-delete').addEventListener('click', () => cache?.pub && deleteFamilyProfile(cache.pub));
   const f = $('#form-profile');
   f.addEventListener('submit', saveProfile);
   f.age_range.addEventListener('change', () => toggleGuardian(f));

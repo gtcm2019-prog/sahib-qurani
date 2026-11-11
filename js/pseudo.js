@@ -5,9 +5,12 @@ import { el } from './card.js';
 
 // { free: true } | { free: false, suggestions: [...] } ; null si la vérification est impossible
 // (hors ligne…) : la règle de la base bloquera de toute façon un doublon à l'enregistrement.
-export async function checkPseudo(name) {
+// isNew = true : nouveau profil de la famille (aucun profil existant à exclure)
+export async function checkPseudo(name, isNew = false) {
   try {
-    const { data, error } = await sb.rpc('pseudo_status', { p_name: String(name || '').trim() });
+    const args = { p_name: String(name || '').trim() };
+    if (isNew) args.p_new = true;
+    const { data, error } = await sb.rpc('pseudo_status', args);
     if (error || !data) return null;
     return data;
   } catch (e) { return null; }

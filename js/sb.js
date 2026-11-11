@@ -4,7 +4,36 @@ import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
 // Session expirée (« JWT expired ») : on renouvelle la session une fois et on refait la requête.
 // Si le renouvellement échoue, déconnexion locale (l'écran de connexion s'affiche).
 let refreshing = null;
+
+/* ---------- Profil actif (V6 : profils de la famille) ----------
+   Un compte = un adulte (profil principal, même id que le compte).
+   Le profil actif est envoyé à la base dans l'en-tête « x-sq-profile » (vérifié côté base). */
+let account = null;   // id du compte connecté
+let active = null;    // id du profil de la famille actif (null = profil principal)
+const PKEY = () => 'sq_profile_' + account;
+export function setAccount(uid) {
+  if (uid === account) return;
+  account = uid || null; active = null;
+  if (!account) return;
+  try { const v = localStorage.getItem(PKEY()); if (v && v !== account) active = v; } catch (e) { /* ignore */ }
+}
+export function setActiveProfile(pid) {
+  active = pid && pid !== account ? pid : null;
+  try { if (active) localStorage.setItem(PKEY(), active); else localStorage.removeItem(PKEY()); } catch (e) { /* ignore */ }
+}
+export const accountId = () => account;
+export const meId = session => active || session?.user?.id || account;
+export const isMainProfile = () => !active;
+
+function withProfile(input, init) {
+  if (!active || !String(input).includes('/rest/v1/')) return init;
+  const headers = new Headers(init.headers || {});
+  headers.set('x-sq-profile', active);
+  return { ...init, headers };
+}
+
 async function fetchWithRefresh(input, init = {}) {
+  init = withProfile(input, init);
   const res = await fetch(input, init);
   if (res.status !== 401 || String(input).includes('/auth/v1/')) return res;
   let body = '';
