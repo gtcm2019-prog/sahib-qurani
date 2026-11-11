@@ -614,7 +614,7 @@
     "leg_hifz": "Memorización",
     "leg_muraja": "Repaso",
     "leg_missed": "Sin cumplir",
-    "quran": "Corán aprendido",
+    "quran": "Corán memorizado",
     "quran_sub": "{p} de 604 páginas · {h} hizb completos",
     "empty": "Aún no hay actividad. Fija tu primer programa en el inicio.",
     "go_home": "Fijar mi programa"
@@ -684,5 +684,18 @@
     "per_2days": "estos 2 días",
     "per_week": "esta semana",
     "kept": "Compromiso cumplido en 30 días: {p}"
+  },
+  "acq": {
+    "sub": "{h} hizb de 60 · {j} yuz · {s} suras · faltan {r} hizb",
+    "v_s": "Suras",
+    "v_h": "Hizb",
+    "v_j": "Yuz",
+    "help_h": "Toca los hizb que ya sabes.",
+    "help_j": "Toca los yuz que ya sabes.",
+    "help_s": "Toca las suras que ya sabes.",
+    "lg_done": "Memorizado",
+    "lg_todo": "Por aprender",
+    "edit": "Editar lo que sé",
+    "save": "Guardar lo que sé"
   }
 }

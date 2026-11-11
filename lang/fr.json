@@ -614,7 +614,7 @@
     "leg_hifz": "Apprentissage",
     "leg_muraja": "Révision",
     "leg_missed": "Non accompli",
-    "quran": "Coran appris",
+    "quran": "Coran mémorisé",
     "quran_sub": "{p} pages sur 604 · {h} hizb complets",
     "empty": "Pas encore d'activité. Fixez votre premier programme sur l'accueil.",
     "go_home": "Fixer mon programme"
@@ -684,5 +684,18 @@
     "per_2days": "ces 2 jours",
     "per_week": "cette semaine",
     "kept": "Engagement tenu sur 30 jours : {p}"
+  },
+  "acq": {
+    "sub": "{h} hizb sur 60 · {j} juz · {s} sourates · reste {r} hizb",
+    "v_s": "Sourates",
+    "v_h": "Hizb",
+    "v_j": "Juz",
+    "help_h": "Touchez les hizb que vous savez déjà.",
+    "help_j": "Touchez les juz que vous savez déjà.",
+    "help_s": "Touchez les sourates que vous savez déjà.",
+    "lg_done": "Mémorisé",
+    "lg_todo": "Reste à apprendre",
+    "edit": "Modifier mes acquis",
+    "save": "Enregistrer mes acquis"
   }
 }
