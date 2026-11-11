@@ -23,18 +23,18 @@
   },
   "guide": {
     "title": "How it works",
-    "s1t": "Create an account",
-    "s1d": "With Google or your email, in a few seconds.",
-    "s2t": "Fill in your profile",
-    "s2d": "Level, recitation, surahs, hizb memorized and availability. City and country only.",
+    "s1t": "Create your account",
+    "s1d": "Google or e-mail, then fill in your profile.",
+    "s2t": "Set your pace",
+    "s2d": "Pages or thumn to memorize; surahs, hizb or juz to revise.",
     "s3t": "Find a partner",
-    "s3d": "Filter by level, language, country, schedule… among members of the same gender.",
-    "s4t": "Send a request",
-    "s4d": "Your WhatsApp is shared only after the request is accepted.",
-    "s5t": "Revise together",
-    "s5d": "Then set your status to “Partner found”.",
+    "s3d": "Send a request: WhatsApp is shared only after acceptance.",
+    "s4t": "Follow up every day",
+    "s4d": "Choose your memorization and revision programme, then tap “Done”.",
+    "s5t": "Get rated",
+    "s5d": "Consistency is measured against your commitment and shown on your profile.",
     "s6t": "Review or report",
-    "s6d": "Reviews build trust. Every report is checked by the administrator."
+    "s6d": "Every report is checked by the administrator."
   },
   "hadith": {
     "text": "“The best of you are those who learn the Quran and teach it.”",
